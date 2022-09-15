@@ -1,0 +1,88 @@
+<template>
+	<view class="container">
+		<view>
+			首页
+		</view>
+		<Tarbar currentPage="index"></Tarbar>
+	</view>
+</template>
+
+<script>
+	import {
+		mapGetters,
+	} from 'vuex'
+	import {
+		getUserInfo
+	} from "@/config/api/user.js";
+	import Tarbar from '@/components/tabbar/Tarbar.vue'
+	export default {
+		components: {
+			Tarbar
+		},
+		data() {
+			return {
+				showFlag: false,
+				userInfo: {
+					status: ''
+				},
+				timer: '', // 定时器
+				timerTotal: 0,
+				number: 0,
+				showProduct: false
+			}
+		},
+		created() {
+			this.getUserInfoStatus()
+		},
+		onShow() {
+			this.number = (new Date().valueOf()).toString()
+		},
+		methods: {
+			getUserInfoStatus() {
+				getUserInfo({}).then(async (res) => {
+					if (res.code === 100000) {
+						this.userInfo = res?.data
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				}).finally(() => {
+					this.showFlag = true;
+				})
+			}
+		},
+		watch: {
+			timerTotal(newVal, oldVal) {
+				if (newVal >= 3) {
+					clearInterval(this.timer)
+				}
+			},
+			number(newVal, oldVal) {
+				this.getUserInfoStatus()
+			},
+			userInfo: {
+				handler() {
+					if (this.userInfo.status === 5) {
+						this.showProduct = true
+						this.$forceUpdate()
+					}
+				},
+				deep: true //true 深度监听
+			}
+		},
+		computed: {
+			...mapGetters(['isLogin', 'getUserInfos']),
+			// inituserStatus() {
+			// 	return this.userInfo.status ? this.userInfo.status : 0
+			// }
+		},
+		onUnload() {
+			clearInterval(this.timer)
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.container {
+		min-width: 100vw;
+	}
+</style>
