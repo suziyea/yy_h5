@@ -2,9 +2,9 @@
 	<view>
 		<view class="dialog">
 			<view class="title">{{title}}
-				<!-- <view class="close" @click.stop="close">
+				<view class="close" @click.stop="close">
 					<image src="/static/icon/close_icon.png" mode="aspectFill"></image>
-				</view> -->
+				</view>
 			</view>
 			<view class="content">
 				{{content}}
@@ -82,13 +82,16 @@
 		border-radius: 20upx;
 
 		.title {
-			font-size: 32upx;
-			color: #333333;
 			padding: 46upx 0 37upx 0;
 			width: 100%;
 			text-align: center;
 			font-weight: 600;
 			position: relative;
+			font-size: 36rpx;
+			font-family: PingFangSC-Semibold, PingFang SC;
+			font-weight: 600;
+			color: #000000;
+			line-height: 50rpx;
 
 			.close {
 				position: absolute;
@@ -137,15 +140,17 @@
 
 		.confirm {
 			width: 100%;
-			height: 84upx;
+			height: 82upx;
 			text-align: center;
-			line-height: 84upx;
+			line-height: 82upx;
 			color: #FFFFFF;
 			margin: 30upx auto 0 auto;
 			// background-image: linear-gradient(-90deg, #ff7510 0%, #ff9000 100%);
 			// background-image: linear-gradient(-90deg,#3E3EFF 0%, #8888FF 100%);
-			background: rgb(23, 94, 255);
-			border: 1px solid rgb(22, 103, 242);
+			// background: rgb(23, 94, 255);
+			// border: 1px solid rgb(22, 103, 242);
+background: linear-gradient(90deg, #EFD4AF 0%, #C1914B 100%);
+border-radius: 48rpx;
 
 
 

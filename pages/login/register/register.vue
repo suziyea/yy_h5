@@ -2,7 +2,7 @@
 	<view class="container u-flex u-flex-center u-flex-items-center">
 		<view class="content u-flex u-flex-column u-flex-center ">
 			<view class="title">
-				密码登录
+				注册帐号
 			</view>
 			<view class="login_form">
 				<!--  账号 -->
@@ -16,13 +16,13 @@
 					<input class="inputText" v-model="userInfo.password" password="true" placeholder="请输入密码" />
 				</view>
 
-				<!-- 登录button -->
+				<!-- 注册button -->
 				<view class="btn_view u-flex u-flex-center u-flex-items-center" @click="clickSubmit">
-					登录
+					注册
 					<!-- <view class="btn u-flex u-flex-center u-flex-items-center" @click="clickSubmit">登录</view> -->
 				</view>
-				<view class="jumptext" @click="goRegister"> 
-					没有账号,去注册
+				<view class="jumptext" @click="goLogin">
+					已有账号,去登录
 				</view>
 
 			</view>
@@ -66,9 +66,10 @@
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
 			},
-			goRegister() {
-				uni.navigateTo({
-					url: '/pages/login/register/register'
+			
+			goLogin() {
+				uni.redirectTo({
+					url: '/pages/login/login'
 				});
 			},
 			
@@ -147,7 +148,7 @@
 		box-sizing: border-box;
 		height: 100vh;
 		position: relative;
-		background: url(/static/img/login/login_bg.jpeg) no-repeat;
+		background: url(/static/img/login/p3.jpeg) no-repeat;
 		background-size: cover;
 
 		.content {

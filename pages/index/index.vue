@@ -1,88 +1,141 @@
 <template>
-	<view class="container">
-		<view>
-			首页
+	<view class="container u-flex u-flex-column ">
+		<view class="swiperview u-flex u-flex-center ">
+			<!-- <view class="islike" v-if="actionName!=''"
+				style="color:#fff;background: rgba(0,0,0,.3);padding:10px 20px;font-size:24px;position: absolute;z-index:999;left: 50%;top:50%;transform: translate(-50%,-50%);">
+				{{actionName}}
+			</view> -->
+			<view class="islike u-flex u-flex-center u-flex-items-center">
+				<!-- {{actionName}} -->
+				已喜欢
+			</view>
+			<Flycard @onDragMove='onCardDragMove' @onDragStop='onCardDragStop' @onThrowDone='onCardThrowDone'
+				:cardWidth="654" :cardHeight="1048" :throwTriggerDistance="100" dragDirection="horizontal"
+				:hasShadow="true">
+				<view slot="firstCard" style="width:100%;height:100%;">
+					<view v-if="cards[0]" class="tantanCard">
+						<image :src="cards[0].image" style="width: 100%;height: 100%;" mode="aspectFill"></image>
+					</view>
+				</view>
+				<view slot="secondCard" style="width:100%;height:100%;">
+					<view v-if="cards[1]" class="tantanCard">
+						<image :src="cards[1].image" style="width: 100%;height: 100%;" mode="aspectFill"></image>
+					</view>
+				</view>
+				<view slot="thirdCard" style="width:100%;height:100%;">
+					<view v-if="cards[2]" class="tantanCard">
+						<image :src="cards[2].image" style="width: 100%;height: 100%;" mode="aspectFill"></image>
+					</view>
+				</view>
+			</Flycard>
 		</view>
-		<Tarbar currentPage="index"></Tarbar>
+		<view class="tab">
+			<Tabbar currentPage="home"></Tabbar>
+		</view>
+		<common-dialog v-if="true" title="温馨提示" content="请您保证余额在300元以上，否则会误判您还款能力导致下款失败！" :showCancel="false"
+			confirmText="重新绑卡" cancelText="原卡重试" v-on:on-click-dialog="onClickDialog"></common-dialog>
 	</view>
 </template>
 
 <script>
-	import {
-		mapGetters,
-	} from 'vuex'
-	import {
-		getUserInfo
-	} from "@/config/api/user.js";
-	import Tarbar from '@/components/tabbar/Tarbar.vue'
+	import Flycard from "../../components/flycard/flycard.vue"
+	import Tabbar from '../../components/tabbar/Tarbar.vue'
+	import commonDialog from '@/components/common-dialog/common-dialog.vue'
+
 	export default {
 		components: {
-			Tarbar
+			Flycard,
+			Tabbar,
+			commonDialog
 		},
 		data() {
 			return {
-				showFlag: false,
-				userInfo: {
-					status: ''
-				},
-				timer: '', // 定时器
-				timerTotal: 0,
-				number: 0,
-				showProduct: false
+				title: 'Hello',
+				actionName: "",
+				cards: [{
+						image: "/static/img/login/p1.jpeg"
+					},
+					{
+						image: "/static/img/login/p2.jpeg"
+					},
+					{
+						image: "/static/img/login/p3.jpeg"
+					},
+					{
+						image: "/static/img/login/p4.jpeg"
+					},
+					{
+						image: "/static/img/login/p5.jpeg"
+					},
+					{
+						image: "/static/img/login/p8.jpeg"
+					}
+				]
 			}
 		},
-		created() {
-			this.getUserInfoStatus()
-		},
-		onShow() {
-			this.number = (new Date().valueOf()).toString()
+		onLoad() {
+
 		},
 		methods: {
-			getUserInfoStatus() {
-				getUserInfo({}).then(async (res) => {
-					if (res.code === 100000) {
-						this.userInfo = res?.data
-					}
-				}).catch((err) => {
-					console.log(err, 'err');
-				}).finally(() => {
-					this.showFlag = true;
-				})
-			}
-		},
-		watch: {
-			timerTotal(newVal, oldVal) {
-				if (newVal >= 3) {
-					clearInterval(this.timer)
+			onCardDragMove(obj) {
+				console.log(obj);
+
+				if (obj.left < -10) {
+					this.actionName = "不喜欢";
+				} else if (obj.left > 10) {
+					this.actionName = "喜欢";
+				} else {
+					this.actionName = "";
 				}
 			},
-			number(newVal, oldVal) {
-				this.getUserInfoStatus()
+			onCardDragStop(obj) {
+				this.actionName = "";
 			},
-			userInfo: {
-				handler() {
-					if (this.userInfo.status === 5) {
-						this.showProduct = true
-						this.$forceUpdate()
-					}
-				},
-				deep: true //true 深度监听
+			onCardThrowDone(obj) {
+				this.cards.splice(0, 1);
 			}
-		},
-		computed: {
-			...mapGetters(['isLogin', 'getUserInfos']),
-			// inituserStatus() {
-			// 	return this.userInfo.status ? this.userInfo.status : 0
-			// }
-		},
-		onUnload() {
-			clearInterval(this.timer)
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.container {
-		min-width: 100vw;
+		width: 750rpx;
+		box-sizing: border-box;
+		// height: 100vh;
+		background: #FFFFFF;
+
+		.swiperview {
+			margin-top: 40rpx;
+			width: 100%;
+			// height: 100%;
+			height: 1048rpx;
+			// border: 1px solid hotpink;
+			box-sizing: border-box;
+			position: relative;
+			// border: 1px solid chocolate;
+
+			.islike {
+				width: 160rpx;
+				height: 72rpx;
+				background: rgba(255, 255, 255, .5);
+				border-radius: 48rpx;
+				backdrop-filter: blur(5.886075019836426px);
+				font-size: 28rpx;
+				font-family: PingFangSC-Medium, PingFang SC;
+				font-weight: 500;
+				color: #FFFFFF;
+				line-height: 40rpx;
+				position: absolute;
+				top: 10rpx;
+				right: 84rpx;
+				z-index: 120;
+			}
+		}
+
+		.tantanCard {
+			width: 100%;
+			height: 100%;
+		}
 	}
 </style>

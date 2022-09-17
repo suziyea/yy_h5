@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="container" v-if="false">
 		<view class="bgBox">
 			<view class="userInfo">
 				<view class="avatar">
@@ -131,6 +131,28 @@
 		},
 		components: {
 			Tarbar,
+		},
+		mounted() {
+			// uni.getLocation(OBJECT)
+			// uni.getLocation({
+			// 	type: 'wgs84',
+			// 	success: function (res) {
+			// 		uni.showToast({
+			// 		title: `${res.longitude} -- 当前位置的纬度 ${res.latitude}`,
+			// 		icon:'none',
+			// 		duration: 200000
+			// 		});
+
+			// 		console.log('当前位置的经度：' + res.longitude);
+			// 		console.log('当前位置的纬度：' + res.latitude);
+			// 	}
+			// });
+			const hak = common.getLocation()
+			uni.showToast({
+					title: JSON.stringify(hak),
+					icon:'none',
+					duration: 200000
+					});
 		},
 		methods: {
 			...mapMutations(['LOGOUT']),
