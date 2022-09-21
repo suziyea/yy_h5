@@ -7,13 +7,13 @@
 			<view class="login_form">
 				<!--  账号 -->
 				<view class="inputView u-flex u-flex-items-center">
-					<!-- <image class="nameImage" src="@/static/uview/pic/login_name.png"></image> -->
-					<input class="inputText" v-model="userInfo.username" placeholder="请输入用户名" />
+					<image class="nameImage" src="@/static/icon/login_uername.png"></image>
+					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.username" placeholder="请输入用户名" />
 				</view>
 				<!-- 密码 -->
 				<view class="inputView u-flex u-flex-items-center">
-					<!-- <image class="nameImage" src="@/static/uview/pic/login_password.png"></image> -->
-					<input class="inputText" v-model="userInfo.password" password="true" placeholder="请输入密码" />
+					<image class="nameImage" src="@/static/icon/login_pwd.png"></image>
+					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.password" password="true" placeholder="请输入密码" />
 				</view>
 
 				<!-- 登录button -->
@@ -175,17 +175,19 @@
 
 					/*输入框*/
 					.nameImage {
-						margin-left: 22rpx;
-						width: 24rpx;
-						height: 24rpx
+						margin-left: 66rpx;
+						margin-right: 36rpx;
+						width: 30rpx;
+						height: 32rpx;
 					}
 
 					.inputText {
-						margin-left: 25rpx;
 						font-size: 32rpx;
 						font-family: PingFangSC-Regular, PingFang SC;
 						font-weight: 400;
+						width: 100%;
 						color: #FFFFFF;
+						box-sizing: border-box;
 					}
 				}
 
@@ -228,6 +230,13 @@
 			background: linear-gradient(181deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.49) 3%, rgba(0, 0, 0, 0) 100%);
 			opacity: 0.7;
 			z-index: 2;
+		}
+		/deep/ .input-placeholder {
+			font-size: 32rpx;
+			font-family: PingFangSC-Regular, PingFang SC;
+			font-weight: 400;
+			color: #FFFFFF;
+			line-height: 40rpx;
 		}
 	}
 </style>
