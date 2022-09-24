@@ -1,6 +1,6 @@
 <template>
 	<view class="container_equity">
-		<view class="container_equity_bg" :class="[this.current === 1 ? 'gold_bgColor' : 'silver_bgColor' ]">
+		<view class="container_equity_bg" :class="[this.current === 1 ? 'gold_bgColor' : '' ]">
 			<!-- <view class="container_equity_bg"> -->
 			<image :src="this.current === 0 ? '/static/img/login/login_bg.jpeg' : '/static/img/login/p3.jpeg'" mode="">
 			</image>
@@ -495,6 +495,16 @@
 			width: 750rpx;
 			height: 100vh;
 			background: rgba(228, 241, 255, 0.6);
+			content: "";
+			top: 0;
+			left: 0;
+		}
+		.gold_bgColor::after {
+			position: absolute;
+			width: 750rpx;
+			height: 100vh;
+			// background: rgba(228, 241, 255, 0.6);
+			background: rgba(210, 169, 111, 0.6) !important;
 			content: "";
 			top: 0;
 			left: 0;

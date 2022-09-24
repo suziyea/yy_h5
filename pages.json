@@ -102,109 +102,81 @@
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
+		}, {
+			"path": "components/flycard/flycard",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/welfare/welfare",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/bigArea/bigArea",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/likePage/likePage",
+			"style": {
+				"navigationBarTitleText": "喜欢",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/payRecord/payRecord",
+			"style": {
+				"navigationBarTitleText": "消费记录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/bigArea/welfareAddress/welfareAddress",
+			"style": {
+				"navigationBarTitleText": "福利地址",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/test/test",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "components/flycard/flycard",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/welfare/welfare",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/bigArea/bigArea",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/likePage/likePage",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "喜欢",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/payRecord/payRecord",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "消费记录",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/bigArea/welfareAddress/welfareAddress",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "福利地址",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/test/test",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "dataDeatail/dataDeatail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/dataDetail/dataDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
+		, {
+			"path": "pages/dataDetail/dataDetail",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/equity/equity",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/equity/equity",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/playVideo/playVideo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/playVideo/playVideo",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	"subPackages": [{
 		"root": "subpages",
 		"pages": [{
