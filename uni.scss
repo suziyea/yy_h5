@@ -173,3 +173,10 @@ $mc-normal-font-color: #333333;
 		color: #8C5E2D !important;
 		line-height: 36rpx;
 	}
+	
+.ellipsis{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}

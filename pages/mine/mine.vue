@@ -106,9 +106,9 @@
 				:showCancelButton="true" @cancel=" showModal = false" :content='content'></u-modal>
 			<!-- <u-button @click="show = true">打开</u-button> -->
 		</view>
-		<!-- <view class="tab">
+		<view class="tab">
 			<Tarbar currentPage="mine"></Tarbar>
-		</view> -->
+		</view>
 	</view>
 
 </template>

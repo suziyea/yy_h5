@@ -1,13 +1,20 @@
 <template>
 	<view class="container_tab ">
-		<!-- <view class="content  ">
-			<view class="tab  " v-for="(item,index) in tabbarList" :key="index" @tap="navigatorTo(item)">
+		<view class="content u-flex u-flex-between  ">
+			<view class="tab u-flex  u-flex-center u-flex-items-center " v-for="(item,index) in tabbarList" :key="index"
+				@tap="navigatorTo(item)">
 				<image v-if="item.page === currentPage" :src="item.selectedIconPath" mode=""></image>
 				<image v-else :src="item.iconPath" mode=""></image>
-				<view class="text u-flex u-flex-center" :class="{'tabbarActive': currentPage === item.page}">{{item.text}}
-				</view>
+				<!-- <view class="text u-flex u-flex-center" :class="{'tabbarActive': currentPage === item.page}">{{item.text}}
+				</view> -->
+
+
 			</view>
-		</view> -->
+			<view class="bigAreaImg">
+				<!-- 啊、 -->
+				<image src="/static/tabIcon/bigArea.png" mode=""></image>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -60,28 +67,32 @@
 		left: 0;
 		bottom: 0;
 		width: 750rpx;
-		height: 172rpx;
+		height: 156rpx;
 		// height: 98rpx;
 		// background: #171D41;
 		background: url(/static/img/menubar_strip_bg.png) no-repeat;
 		background-size: cover;
-		border: 1px solid red;
+		// border: 1px solid red;
+		box-sizing: border-box;
 
 		.content {
 			width: 100%;
 			height: 100%;
 			position: relative;
+			box-sizing: border-box;
+
 			.tab {
-				// width: 100%;
-				// height: 100%;
-				position: absolute;
-				// bottom: 8rpx;
-				// left: 126rpx;
-				border: 1px solid green;
+				width: 300rpx;
+				height: 100%;
+				position: relative;
+				box-sizing: border-box;
 
 				image {
 					width: 48rpx;
 					height: 48rpx;
+					position: absolute;
+					bottom: 24rpx;
+					// left: 126rpx;
 				}
 
 				.text {
@@ -94,6 +105,20 @@
 
 				.tabbarActive {
 					color: #ECC6A1 !important;
+				}
+			}
+
+			.bigAreaImg {
+				position: absolute;
+				// border: 1px solid;
+				top: 50%;
+				width: 108rpx;
+				height: 108rpx;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				image {
+					width: 108rpx;
+					height: 108rpx;
 				}
 			}
 		}
