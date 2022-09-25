@@ -4,7 +4,7 @@
 	    "path" : "pages/guide/guide",
 	    "style" :                                                                                    
 	    {
-	        "navigationBarTitleText": "",
+	        "navigationBarTitleText": "welcome",
 			"navigationStyle": "custom",
 	        "enablePullDownRefresh": false
 	    }
@@ -13,7 +13,7 @@
 	    "path" : "pages/iosDownload/iosDownload",
 	    "style" :                                                                                    
 	    {
-	        "navigationBarTitleText": "",
+	        "navigationBarTitleText": "友情提示",
 			"navigationStyle": "custom",
 	        "enablePullDownRefresh": false
 	    }
