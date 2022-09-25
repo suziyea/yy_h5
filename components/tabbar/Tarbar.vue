@@ -10,7 +10,7 @@
 
 
 			</view>
-			<view class="bigAreaImg">
+			<view class="bigAreaImg" @click="handleJumpItem">
 				<!-- 啊、 -->
 				<image src="/static/tabIcon/bigArea.png" mode=""></image>
 			</view>
@@ -55,7 +55,13 @@
 				uni.redirectTo({
 					url: `${item.pagePath}`
 				});
-			}
+			},
+			handleJumpItem(item) {
+				uni.navigateTo({
+					url: '/pages/bigArea/bigArea'
+				});
+				return;
+			},
 		}
 	}
 </script>
@@ -92,7 +98,6 @@
 					height: 48rpx;
 					position: absolute;
 					bottom: 24rpx;
-					// left: 126rpx;
 				}
 
 				.text {
@@ -110,12 +115,12 @@
 
 			.bigAreaImg {
 				position: absolute;
-				// border: 1px solid;
 				top: 50%;
 				width: 108rpx;
 				height: 108rpx;
 				left: 50%;
 				transform: translate(-50%, -50%);
+
 				image {
 					width: 108rpx;
 					height: 108rpx;

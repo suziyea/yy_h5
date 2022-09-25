@@ -155,7 +155,7 @@
 		, {
 			"path": "pages/dataDetail/dataDetail",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "详细信息",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
@@ -171,7 +171,7 @@
 		}, {
 			"path": "pages/playVideo/playVideo",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "视频详情",
 				"enablePullDownRefresh": false
 			}
 

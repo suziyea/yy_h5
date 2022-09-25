@@ -14,9 +14,10 @@
 					</navigator>
 				</view>
 				<view class="memberLevel">
-					<view class="text baijinColor ">白金会员</view>
+					<view class="text baijinColor ">{{true ? '白金会员' : '黄金会员'}}</view>
 					<view class="memberImg">
-						<image src="/static/icon//mine_baijin.png" mode="aspectFill"></image>
+						<image :src="`/static/icon/${true ? 'silver_mark' : 'gold_mark'}.png`" mode="aspectFill">
+						</image>
 					</view>
 				</view>
 			</view>
@@ -24,7 +25,7 @@
 
 		<!-- 特权 -->
 		<view class="privilege u-flex  u-flex-center u-flex-items-center">
-			<view class="privilegeImg u-flex  u-flex-center u-flex-items-center">
+			<view class="privilegeImg u-flex  u-flex-center u-flex-items-center" @click="handleListItem('equity')">
 				<view class="text">我的特权</view>
 				<view class="clickImg">
 					<image src="/static/icon/mine_jumpcolor.png" mode="aspectFill"></image>
@@ -37,7 +38,7 @@
 			<view class="list_content ">
 				<view class="title">常用功能</view>
 				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item,index) in firstList"
-					:key="item.enName">
+					:key="item.enName" @click="handleListItem(item)">
 					<view class="lefticon">
 						<image :src="item.icon" mode=""></image>
 					</view>
@@ -54,7 +55,7 @@
 			<view class="list_content ">
 				<view class="title">其他工具</view>
 				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item,index) in secondList"
-					:key="item.enName">
+					:key="item.enName" @click="handleListItem(item)">
 					<view class="lefticon">
 						<image :src="item.icon" mode=""></image>
 					</view>
@@ -65,40 +66,6 @@
 				</view>
 			</view>
 		</view>
-
-
-
-
-
-		<!-- <view class="memberLegal u-flex u-flex-center">
-			<view class="memberEnjoy">
-				<u-row justify="space-between">
-					<u-col span="4" justify="center" v-for="(item,index) in memberNav" :key="index">
-						<view class="demo-layout bg-purple iconList">
-							<image :src="item.icon" mode="aspectFill" @click="clickNav(item)"></image>
-							<view class="title">{{item.name}}</view>
-						</view>
-					</u-col>
-				</u-row>
-			</view>
-		</view> -->
-
-		<!-- <view class="listView">
-			<u-cell-group :border='false'>
-				<view v-for="(item,index) in cellList" :key="index">
-					<u-cell :border='false' v-if="isLogin" :title="item.name" size="large" :name="item.enName" isLink
-						:icon="item.icon" @click="handleListItem"
-						titleStyle="font-size: 32rpx;font-weight: 400;color: #28334A;line-height: 44rpx;"
-						rightIconStyle="font-size:14px;"></u-cell>
-					<u-cell :border='false' v-else-if="!isLogin && !item.power" :title="item.name" size="large"
-						:name="item.enName" isLink :icon="item.icon" @click="handleListItem"
-						titleStyle="font-size: 32rpx;font-weight: 400;color: #28334A;line-height: 44rpx;"
-						rightIconStyle="font-size:14px;"></u-cell>
-				</view>
-
-			</u-cell-group>
-		</view>
- -->
 
 		<!-- 弹窗 -->
 		<view>
@@ -130,32 +97,16 @@
 	export default {
 		data() {
 			return {
-				memberNav: [{
-					icon: '/static/icon/enjoy.png',
-					path: '/pages/mine/privilege/privilege',
-					name: '我的权益',
-					page: 'current'
-				}, {
-					icon: '/static/icon/order.png',
-					path: '/pages/mine/order/order',
-					name: '我的订单',
-					page: ''
-				}, {
-					icon: '/static/icon/customerService.png',
-					path: '/pages/mine/service/service',
-					name: '客服中心',
-					page: ''
-				}],
 				firstList: [{
 						icon: '/static/icon/mine_like.png',
-						path: '',
+						path: '/pages/mine/likePage/likePage',
 						name: '喜欢',
 						enName: 'like',
 						isLogin: false
 					},
 					{
 						icon: '/static/icon/mine_record.png',
-						path: '',
+						path: '/pages/mine/payRecord/payRecord',
 						name: '消费记录',
 						enName: 'record',
 						isLogin: false
@@ -163,21 +114,21 @@
 				],
 				secondList: [{
 						icon: '/static/icon/mine_contact.png',
-						path: '',
+						path: '/pages/mine/telPhone/telPhone',
 						name: '联系我们',
 						enName: 'contact',
 						isLogin: false
 					},
 					{
 						icon: '/static/icon/mine_about.png',
-						path: '',
+						path: '/subpages/appPrivacyAgreement/appPrivacyAgreement',
 						name: '关于我们',
 						enName: 'about',
 						isLogin: false
 					},
 					{
 						icon: '/static/icon/mine_suggest.png',
-						path: '',
+						path: '/pages/mine/feedback/feedback',
 						name: '建议反馈',
 						enName: 'suggest',
 						isLogin: false,
@@ -274,7 +225,14 @@
 				}
 			},
 			handleListItem(item) {
-				if (item.name === 'logout') {
+				console.log(item, '看看')
+				if (item === 'equity') {
+					uni.navigateTo({
+						url: `/pages/mine/equity/equity`
+					});
+					return;
+				}
+				if (item.enName === 'logout') {
 					uni.$u.route({
 						type: 'reLaunch',
 						url: 'pages/login/login',
@@ -282,14 +240,18 @@
 					this.LOGOUT()
 					return;
 				}
-				if (item.name === 'about') {
-					uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
-					return;
-				}
-				if (item.name === 'look') {
-					uni.$u.route('/subpages/assessAgreement/assessAgreement')
-					return;
-				}
+				// uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
+				uni.navigateTo({
+					url: `${item.path}`
+				});
+				return;
+				// if (item.enName === 'look') {
+				// 	uni.$u.route('/subpages/assessAgreement/assessAgreement')
+				// 	uni.navigateTo({
+				// 		url: `test?id=1&name=${new Date().getTime()}`
+				// 	});
+				// 	return;
+				// }
 			},
 			confirm() {
 				this.showModal = false;
@@ -482,7 +444,7 @@
 		.list_content {
 			width: 702rpx;
 			// height: 296rpx;
-			
+
 			padding: 0rpx 40rpx 0rpx 32rpx;
 			background: #FFFFFF;
 			border-radius: 16rpx;

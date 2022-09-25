@@ -176,7 +176,7 @@
 				.single_video {
 					width: 312rpx;
 					height: 380rpx;
-					boder: 1px solid green;
+					// border: 1px solid green;
 					margin-bottom: 28rpx;
 
 					.video {
