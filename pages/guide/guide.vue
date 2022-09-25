@@ -15,7 +15,7 @@
 		<!-- app 认证 -->
 		<view class="app_img_tips  u-flex u-flex-center u-flex-items-center">
 			<view class="img">
-				<image src="/static/img/guide/mm_photo.png" mode="aspectFill"></image>
+				<image :src="`/static/img/guide/banner${parseInt(3*Math.random())+1}.jpeg`" mode="aspectFill"></image>
 			</view>
 		</view>
 
@@ -54,7 +54,7 @@
 					<view class="top_tip u-flex u-flex-center u-flex-items-center">
 						<image src="/static/icon/line_icon.png" mode="aspectFill"></image>
 						<view class="text">
-							热门推荐
+							预约流程
 						</view>
 						<image src="/static/icon/line_icon.png" mode="aspectFill"></image>
 					</view>
@@ -166,6 +166,9 @@
 		},
 		onLoad() {
 			this.isWeat = this.is_weixin()
+		},
+		created() {
+			// console.log(parseInt(3*Math.random())+1)
 		},
 		methods: {
 			downloadApp(val = '') {
