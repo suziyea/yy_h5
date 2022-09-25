@@ -83,6 +83,9 @@
 </template>
 
 <script>
+	import {
+		getVideoList
+	} from "@/config/api/product.js";
 	export default {
 		data() {
 			return {
@@ -112,24 +115,42 @@
 					}
 				],
 				tapsList: [{
-						"text": "图片",
+						"text": "上门服务",
 					},
 					{
 						"text": "视频",
 					}
 				],
 				videoTypeList: [{
-						"text": "免费",
+						"text": "免费视频",
 					},
 					{
-						"text": "收费",
+						"text": "会员视频",
 					}
 				],
 				productTabIndex: 0,
 				costTypeTabIndex: 0,
+				videoList: [],
 			}
 		},
+		created() {
+			this.getInitList()
+		},
 		methods: {
+			getInitList() {
+				getVideoList({}).then((res) => {
+					if (res.code === 100000) {
+						// if (res?.data?.length > 0) {
+						// 	this.orderList = res?.data
+						// }
+						this.videoList = res?.data
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				}).finally(() => {
+					this.showOrderFlag = true;
+				})
+			},
 			handleNav(item) {
 				if (item.engName === 'addr') {
 					uni.navigateTo({

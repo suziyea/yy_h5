@@ -74,3 +74,18 @@ export const clickProductItem = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/product-recommend/click', params, config)
+
+// 获取视频列表
+export const getVideoList = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/video/list/get', params, config)
+
+
+// 获取喜欢列表
+export const geCollectSisterList = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/collect-sister/list', params, config)

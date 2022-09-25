@@ -132,7 +132,7 @@
 			privilegeList() {
 				let privilegeObj = [{
 						"text": "一对一福利",
-						"img": "/static/icon/privilege_silver_app.png",
+						"img": "/static/icon/privilege_silver_welfare.png",
 					}, {
 						"text": "推荐福利APP",
 						"img": "/static/icon/privilege_silver_app.png",
@@ -424,7 +424,7 @@
 				box-sizing: border-box;
 
 				.title {
-					width: 750rpx;
+					width: 250rpx;
 					height: 44rpx;
 					font-size: 30rpx;
 					font-family: PingFangSC-Medium, PingFang SC;
@@ -503,7 +503,6 @@
 			position: absolute;
 			width: 750rpx;
 			height: 100vh;
-			// background: rgba(228, 241, 255, 0.6);
 			background: rgba(210, 169, 111, 0.6) !important;
 			content: "";
 			top: 0;

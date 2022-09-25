@@ -1,6 +1,7 @@
 <template>
 	<view class="container_video">
 		<view class="video_content">
+			<video :src="src"></video>
 			<view class="playImg">
 				<image src="/static/icon/big_play.png" mode=""></image>
 			</view>
@@ -35,7 +36,7 @@
 			<view class="video_list u-flex u-flex-wrap u-flex-between">
 				<view class="single_video" v-for="(item,index) in 20" :key="index">
 					<view class="video">
-						
+
 						<view class="img">
 							<image src="/static/icon/small_play.png" mode=""></image>
 						</view>
@@ -55,7 +56,7 @@
 	export default {
 		data() {
 			return {
-
+				src: 'https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4'
 			}
 		},
 		methods: {
@@ -76,6 +77,11 @@
 			background: rgba(0, 0, 0, 0.3);
 			box-sizing: border-box;
 			position: relative;
+
+			video {
+				width: 750rpx;
+				height: 468rpx;
+			}
 
 			.playImg {
 				position: absolute;
@@ -186,12 +192,14 @@
 						border: 2rpx solid #EDDBC3;
 						box-sizing: border-box;
 						position: relative;
+
 						.img {
 							position: absolute;
 							right: 20rpx;
 							bottom: 20rpx;
 							width: 36rpx;
 							height: 36rpx;
+
 							image {
 								width: 100%;
 								height: 100%;

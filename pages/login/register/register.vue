@@ -33,7 +33,8 @@
 <script>
 	import {
 		login,
-		sendSMS
+		sendSMS,
+		register
 	} from "@/config/api/user.js";
 	import {
 		mapMutations
@@ -43,7 +44,7 @@
 			return {
 				seconds: 60,
 				userInfo: {
-					userName: '',
+					username: '',
 					password: ''
 				},
 				formContent: {
@@ -74,6 +75,8 @@
 			},
 			
 			submit() {
+				register(this.userInfo)
+				return;
 				this.$refs.formContentRef.validate().then(res => {
 					let {
 						phone,

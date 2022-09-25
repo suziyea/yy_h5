@@ -80,5 +80,10 @@ export const getQy = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/qy/authentication', params, config)
+
+// 注册
+export const register = (params, config = {}) => {
+	return http.post('/api/security/user/register', params, config)
+}
 // get请求
 export const getMenu = (data) => http.get('url', data)

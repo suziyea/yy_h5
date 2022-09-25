@@ -8,12 +8,14 @@
 				<!--  账号 -->
 				<view class="inputView u-flex u-flex-items-center">
 					<image class="nameImage" src="@/static/icon/login_uername.png"></image>
-					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.username" placeholder="请输入用户名" />
+					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.username"
+						placeholder="请输入用户名" />
 				</view>
 				<!-- 密码 -->
 				<view class="inputView u-flex u-flex-items-center">
 					<image class="nameImage" src="@/static/icon/login_pwd.png"></image>
-					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.password" password="true" placeholder="请输入密码" />
+					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.password"
+						password="true" placeholder="请输入密码" />
 				</view>
 
 				<!-- 登录button -->
@@ -21,7 +23,7 @@
 					登录
 					<!-- <view class="btn u-flex u-flex-center u-flex-items-center" @click="clickSubmit">登录</view> -->
 				</view>
-				<view class="jumptext" @click="goRegister"> 
+				<view class="jumptext" @click="goRegister">
 					没有账号,去注册
 				</view>
 
@@ -33,7 +35,8 @@
 <script>
 	import {
 		login,
-		sendSMS
+		sendSMS,
+		register
 	} from "@/config/api/user.js";
 	import {
 		mapMutations
@@ -43,7 +46,7 @@
 			return {
 				seconds: 60,
 				userInfo: {
-					userName: '',
+					username: '',
 					password: ''
 				},
 				formContent: {
@@ -71,8 +74,30 @@
 					url: '/pages/login/register/register'
 				});
 			},
-			
+
 			submit() {
+				login(this.userInfo).then((res) => {
+					if (res.code === 100000) {
+						let handleBaseInfo = {
+							token: res.data.access_token,
+							userInfo: res.data
+						}
+						this.LOGIN(handleBaseInfo)
+						this.SET_TOKEN({
+							token: res.data.access_token,
+							refresh_token: res.data.refresh_token
+						})
+						uni.navigateTo({
+							url: '/pages/index/index'
+						});
+						return;
+						// uni.switchTab({
+						// 	url: '/pages/index/index'
+						// })
+						
+					}
+				})
+				return;
 				this.$refs.formContentRef.validate().then(res => {
 					let {
 						phone,
@@ -88,7 +113,7 @@
 
 					}
 					this.SETDEVICE(loginHeaderObj)
-					login({
+					register({
 							phone: phone.replace(/\s*/g, ""),
 							code: smsCode,
 						}, {
@@ -231,6 +256,7 @@
 			opacity: 0.7;
 			z-index: 2;
 		}
+
 		/deep/ .input-placeholder {
 			font-size: 32rpx;
 			font-family: PingFangSC-Regular, PingFang SC;

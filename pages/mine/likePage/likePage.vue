@@ -21,14 +21,32 @@
 </template>
 
 <script>
+	import {
+		geCollectSisterList
+	} from "@/config/api/product.js";
 	export default {
 		data() {
 			return {
 
 			}
 		},
+		created() {
+			this.getInitList()
+		},
 		methods: {
-
+			getInitList() {
+				geCollectSisterList({}).then((res) => {
+					if (res.code === 100000) {
+						if (res?.data?.length > 0) {
+							this.orderList = res?.data
+						}
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				}).finally(() => {
+					this.showOrderFlag = true;
+				})
+			},
 		}
 	}
 </script>
