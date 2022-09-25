@@ -24,11 +24,11 @@
 			<view class="mm_list u-flex u-flex-column u-flex-items-center">
 				<view class="title_content u-flex u-flex-center u-flex-items-center">
 					<view class="top_tip u-flex u-flex-center u-flex-items-center">
-						<image src="/static/icon/line_icon.png" mode="aspectFill"></image>
+						<image src="/static/img/guide/line_icon.png" mode="aspectFill"></image>
 						<view class="text">
 							热门推荐
 						</view>
-						<image src="/static/icon/line_icon.png" mode="aspectFill"></image>
+						<image src="/static/img/guide/line_icon.png" mode="aspectFill"></image>
 					</view>
 				</view>
 				<view class="mm_photos u-flex u-flex-center u-flex-wrap">
@@ -52,11 +52,11 @@
 			<view class="step_view ">
 				<view class="title_content u-flex u-flex-center u-flex-items-center">
 					<view class="top_tip u-flex u-flex-center u-flex-items-center">
-						<image src="/static/icon/line_icon.png" mode="aspectFill"></image>
+						<image src="/static/img/guide/line_icon.png" mode="aspectFill"></image>
 						<view class="text">
 							预约流程
 						</view>
-						<image src="/static/icon/line_icon.png" mode="aspectFill"></image>
+						<image src="/static/img/guide/line_icon.png" mode="aspectFill"></image>
 					</view>
 				</view>
 
