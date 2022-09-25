@@ -38,8 +38,8 @@
 			<view class="list_content ">
 				<view class="title">常用功能</view>
 				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item,index) in firstList"
-					:key="item.enName" @click="handleListItem(item)">
-					<view class="lefticon">
+					:key="index" @click="handleListItem(item)">
+					<view class="lefticon u-flex u-flex-center">
 						<image :src="item.icon" mode=""></image>
 					</view>
 					<view class="text">{{item.name}}</view>
@@ -55,8 +55,8 @@
 			<view class="list_content ">
 				<view class="title">其他工具</view>
 				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item,index) in secondList"
-					:key="item.enName" @click="handleListItem(item)">
-					<view class="lefticon">
+					:key="index" @click="handleListItem(item)">
+					<view class="lefticon u-flex u-flex-center">
 						<image :src="item.icon" mode=""></image>
 					</view>
 					<view class="text">{{item.name}}</view>
@@ -463,7 +463,6 @@
 			.listSigle {
 				width: 100%;
 				height: 104rpx;
-				// border: 1px solid skyblue;
 
 				.lefticon {
 					image {
