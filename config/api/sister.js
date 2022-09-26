@@ -13,3 +13,11 @@ export const geSisterDetail = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/yy/sister/detail', params, config)
+
+
+// 获取喜欢列表
+export const geCollectSisterList = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/collect-sister/list', params, config)

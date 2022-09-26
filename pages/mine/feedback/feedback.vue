@@ -1,6 +1,6 @@
 <template>
 	<view class="feedback">
-		<!-- <view class="group">
+		<view class="group">
 			<view class="item">
 				<view class="title">联系人</view>
 				<view class="input"><input type="text" v-model="contact" placeholder="请输入您的姓名"
@@ -13,7 +13,7 @@
 			</view>
 			<view class="item">
 				<view class="title">联系邮箱</view>
-				<view class="input"><input type="text" inputAlign="right" v-model="contact_email" placeholder="请输入您的邮箱"
+				<view class="input"><input type="text" v-model="contact_email" placeholder="请输入您的邮箱"
 						placeholder-class="myholder" /></view>
 			</view>
 		</view>
@@ -27,38 +27,9 @@
 				</view>
 			</view>
 		</view>
-		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" @tap="clickSubmit" :hairline="true" text="下一步">
-			</u-button>
-		</view> -->
-		<view class="submitInformation u-flex u-flex-center">
-			<view class="formInfo">
-				<u--form :model="formContent" ref="uForm" labelWidth="auto">
-					<u-form-item label="联系人" prop="actual_name" borderBottom ref="item1">
-						<u--input inputAlign="right" v-model="formContent.actual_name" border="none" placeholder="请输入姓名"
-							placeholderClass="placeholderClass"></u--input>
-					</u-form-item>
-					<u-form-item label="联系电话" prop="id_number" borderBottom ref="item2">
-						<u--input inputAlign="right" v-model="formContent.id_number" border="none" placeholder="请输入身份证号"
-							placeholderClass="placeholderClass"></u--input>
-					</u-form-item>
-					<u-form-item label="联系邮箱" prop="id_number" ref="item2">
-						<u--input inputAlign="right" v-model="formContent.id_number" border="none" placeholder="请输入身份证号"
-							placeholderClass="placeholderClass"></u--input>
-					</u-form-item>
-					<view class="fill"></view>
-					<u-form-item label="反馈内容" prop="id_number" ref="item2">
-					</u-form-item>
-					<u--textarea border="none" :placeholderClass="textareaClass" v-model="formContent.code"
-						placeholder="如果您对我们的产品,服务,APP有什么意见或建议,请在这里告诉我们"></u--textarea>
-
-				</u--form>
-
-				<view class="btn_view u-flex u-flex-center ">
-					<view class="btnContent u-flex u-flex-center  u-flex-items-center ">
-						下一步
-					</view>
-				</view>
+		<view class="btn_view u-flex u-flex-center ">
+			<view class="btnContent u-flex u-flex-center  u-flex-items-center " @click="clickSubmit">
+				提交
 			</view>
 		</view>
 		<u-toast ref="uToast"></u-toast>
@@ -75,15 +46,7 @@
 				contact: '',
 				contact_phone: '',
 				contact_email: '',
-				content: '',
-				formContent: {
-					actual_name: '',
-					id_number: '',
-					bank_name: '',
-					bank_id: '',
-					reserve_phone: '',
-					code: '',
-				},
+				content: ''
 			};
 		},
 		methods: {
@@ -129,15 +92,11 @@
 						this.$refs.uToast.show({
 							...params,
 							complete() {
-								params.url && uni.switchTab({
+								params.url && uni.navigateTo({
 									url: params.url
 								})
 							}
 						})
-						// this.showNoneIconToast('我们已收到反馈内容，会尽快处理')
-						// uni.switchTab({
-						// 	url: '/pages/mine/mine'
-						// })
 					}
 
 				}).catch((err) => {
@@ -157,93 +116,7 @@
 <style lang="scss" scoped>
 	page {
 		width: 100%;
-		width: 750rpx;
-		height: 100vh;
-
-		background: #F6F6F6;
-
-		.submitInformation {
-			width: 100%;
-			z-index: 2;
-			padding: 0rpx 44rpx;
-			box-sizing: border-box;
-
-			.formInfo {
-				// width: 662rpx;
-				// height: 916rpx;
-				// background: linear-gradient(360deg, #F9F9F7 0%, #FDF1E5 100%);
-				// border-radius: 16rpx;
-
-				.fill {
-					width: 750rpx;
-					height: 12rpx;
-					background: #EDDBC3;
-					opacity: 0.29;
-					margin: 0rpx -32rpx;
-				}
-
-				.btn_view {
-					width: 100%;
-					margin-top: 134rpx;
-					box-sizing: border-box;
-
-					.btnContent {
-						width: 662rpx;
-						height: 88rpx;
-						background: linear-gradient(180deg, #EDDFC5 0%, #CCAC83 100%);
-						border-radius: 44rpx;
-					}
-				}
-
-				/deep/ .u-textarea {
-					width: 662rpx;
-					height: 306rpx !important;
-					border-radius: 16rpx;
-					border: 2rpx solid #E8E8E8 !important;
-				}
-
-				.u-textarea__field {
-					height: 100%;
-				}
-
-
-				/deep/ .u-form {
-					// margin: 24rpx 32rpx;
-					.placeholderClass {
-						color: #9C9B98 !important;
-					}
-
-					.textareaClass {
-						color: red !important;
-					}
-
-
-
-					.u-button--success {
-						border: none;
-						font-size: 30rpx;
-						font-family: PingFangSC-Regular, PingFang SC;
-						font-weight: 400;
-						color: #8C5E2D !important;
-						line-height: 42rpx;
-						background: none;
-					}
-
-					.u-form-item__body {
-						padding: 30rpx 0 !important;
-					}
-
-					.u-form-item__body__left__content__label {
-						width: 224rpx;
-						font-size: 28rpx;
-						font-family: PingFangSC-Regular, PingFang SC;
-						font-weight: 400;
-						color: #5A5757 !important;
-						line-height: 40rpx;
-					}
-				}
-			}
-		}
+		background-color: #F9F9F9;
 
 		.feedback {
 			width: 100%;
@@ -260,8 +133,10 @@
 				background-color: #FFFFFF;
 
 				.myholder {
-					color: #cccccc;
+					color: #999999;
 					font-size: $mc-normal-font-size;
+					// text-align: right;
+					// font-size: 30rpx;
 				}
 
 				.item {
@@ -328,18 +203,20 @@
 		}
 	}
 
-	.btn {
-		padding: 0 52rpx;
-		margin-top: 160rpx;
+	.btn_view {
+		width: 100%;
+		margin-top: 134rpx;
+		box-sizing: border-box;
 
-		.custom-style {
-			background: #4579E6;
-			border-radius: 8rpx;
+		.btnContent {
+			width: 662rpx;
+			height: 82rpx;
+			background: linear-gradient(90deg, #EFD4AF 0%, #C1914B 100%);
+			border-radius: 48rpx;
 			font-size: 32rpx;
-			font-family: PingFangSC-Regular, PingFang SC;
-			font-weight: 400;
-			color: #FFFFFF;
-			line-height: 44rpx;
+			font-family: PingFangSC-Medium, PingFang SC;
+			font-weight: 500;
+			color: #7F5D2E;
 		}
 	}
 </style>

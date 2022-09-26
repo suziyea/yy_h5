@@ -29,14 +29,15 @@
 
 				<!-- 会员名称 -->
 				<view class="member_name u-flex u-flex-items-center">
-					{{this.current === 0 ? '白金会员' : '黄金会员'}}
+					{{this.current === 0 ? '普通会员' : '高级会员'}}
 				</view>
 			</view>
 			<!-- #endif -->
 		</view>
 		<!-- tip -->
 		<view class="websiteTip u-flex u-flex-center u-flex-items-center">
-			<view class="text u-flex u-flex-center u-flex-items-center" :class="[this.current === 1 ? ' gold_member_price_color' : ' silver_member_price_color' ]">
+			<view class="text u-flex u-flex-center u-flex-items-center"
+				:class="[this.current === 1 ? ' gold_member_price_color' : ' silver_member_price_color' ]">
 				本站所有小妹即可预约（时间自行沟通）
 			</view>
 		</view>
@@ -56,8 +57,9 @@
 					<image :src="this.current === 0 ? '/static/icon/silver_border.png' : '/static/icon/gold_border.png'"
 						mode=""></image>
 				</view>
-				
-				<view v-if="current === 1" class="tips_content gold_member_price_color u-flex u-flex-center u-flex-items-center">
+
+				<view v-if="current === 1"
+					class="tips_content gold_member_price_color u-flex u-flex-center u-flex-items-center">
 					新人首次免费安排
 				</view>
 			</view>
@@ -84,8 +86,9 @@
 		</view>
 		<view class="bottomTabbar u-flex u-flex-center u-flex-items-center">
 			<view class="subscribe_view u-flex  u-flex-items-center">
-				<view class="subscribeBtn  u-flex u-flex-center u-flex-items-center" :class="styleStatus">
-					<view class="text">升级黄金会员</view>
+				<view class="subscribeBtn  u-flex u-flex-center u-flex-items-center"
+					:class="membershipLevel.levelstyle">
+					<view class="text">{{membershipLevel.levelName}}</view>
 				</view>
 			</view>
 
@@ -94,6 +97,10 @@
 </template>
 
 <script>
+	import {
+		mapGetters,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -196,6 +203,68 @@
 				console.log(val, '点击了')
 				this.current = val
 			}
+
+		},
+		computed: {
+			...mapGetters(['isLogin', 'getUserInfos']),
+			headStr() {
+				/**	getSexByBirthday
+				 * @param idCard
+				 * '0' 男
+				 * '1' 女
+				 */
+				let sexNum = this.getUserInfos?.status ? common.getSexByBirthday(this.getUserInfos.id_number) : 2
+				if (sexNum === '0') {
+					return 'headman'
+				}
+				if (sexNum === '1') {
+					return 'headwomen'
+				}
+				return 'head'
+			},
+			membershipLevel() {
+				/**	membershipLevel
+				 * @param 
+				 * 
+				 * 1-普通用户
+				 * 2-普通会员
+				 * 3-高级会员
+				 */
+				let obj = {
+					levelName: '成为会员',
+					levelstyle: {
+						silver_color: true,
+						silver_background_btn: true
+					},
+					levelStatus: 'ordinary'
+				}
+				let sexNum = this.getUserInfos?.status
+				if (this.getUserInfos?.status === 1) {
+					obj.levelName = '成为会员',
+						obj.levelStatus = 'silver'
+					return obj
+				}
+				if (this.getUserInfos?.status === 2) {
+					obj.levelName = '升级高级会员',
+						// obj.levelstyle = {
+						// 	silver_color: true,
+						// 	silver_background_btn: true
+						// }
+						obj.levelStatus = 'silver'
+					return obj
+				}
+				if (this.getUserInfos?.status === 1) {
+					obj.levelName = '高级会员',
+						obj.levelstyle = {
+							gold_color: true,
+							gold_background_btn: true
+						}
+					obj.levelStatus = 'gold'
+					return obj
+				}
+				return obj
+			}
+
 
 		}
 	}
@@ -358,7 +427,7 @@
 				font-family: PingFangSC-Regular, PingFang SC;
 				position: relative;
 				border: 1px solid red;
-				
+
 				.tips_content {
 					position: absolute;
 					height: 26px;
@@ -499,6 +568,7 @@
 			top: 0;
 			left: 0;
 		}
+
 		.gold_bgColor::after {
 			position: absolute;
 			width: 750rpx;

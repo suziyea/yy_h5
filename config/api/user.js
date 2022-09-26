@@ -38,7 +38,7 @@ export const addFeedback = (params, config = {
 	custom: {
 		auth: true
 	}
-}) => http.post('/api/fk/feedback/save', params, config)
+}) => http.post('/api/yy/feedback/save', params, config)
 
 // 评估结果页
 export const assessResult = (params, config = {

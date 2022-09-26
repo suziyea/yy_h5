@@ -82,10 +82,3 @@ export const getVideoList = (params, config = {
 	}
 }) => http.post('/api/video/list/get', params, config)
 
-
-// 获取喜欢列表
-export const geCollectSisterList = (params, config = {
-	custom: {
-		auth: true
-	}
-}) => http.post('/api/yy/collect-sister/list', params, config)

@@ -3,7 +3,9 @@
 		<view class="likeContent u-flex u-flex-wrap u-flex-between">
 			<view class="photoInfo" v-for="(item,index) in 20" :key="index">
 				<view class="image">
-					<image src="/static/img/login/p2.jpeg" mode=""></image>
+					<!-- <image src="/static/img/login/p2.jpeg" mode=""></image> -->
+					<image src="https://img0.baidu.com/it/u=4082019450,124630764&fm=253&fmt=auto&app=138&f=JPEG?w=254&h=272" mode=""></image>
+					
 				</view>
 				<view class="nicheng">
 					珍妮Jenny珍妮Jenny

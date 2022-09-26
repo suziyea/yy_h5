@@ -1,12 +1,14 @@
 <template>
 	<view class="container" v-if="true">
+		<common-dialog v-if="showDialog" title="温馨提示" content="您确认要注销账户吗！" :showCancel="true"
+			confirmText="重新绑卡" cancelText="原卡重试" v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<view class="bgBox">
 			<view class="userInfo">
 				<view class="avatar">
 					<image src="/static/icon/mine_avatar.png" mode="aspectFill"></image>
 				</view>
 				<view class="userName u-flex u-flex-column" v-if="isLogin">
-					<text class="name">{{`HI，${getUserInfos.actual_name || ''}`}}</text>
+					<text class="name">{{`HI，${getUserInfos.username || ''}`}}</text>
 				</view>
 				<view class="userName" v-else>
 					<navigator open-type="navigate" url="/pages/login/login">
@@ -14,9 +16,11 @@
 					</navigator>
 				</view>
 				<view class="memberLevel">
-					<view class="text baijinColor ">{{true ? '白金会员' : '黄金会员'}}</view>
+					<view class="text" :class="membershipLevel.levelstyle">{{membershipLevel.levelName}}</view>
 					<view class="memberImg">
-						<image :src="`/static/icon/${true ? 'silver_mark' : 'gold_mark'}.png`" mode="aspectFill">
+						<image
+							:src="`/static/icon/${membershipLevel.levelStatus === 'silver' ? 'silver_mark' : 'gold_mark'}.png`"
+							mode="aspectFill">
 						</image>
 					</view>
 				</view>
@@ -93,10 +97,15 @@
 		getUserInfo
 	} from "@/config/api/user.js";
 	import Tarbar from '@/components/tabbar/Tarbar.vue'
+	import commonDialog from '@/components/common-dialog/common-dialog.vue'
 
 	export default {
+		components: {
+			commonDialog,
+		},
 		data() {
 			return {
+				showDialog: false,
 				firstList: [{
 						icon: '/static/icon/mine_like.png',
 						path: '/pages/mine/likePage/likePage',
@@ -172,9 +181,9 @@
 			// 		console.log('当前位置的纬度：' + res.latitude);
 			// 	}
 			// });
-			// const hak = common.getLocation()
+			// const hello = common.getLocation()
 			// uni.showToast({
-			// 		title: JSON.stringify(hak),
+			// 		title: JSON.stringify(hello),
 			// 		icon:'none',
 			// 		duration: 200000
 			// 		});
@@ -233,11 +242,7 @@
 					return;
 				}
 				if (item.enName === 'logout') {
-					uni.$u.route({
-						type: 'reLaunch',
-						url: 'pages/login/login',
-					})
-					this.LOGOUT()
+					this.showDialog = false
 					return;
 				}
 				// uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
@@ -259,6 +264,16 @@
 					uni.$u.route('/pages/login/login');
 					return;
 				}
+			},
+			onClickDialog(event) {
+				if (event == 'confirm') {
+					this.LOGOUT()
+					uni.navigateTo({
+						url: '/pages/login/login'
+					});
+					return;
+				}
+				this.showDialog = false
 			},
 		},
 		onLoad() {
@@ -285,7 +300,7 @@
 				 * '0' 男
 				 * '1' 女
 				 */
-				let sexNum = this.getUserInfos?.id_number ? common.getSexByBirthday(this.getUserInfos.id_number) : 2
+				let sexNum = this.getUserInfos?.status ? common.getSexByBirthday(this.getUserInfos.id_number) : 2
 				if (sexNum === '0') {
 					return 'headman'
 				}
@@ -294,6 +309,53 @@
 				}
 				return 'head'
 			},
+			membershipLevel() {
+				/**	membershipLevel
+				 * @param 
+				 * 
+				 * 1-普通用户
+				 * 2-普通会员
+				 * 3-高级会员
+				 */
+				let obj = {
+					levelName: '成为会员',
+					levelstyle: {
+						baijinColor: true,
+						goldColor: false,
+					},
+					levelStatus: 'ordinary'
+				}
+				let sexNum = this.getUserInfos?.status
+				if (this.getUserInfos?.status === 1) {
+					obj.levelName = '成为会员',
+						obj.levelstyle = {
+							baijinColor: true,
+							goldColor: false,
+						}
+					// obj.levelStatus ='ordinary'
+					obj.levelStatus = 'silver'
+					return obj
+				}
+				if (this.getUserInfos?.status === 2) {
+					obj.levelName = '普通会员',
+						obj.levelstyle = {
+							baijinColor: true,
+							goldColor: false,
+						}
+					obj.levelStatus = 'silver'
+					return obj
+				}
+				if (this.getUserInfos?.status === 3) {
+					obj.levelName = '高级会员',
+						obj.levelstyle = {
+							baijinColor: false,
+							goldColor: true,
+						}
+					obj.levelStatus = 'gold'
+					return obj
+				}
+				return obj
+			}
 
 
 		}
