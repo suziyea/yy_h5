@@ -8,12 +8,14 @@
 				<!--  账号 -->
 				<view class="inputView u-flex u-flex-items-center">
 					<image class="nameImage" src="@/static/icon/login_uername.png"></image>
-					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.username" placeholder="请输入用户名" />
+					<input class="inputText" placeholder-class='input-placeholder' v-model="username"
+						placeholder="请输入用户名" />
 				</view>
 				<!-- 密码 -->
 				<view class="inputView u-flex u-flex-items-center">
 					<image class="nameImage" src="@/static/icon/login_pwd.png"></image>
-					<input class="inputText" placeholder-class='input-placeholder' v-model="userInfo.password" password="true" placeholder="请输入密码" />
+					<input class="inputText" placeholder-class='input-placeholder' v-model="password" password="true"
+						placeholder="请输入密码" />
 				</view>
 
 				<!-- 注册button -->
@@ -43,10 +45,8 @@
 		data() {
 			return {
 				seconds: 60,
-				userInfo: {
-					username: '',
-					password: ''
-				},
+				username: '',
+				password: '',
 				formContent: {
 					smsCode: '',
 					phone: ''
@@ -67,15 +67,25 @@
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
 			},
-			
+
 			goLogin() {
 				uni.redirectTo({
 					url: '/pages/login/login'
 				});
 			},
-			
+
 			submit() {
-				register(this.userInfo)
+				let params = {
+					username: uni.$u.trim(this.username,'all'),
+					password: uni.$u.trim(this.password,'all')
+				}
+				register(params).then((res) => {
+					if (res.code === 100000) {
+						uni.navigateTo({
+							url: '/pages/login/login'
+						})
+					}
+				})
 				return;
 				this.$refs.formContentRef.validate().then(res => {
 					let {
@@ -184,7 +194,7 @@
 						width: 30rpx;
 						height: 32rpx;
 					}
-					
+
 					.inputText {
 						font-size: 32rpx;
 						font-family: PingFangSC-Regular, PingFang SC;
@@ -235,7 +245,7 @@
 			opacity: 0.7;
 			z-index: 2;
 		}
-		
+
 		/deep/ .input-placeholder {
 			font-size: 32rpx;
 			font-family: PingFangSC-Regular, PingFang SC;

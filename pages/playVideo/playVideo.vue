@@ -1,8 +1,9 @@
 <template>
 	<view class="container_video">
 		<view class="video_content">
-			<video :src="src"></video>
-			<view class="playImg">
+			<video id="myVideo" :src="src" :show-center-play-btn='false' :show-mute-btn='true' title="视频标题" :enable-play-gesture='true'
+				@timeupdate="video_timeupdate" @play='handleplayVideo' @error="videoErrorCallback" @pause='pauseVideo'></video>
+			<view class="playImg" @click="playVideo" v-if="playVideoBtnStatus">
 				<image src="/static/icon/big_play.png" mode=""></image>
 			</view>
 		</view>
@@ -56,11 +57,36 @@
 	export default {
 		data() {
 			return {
-				src: 'https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4'
+				src: 'https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4',
+				createVideoContext: '',
+				playVideoBtnStatus: true, // 默认显示
 			}
 		},
+		onReady(res) {
+			this.createVideoContext = uni.createVideoContext('myVideo')
+		},
+		onLoad(options) {
+			// this.createVideoContext = uni.createVideoContext('myVideo');
+		},
 		methods: {
-
+			videoErrorCallback: function(e) {
+				console.log('视频错误信息:')
+				console.log(e.target.errMsg)
+			},
+			video_timeupdate() {
+				console.log('你好啊video---')
+			},
+			handleplayVideo(e) {
+				console.log(e, '这是')
+			},
+			playVideo() {
+				console.log(this.createVideoContext,'哈哈哈00')
+				this.createVideoContext.play()
+				this.playVideoBtnStatus = false
+			},
+			pauseVideo() {
+				this.playVideoBtnStatus = true
+			}
 		}
 	}
 </script>

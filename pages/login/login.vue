@@ -94,7 +94,7 @@
 						// uni.switchTab({
 						// 	url: '/pages/index/index'
 						// })
-						
+
 					}
 				})
 				return;

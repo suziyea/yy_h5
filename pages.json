@@ -10,6 +10,19 @@
 		// 	}
 		// },
 		{
+			"path": "pages/playVideo/playVideo",
+			"style": {
+				"navigationBarTitleText": "视频播放",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#3D3C3A",
+				"navigationBarTextStyle":"white",
+				"h5": {
+					"titleNView": false
+				}
+			}
+		
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -36,8 +49,10 @@
 		}, {
 			"path": "pages/mine/mine",
 			"style": {
-				"navigationBarTitleText": "我的",
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#3D3C3A",
+				"navigationBarTextStyle":"white",
 				"enablePullDownRefresh": false
 			}
 
@@ -62,7 +77,12 @@
 			"path": "pages/mine/feedback/feedback",
 			"style": {
 				"navigationBarTitleText": "反馈",
-				"enablePullDownRefresh": false
+				"navigationBarBackgroundColor": "#3D3C3A",
+				"navigationBarTextStyle":"white",
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
@@ -119,29 +139,43 @@
 		}, {
 			"path": "pages/bigArea/bigArea",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "大区",
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
 			"path": "pages/mine/likePage/likePage",
 			"style": {
 				"navigationBarTitleText": "喜欢",
-				"enablePullDownRefresh": false
+				"navigationBarBackgroundColor": "#3D3C3A",
+				"navigationBarTextStyle":"white",
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
 			"path": "pages/mine/payRecord/payRecord",
 			"style": {
 				"navigationBarTitleText": "消费记录",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
 			"path": "pages/bigArea/welfareAddress/welfareAddress",
 			"style": {
 				"navigationBarTitleText": "福利地址",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
@@ -156,23 +190,32 @@
 			"path": "pages/dataDetail/dataDetail",
 			"style": {
 				"navigationBarTitleText": "详细信息",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
 			"path": "pages/mine/equity/equity",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "我的权益",
+				"navigationBarBackgroundColor": "#3D3C3A",
+				"navigationBarTextStyle":"white",
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
 			"path": "pages/playVideo/playVideo",
 			"style": {
 				"navigationBarTitleText": "视频详情",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}
@@ -190,21 +233,30 @@
 			"path": "h5PrivacyAgreement/h5PrivacyAgreement",
 			"style": {
 				"navigationBarTitleText": "h5隐私协议",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
 			"path": "assessAgreement/assessAgreement",
 			"style": {
 				"navigationBarTitleText": "会员用户协议",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}, {
 			"path": "appPrivacyAgreement/appPrivacyAgreement",
 			"style": {
 				"navigationBarTitleText": "app隐私协议",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"h5": {
+					"titleNView": false
+				}
 			}
 
 		}]
