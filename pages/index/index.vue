@@ -3,6 +3,9 @@
 		<!-- <flipcard ref="stack" :pages="stackList" @click="handleStackClicked"></flipcard> -->
 		<view class="home_content u-flex  u-flex-column  u-flex-items-center">
 			<view class="mm_card_container">
+				<!-- <view v-if="actionName!=''"
+					style="color:#fff;background: rgba(0,0,0,.3);padding:10px 20px;font-size:24px;position: absolute;z-index:999;left: 50%;top:50%;transform: translate(-50%,-50%);">
+					{{actionName}}</view> -->
 				<Flycard @onDragMove='onCardDragMove' @onDragStop='onCardDragStop' @onThrowDone='onCardThrowDone'
 					:cardWidth="654" :cardHeight="892" :throwTriggerDistance="100" dragDirection="horizontal"
 					:hasShadow="true">
@@ -22,9 +25,21 @@
 						</view>
 					</view>
 				</Flycard>
+				<view class="desc_container">
+					<view class="sister_name u-flex   u-flex-items-center">
+						珍妮Jenny
+					</view>
+					<view class="address u-flex  u-flex-items-center">
+						<image src="/static/icon/detail_map.png" mode="aspectFill"></image>
+						<view class="add u-flex  u-flex-center u-flex-items-center">
+							上海
+						</view>
+					</view>
+					
+				</view>
 			</view>
-			
-			<!-- <view class="actionBar u-flex  u-flex-center u-flex-items-center">
+
+			<view class="actionBar u-flex  u-flex-center u-flex-items-center">
 				<view class="action_container u-flex u-flex-items-center u-flex-between">
 					<view class="next_view action_img u-flex  u-flex-center u-flex-items-center">
 						<image src="/static/img/home_next.png" mode="aspectFill"></image>
@@ -33,7 +48,7 @@
 						<image src="/static/img/home_like.png" mode="aspectFill"></image>
 					</view>
 				</view>
-			</view> -->
+			</view>
 
 		</view>
 		<view class="tab">
@@ -59,7 +74,7 @@
 		data() {
 			return {
 				title: 'Hello',
-				actionName: "",
+				actionName: "22",
 				// cards: [{
 				// 		image: "/static/img/login/p1.jpeg"
 				// 	},
@@ -133,7 +148,7 @@
 			onCardThrowDone(obj) {
 				console.log('122')
 				this.cards.splice(0, 1);
-			}
+			},
 		}
 	}
 </script>
@@ -159,23 +174,62 @@
 				padding: 0 48rpx;
 				box-sizing: border-box;
 				border: 2px solid red;
+				position: relative;
+				.desc_container {
+					position: absolute;
+					bottom: 40rpx;
+					left: 24rpx;
+					border: 1px crimson solid;
+					.sister_name {
+						width: 400rpx;
+						height: 76rpx;
+						font-size: 48rpx;
+						font-family: PingFangSC-Medium, PingFang SC;
+						font-weight: 500;
+						color: #FFFFFF;
+						border: 1px solid red;
+						
+					}
+					.address {
+						image {
+							width: 48rpx;
+							height: 48rpx;
+						}
+						.add {
+							font-size: 28rpx;
+							font-family: PingFangSC-Regular, PingFang SC;
+							font-weight: 400;
+							color: #FFFFFF;
+						}
+					}
+				}
 			}
+			.mm_card_container::after {
+				position: absolute;
+				width: 750rpx;
+				height: 940rpx;
+				background: rgba(210, 169, 111, 0.6) !important;
+				content: "";
+				top: 0;
+				left: 0;
+			}
+
 			.actionBar {
 				width: 100%;
 				height: 240rpx;
 				border: 1px solid green;
+
 				.action_container {
 					width: 100%;
 					height: 100%;
 					padding: 0 100rpx;
 					box-sizing: border-box;
+
 					// border: 2px solid hotpink;
-					.next_view {
-						
-					}
-					.like_view {
-						
-					}
+					.next_view {}
+
+					.like_view {}
+
 					.action_img {
 						image {
 							width: 120rpx;
