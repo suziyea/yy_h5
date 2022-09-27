@@ -8,7 +8,7 @@ export const getSisterList = (params, config = {
 
 
 // 获取详情
-export const geSisterDetail = (params, config = {
+export const getSisterDetail = (params, config = {
 	custom: {
 		auth: true
 	}

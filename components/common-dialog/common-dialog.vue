@@ -75,11 +75,11 @@
 		left: 50%;
 		margin-left: -40%;
 		width: 80%;
-		background-color: #FFFFFF;
 		padding-bottom: 60upx;
 		color: #333333;
 		font-size: 28upx;
-		border-radius: 20upx;
+		background: #FFFFFF;
+		border-radius: 32rpx;
 
 		.title {
 			padding: 46upx 0 37upx 0;
@@ -110,10 +110,12 @@
 		.content {
 			width: 80%;
 			margin: 0 auto;
-			font-size: 28upx;
 			text-align: center;
-			color: #333333;
-			padding-bottom: 30upx;
+			font-size: 28rpx;
+			font-family: PingFangSC-Regular, PingFang SC;
+			font-weight: 400;
+			color: #444444;
+			padding-bottom: 30rpx;
 		}
 
 		.content_bottom {
@@ -125,36 +127,28 @@
 
 		.cancel {
 			width: 100%;
-			height: 84upx;
+			height: 82rpx;
 			text-align: center;
-			line-height: 84upx;
-			// color: #FFFFFF;
+			line-height: 82rpx;
 			color: rgb(111, 111, 111);
-			margin: 30upx 30upx 0 auto;
-			// background-image: linear-gradient(-90deg, #ff7510 0%, #ff9000 100%);
+			margin: 30rpx 30rpx 0 auto;
 			background: rgb(255, 255, 255);
-			border-radius: 42upx;
+			border-radius: 42rpx;
 			border: 1px solid rgb(179, 179, 179);
-			// border-color: rgb(179, 179, 179);
 		}
 
 		.confirm {
 			width: 100%;
-			height: 82upx;
+			height: 82rpx;
 			text-align: center;
-			line-height: 82upx;
-			color: #FFFFFF;
-			margin: 30upx auto 0 auto;
-			// background-image: linear-gradient(-90deg, #ff7510 0%, #ff9000 100%);
-			// background-image: linear-gradient(-90deg,#3E3EFF 0%, #8888FF 100%);
-			// background: rgb(23, 94, 255);
-			// border: 1px solid rgb(22, 103, 242);
-background: linear-gradient(90deg, #EFD4AF 0%, #C1914B 100%);
-border-radius: 48rpx;
-
-
-
-			border-radius: 42upx;
+			line-height: 82rpx;
+			margin: 30rpx auto 0 auto;
+			background: linear-gradient(90deg, #EFD4AF 0%, #C1914B 100%);
+			border-radius: 48rpx;
+			font-size: 32rpx;
+			font-family: PingFangSC-Medium, PingFang SC;
+			font-weight: 500;
+			color: #7F5D2E;
 		}
 
 		.button_layout {

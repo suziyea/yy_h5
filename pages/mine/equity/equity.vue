@@ -135,63 +135,6 @@
 				}
 			},
 		},
-		computed: {
-			privilegeList() {
-				let privilegeObj = [{
-						"text": "一对一福利",
-						"img": "/static/icon/privilege_silver_welfare.png",
-					}, {
-						"text": "推荐福利APP",
-						"img": "/static/icon/privilege_silver_app.png",
-					},
-					{
-						"text": "福利网站地址",
-						"img": "/static/icon/privilege_silver_web.png",
-					},
-				]
-				if (this.current === 1) {
-					privilegeObj = [{
-							"text": "一对一福利",
-							"img": "/static/icon/privilege_gold_welfare.png",
-						}, {
-							"text": "推荐福利APP",
-							"img": "/static/icon/privilege_gold_app.png",
-						},
-						{
-							"text": "福利网站地址",
-							"img": "/static/icon/privilege_gold_web.png",
-						},
-						{
-							"text": "新人首次免费安排",
-							"img": "/static/icon/privilege_gold_newMember.png",
-						},
-						{
-							"text": "会员福利群",
-							"img": "/static/icon/privilege_gold_membergroup.png",
-						},
-						{
-							"text": "专属客服一对一服务",
-							"img": "/static/icon/privilege_gold_kefu.png",
-						},
-					]
-				}
-				return privilegeObj;
-			},
-			styleStatus() {
-				let styleObj = {
-					silver_color: true,
-					silver_background_btn: true
-				}
-
-				if (this.current === 1) {
-					styleObj = {
-						gold_color: true,
-						gold_background_btn: true
-					}
-				}
-				return styleObj;
-			}
-		},
 		methods: {
 			// 轮播图切换时
 			changeSwiper(e) {
@@ -263,7 +206,49 @@
 					return obj
 				}
 				return obj
-			}
+			},
+			privilegeList() {
+				let privilegeObj = [{
+						"text": "一对一福利",
+						"img": "/static/icon/privilege_silver_welfare.png",
+					}, {
+						"text": "推荐福利APP",
+						"img": "/static/icon/privilege_silver_app.png",
+					},
+					{
+						"text": "福利网站地址",
+						"img": "/static/icon/privilege_silver_web.png",
+					},
+				]
+				if (this.current === 1) {
+					privilegeObj = []
+					privilegeObj = [{
+							"text": "一对一福利",
+							"img": "/static/icon/privilege_gold_welfare.png",
+						}, {
+							"text": "推荐福利APP",
+							"img": "/static/icon/privilege_gold_app.png",
+						},
+						{
+							"text": "福利网站地址",
+							"img": "/static/icon/privilege_gold_web.png",
+						},
+						{
+							"text": "新人首次免费安排",
+							"img": "/static/icon/privilege_gold_newMember.png",
+						},
+						{
+							"text": "会员福利群",
+							"img": "/static/icon/privilege_gold_membergroup.png",
+						},
+						{
+							"text": "专属客服一对一服务",
+							"img": "/static/icon/privilege_gold_kefu.png",
+						},
+					]
+				}
+				return privilegeObj;
+			},
 
 
 		}
@@ -430,10 +415,10 @@
 
 				.tips_content {
 					position: absolute;
-					height: 26px;
-					padding: 0 30rpx;
+					width: 292rpx;
+					height: 48rpx;
 					background: linear-gradient(180deg, #3A3938 0%, #93908B 100%);
-					border-radius: 28rpx;
+					border-radius: 48rpx;
 					font-size: 24rpx;
 					font-family: PingFangSC-Medium, PingFang SC;
 					font-weight: 500;

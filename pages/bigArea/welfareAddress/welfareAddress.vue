@@ -1,8 +1,8 @@
 <template>
 	<view class="welfare_container">
-		<view class="content u-flex u-flex-items-center" v-for="(item,index) in 30" :key="index">
+		<view class="content u-flex u-flex-items-center" v-for="(item,index) in websiteAddrList" :key="index">
 			<view class="name ellipsis">
-				福利名称{{index}}
+				{{item.name}}
 			</view>
 			<view class="btn u-flex u-flex-center u-flex-items-center">
 				点击进入
@@ -12,14 +12,33 @@
 </template>
 
 <script>
+	import {
+		getWebsiteList
+	} from "@/config/api/product.js";
+
 	export default {
 		data() {
 			return {
-
+				websiteAddrList: []
 			}
 		},
+		created() {
+			this.storageUserInfo = uni.getStorageSync('userInfo');
+			this.initData()
+		},
 		methods: {
-
+			initData() {
+				this.getDetails()
+			},
+			getDetails() {
+				getWebsiteList({}).then((res) => {
+					if (res.code === 100000) {
+						this.websiteAddrList = res?.data || {}
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			}
 		}
 	}
 </script>
@@ -59,11 +78,12 @@
 				color: #EDDBC3;
 				line-height: 34rpx;
 			}
-			
+
 		}
+
 		.content:last-child {
 			margin-bottom: 30rpx;
 		}
-		
+
 	}
 </style>

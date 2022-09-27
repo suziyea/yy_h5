@@ -1,7 +1,7 @@
 <template>
 	<view class="container" v-if="true">
-		<common-dialog v-if="showDialog" title="温馨提示" content="您确认要注销账户吗！" :showCancel="true"
-			confirmText="重新绑卡" cancelText="原卡重试" v-on:on-click-dialog="onClickDialog"></common-dialog>
+		<common-dialog v-if="showDialog" title="温馨提示" content="您确认要注销账户吗！" confirmText="确认"
+			v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<view class="bgBox">
 			<view class="userInfo">
 				<view class="avatar">
@@ -93,7 +93,7 @@
 	import store from "@/store"
 	import Tabbar from '@/components/tabbar/Tarbar.vue'
 	import {
-		getQy,
+		deleteUser,
 		getUserInfo
 	} from "@/config/api/user.js";
 	import Tarbar from '@/components/tabbar/Tarbar.vue'
@@ -242,21 +242,13 @@
 					return;
 				}
 				if (item.enName === 'logout') {
-					this.showDialog = false
+					this.showDialog = true
 					return;
 				}
-				// uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
 				uni.navigateTo({
 					url: `${item.path}`
 				});
 				return;
-				// if (item.enName === 'look') {
-				// 	uni.$u.route('/subpages/assessAgreement/assessAgreement')
-				// 	uni.navigateTo({
-				// 		url: `test?id=1&name=${new Date().getTime()}`
-				// 	});
-				// 	return;
-				// }
 			},
 			confirm() {
 				this.showModal = false;
@@ -267,11 +259,16 @@
 			},
 			onClickDialog(event) {
 				if (event == 'confirm') {
-					this.LOGOUT()
-					uni.navigateTo({
-						url: '/pages/login/login'
-					});
-					return;
+					deleteUser().then((res) => {
+						if (res.code === 100000) {
+							this.LOGOUT()
+							uni.navigateTo({
+								url: '/pages/login/login'
+							});
+							return;
+						}
+
+					})
 				}
 				this.showDialog = false
 			},

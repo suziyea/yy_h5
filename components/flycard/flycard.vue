@@ -5,7 +5,7 @@
 			<view class="card" style="z-index: 13;"
 				:style="{width:cardWidth+'rpx',height:cardHeight+'rpx',left:left+'rpx',top:top+'rpx','border-radius':borderRadius+'rpx',backgroundColor:cardBgColor}"
 				:class="{'animation':isAnimating,'shadowEffect':hasShadow,'boderEffect':hasBorder}"
-				@touchstart="touchStart" @touchmove="touchMove" @touchcancel="touchCancel" @touchend="touchCancel">
+				@touchstart="touchStart" @touchmove="touchMove" @touchcancel="touchCancel" @touchend="touchCancel" @click="clickCard">
 				<slot name="firstCard"></slot>
 			</view>
 			<view class="card" style="z-index: 12;"
@@ -118,6 +118,9 @@
 			};
 		},
 		methods: {
+			clickCard() {
+			// console.log('点击了噢')	
+			},
 			getDistance: function(x1, y1, x2, y2) {
 				var _x = Math.abs(x1 - x2);
 				var _y = Math.abs(y1 - y2);

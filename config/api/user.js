@@ -87,3 +87,8 @@ export const register = (params, config = {}) => {
 }
 // get请求
 export const getMenu = (data) => http.get('url', data)
+
+// 注销
+export const deleteUser = (params, config = {}) => {
+	return http.post('/api/yy/user/delete', params, config)
+}

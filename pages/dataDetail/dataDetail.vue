@@ -3,7 +3,9 @@
 		<!-- 详情图片 -->
 		<view class="sisterImg">
 			<!-- <img src="/static/img/login/p1.jpeg" alt=""> -->
-			<image src="/static/img/login/p1.jpeg" mode=""></image>
+			<!-- <image src="/static/img/login/p1.jpeg" mode=""></image> -->
+			<u-swiper :list="list3" indicator indicatorMode="dot" height="416" indicatorStyle='bottom: 90px'
+				indicatorActiveColor="#BD9762" circular></u-swiper>
 		</view>
 		<!-- 资料卡 -->
 		<view class="data_card">
@@ -99,15 +101,26 @@
 					<view class="text">立即预约</view>
 				</view>
 			</view>
-			
+
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		getSisterDetail
+	} from "@/config/api/sister.js";
 	export default {
 		data() {
 			return {
+				list3: [
+					'/static/img/login/p1.jpeg',
+					'/static/img/login/p2.jpeg',
+					'/static/img/login/p3.jpeg',
+				],
+				indicatorStyle: {
+					bottom: 66
+				},
 				detailImgs: [{
 						image: "/static/img/login/p1.jpeg"
 					},
@@ -129,8 +142,25 @@
 				]
 			}
 		},
+		created() {
+			this.storageUserInfo = uni.getStorageSync('userInfo');
+			this.initData()
+		},
 		methods: {
-
+			initData() {
+				this.getDetails()
+			},
+			getDetails() {
+				getSisterDetail({
+					id: 1,
+				}).then((res) => {
+					if (res.code === 100000) {
+						this.userAssessInfo = res?.data || {}
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			}
 		}
 	}
 </script>
@@ -144,6 +174,7 @@
 		.sisterImg {
 			width: 750rpx;
 			height: 832rpx;
+			box-sizing: border-box;
 
 			image {
 				width: 750rpx;
@@ -239,6 +270,7 @@
 						padding: 20rpx 20rpx;
 						box-sizing: border-box;
 					}
+
 					.ml_12 {
 						margin-left: 12rpx;
 					}
@@ -253,12 +285,13 @@
 					}
 				}
 			}
+
 			.baseInfoTips:last-child {
 				margin-bottom: 128rpx;
 			}
 
 		}
-		
+
 		.bottomTabbar {
 			width: 750rpx;
 			height: 128rpx;
@@ -267,12 +300,15 @@
 			position: fixed;
 			left: 0;
 			bottom: 0;
-			box-shadow: 0rpx -12rpx 32px 0rpx rgba(0,0,0,0.05);
+			box-shadow: 0rpx -12rpx 32px 0rpx rgba(0, 0, 0, 0.05);
 			box-sizing: border-box;
+
 			.subscribe_view {
 				width: 100%;
+
 				.price {
 					margin-right: auto;
+
 					.money {
 						font-size: 32rpx;
 						font-family: PingFangSC-Semibold, PingFang SC;
@@ -280,6 +316,7 @@
 						color: #F72B2B;
 						line-height: 44rpx;
 					}
+
 					.text {
 						font-size: 24rpx;
 						font-family: PingFangSC-Regular, PingFang SC;
@@ -288,7 +325,7 @@
 						line-height: 34rpx;
 					}
 				}
-				
+
 				.subscribeBtn {
 					width: 548rpx;
 					height: 96rpx;
@@ -301,8 +338,8 @@
 					line-height: 40rpx;
 				}
 			}
-			
-			
+
+
 		}
 
 		.sisterImg::after {

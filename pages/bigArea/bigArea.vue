@@ -38,12 +38,13 @@
 					<!-- 产品列表 - 内容 -->
 					<view class="product_content ">
 						<view class="product_video u-flex u-flex-wrap u-flex-between" v-if="productTabIndex === 1">
-							<view class="single_video" v-for="(item,index) in 20" :key="index"
+							<view class="single_video" v-for="(item,index) in videoList" :key="index"
 								@click="()=>enterProduct('video',item)">
 								<view class="video">
 
 									<view class="img">
-										<image src="/static/icon/small_play.png" mode=""></image>
+										<!-- <image src="/static/icon/small_play.png" mode=""></image> -->
+										<image :src="item.video" mode=""></image>
 									</view>
 								</view>
 								<view class="desc u-flex  u-flex-items-center">
@@ -55,10 +56,11 @@
 
 						<view class="product_mm_content" v-else>
 							<view class="photo_content u-flex u-flex-wrap u-flex-between">
-								<view class="photoInfo" v-for="(item,index) in 20" :key="index"
+								<view class="photoInfo" v-for="(item,index) in videoList" :key="index"
 									@click="() => enterProduct('photo',item)">
 									<view class="image">
-										<image src="/static/img/login/p2.jpeg" mode=""></image>
+										<!-- <image src="/static/img/login/p2.jpeg" mode=""></image> -->
+										<image :src="item.video" mode=""></image>
 									</view>
 									<view class="nicheng">
 										珍妮Jenny珍妮Jenny
@@ -68,7 +70,8 @@
 										<text class="city">上海</text>
 									</view>
 									<view class="like">
-										<image src="/static/icon/like.png" mode=""></image>
+										<!-- <image src="/static/icon/like.png" mode=""></image> -->
+										<image src="/static/icon/nolike.png" mode=""></image>
 									</view>
 								</view>
 							</view>
@@ -134,16 +137,19 @@
 			}
 		},
 		created() {
-			this.getInitList()
+			this.initData()
 		},
 		methods: {
-			getInitList() {
+			initData() {
+				this.getInitVideoList()
+			},
+			getInitVideoList() {
 				getVideoList({}).then((res) => {
 					if (res.code === 100000) {
 						// if (res?.data?.length > 0) {
 						// 	this.orderList = res?.data
 						// }
-						this.videoList = res?.data
+						this.videoList = res?.data.list
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
@@ -162,6 +168,7 @@
 			handleTab(val) {
 				if (val === this.productTabIndex) return;
 				this.productTabIndex = val
+				this.costTypeTabIndex = 0
 			},
 			handlecostTypeTab(i) {
 				if (i === this.costTypeTabIndex) return;
@@ -169,10 +176,17 @@
 			},
 
 			enterProduct(type, val) {
+				console.log(type, val, '坎坎坷坷')
 				if (type === 'video') {
-					uni.navigateTo({
-						url: `/pages/playVideo/playVideo?id=${val}&name=${new Date().getTime()}`
-					});
+					try {
+						uni.setStorageSync('about_video_info', val);
+						uni.navigateTo({
+							url: `/pages/playVideo/playVideo?id=${val}&s=${new Date().getTime()}`
+						});
+					} catch (e) {
+						// error
+					}
+
 					return;
 				}
 				if (type === 'photo') {

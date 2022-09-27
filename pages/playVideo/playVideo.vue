@@ -1,8 +1,9 @@
 <template>
 	<view class="container_video">
 		<view class="video_content">
-			<video id="myVideo" :src="src" :show-center-play-btn='false' :show-mute-btn='true' title="视频标题" :enable-play-gesture='true'
-				@timeupdate="video_timeupdate" @play='handleplayVideo' @error="videoErrorCallback" @pause='pauseVideo'></video>
+			<video id="myVideo" :src="videoInfos.video" :show-center-play-btn='false' :show-mute-btn='true'
+				:title="videoInfos.title" :enable-play-gesture='true' @timeupdate="video_timeupdate"
+				@play='handleplayVideo' @error="videoErrorCallback" @pause='pauseVideo'></video>
 			<view class="playImg" @click="playVideo" v-if="playVideoBtnStatus">
 				<image src="/static/icon/big_play.png" mode=""></image>
 			</view>
@@ -11,17 +12,14 @@
 		<!-- 视频介绍 -->
 		<view class="video_introduce u-flex u-flex-column u-flex-center ">
 			<view class="desc ">
-				视频标题视频标题视频标题视频标题视频标题
-				视频标题视频标题视频标题视频标题视频标题
-				视频标题视频标题视频标题视频标题视频标题
-
+				{{videoInfos.remark}}
 			</view>
 			<view class="info u-flex">
 				<view class="left_text ellipsis">
-					珍妮Jenny
+					{{videoInfos.title}}
 				</view>
 				<view class="right_text ellipsis">
-					china
+					{{videoInfos.created_at | formatDateTime}}
 				</view>
 			</view>
 		</view>
@@ -54,12 +52,15 @@
 </template>
 
 <script>
+	import moment from "moment";
+
 	export default {
 		data() {
 			return {
 				src: 'https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4',
 				createVideoContext: '',
 				playVideoBtnStatus: true, // 默认显示
+				videoInfos: null,
 			}
 		},
 		onReady(res) {
@@ -67,6 +68,9 @@
 		},
 		onLoad(options) {
 			// this.createVideoContext = uni.createVideoContext('myVideo');
+		},
+		created() {
+			this.videoInfos = uni.getStorageSync('about_video_info');
 		},
 		methods: {
 			videoErrorCallback: function(e) {
@@ -80,14 +84,20 @@
 				console.log(e, '这是')
 			},
 			playVideo() {
-				console.log(this.createVideoContext,'哈哈哈00')
+				console.log(this.createVideoContext, '哈哈哈00')
 				this.createVideoContext.play()
 				this.playVideoBtnStatus = false
 			},
 			pauseVideo() {
 				this.playVideoBtnStatus = true
 			}
-		}
+		},
+		filters: {
+			formatDateTime(val) {
+				return moment(val).format('YYYY-MM-DD HH:mm:ss');
+			}
+
+		},
 	}
 </script>
 <style lang="scss" scoped>
@@ -149,7 +159,7 @@
 				margin-top: 22rpx;
 
 				.left_text {
-					width: 400rpx;
+					width: 160rpx;
 					height: 36rpx;
 					font-size: 24rpx;
 					font-family: PingFangSC-Medium, PingFang SC;
@@ -160,7 +170,6 @@
 
 				.right_text {
 					margin-left: auto;
-					width: 200rpx;
 					height: 40rpx;
 					font-size: 20rpx;
 					font-family: PingFangSC-Regular, PingFang SC;

@@ -82,3 +82,9 @@ export const getVideoList = (params, config = {
 	}
 }) => http.post('/api/video/list/get', params, config)
 
+// 获取站点列表
+export const getWebsiteList = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/website-address/search', params, config)
