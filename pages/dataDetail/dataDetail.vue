@@ -13,15 +13,15 @@
 			<view class="address_info u-flex u-flex-center u-flex-items-center">
 				<view class="petusename">
 					<view class="info_name ellipsis">
-						珍妮Jenny
+						{{mm_sisterInfo.name}}
 					</view>
 					<view class="base  u-flex u-flex-center u-flex-items-center">
 						<image src="/static/icon/detail_map.png" mode=""></image>
-						<view class="text ellipsis">上海</view>
+						<view class="text ellipsis">{{mm_sisterInfo.address}}</view>
 					</view>
 				</view>
 				<view class="age">
-					18岁
+					{{mm_sisterInfo.age}}
 				</view>
 			</view>
 
@@ -31,20 +31,8 @@
 					基本资料
 				</view>
 				<view class="tips_container u-flex u-flex-wrap ">
-					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center">
-						年龄：18岁
-					</view>
-					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center">
-						年龄：18岁
-					</view>
-					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center">
-						服务城市：上海
-					</view>
-					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center">
-						服务城市：上海
-					</view>
-					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center">
-						服务城市：上海
+					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center" v-for="(item,index) in mm_sisterInfo.base_data" :key="index">
+						{{item}}
 					</view>
 				</view>
 			</view>
@@ -56,9 +44,10 @@
 				</view>
 				<view class="tips_container u-flex u-flex-wrap u-flex-between">
 					<view class="tip u-flex u-flex-center u-flex-items-center">
-						空闲时间段：晚上8-凌晨6点
+						<!-- 空闲时间段：晚上8-凌晨6点 -->
+						{{mm_sisterInfo.free_time}}
 					</view>
-					<view class="view_contact u-flex u-flex-center u-flex-items-center">
+					<view class="view_contact u-flex u-flex-center u-flex-items-center" @click="lookContact">
 						查看联系方式
 					</view>
 				</view>
@@ -71,10 +60,7 @@
 				</view>
 				<view class="tips_container u-flex u-flex-wrap u-flex-between">
 					<view class="tip u-flex u-flex-center u-flex-items-center">
-						温柔体贴温柔体贴温柔体贴温柔体贴温柔体贴
-						温柔体贴温柔体贴温柔体贴温柔体贴温柔体贴
-						温柔体贴温柔体贴温柔体贴温柔体贴温柔体贴
-						温柔体贴温柔体贴温柔体贴温柔体贴温柔体贴
+						{{mm_sisterInfo.remark}}
 					</view>
 				</view>
 			</view>
@@ -94,11 +80,12 @@
 		<view class="bottomTabbar u-flex u-flex-center u-flex-items-center">
 			<view class="subscribe_view u-flex  u-flex-items-center">
 				<view class="price">
-					<view class="money">999.00</view>
+					<view class="money">{{mm_sisterInfo.price}}</view>
 					<view class="text">元/次</view>
 				</view>
 				<view class="subscribeBtn u-flex u-flex-center u-flex-items-center">
-					<view class="text">立即预约</view>
+					<view class="text" @click="clicksubscribe">立即预约</view>
+
 				</view>
 			</view>
 
@@ -108,38 +95,60 @@
 
 <script>
 	import {
-		getSisterDetail
+		getSisterDetail,
+		getMoreSisterContact,
+		amOrder
 	} from "@/config/api/sister.js";
 	export default {
 		data() {
 			return {
 				list3: [
-					'/static/img/login/p1.jpeg',
-					'/static/img/login/p2.jpeg',
-					'/static/img/login/p3.jpeg',
+					// '/static/img/login/p1.jpeg',
+					// '/static/img/login/p2.jpeg',
+					// '/static/img/login/p3.jpeg',
+					'https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF',
+					'https://t7.baidu.com/it/u=2295973985,242574375&fm=193&f=GIF'
+
+
 				],
 				indicatorStyle: {
 					bottom: 66
 				},
+				// detailImgs: [{
+				// 		image: "/static/img/login/p1.jpeg"
+				// 	},
+				// 	{
+				// 		image: "/static/img/login/p2.jpeg"
+				// 	},
+				// 	{
+				// 		image: "/static/img/login/p3.jpeg"
+				// 	},
+				// 	{
+				// 		image: "/static/img/login/p4.jpeg"
+				// 	},
+				// 	{
+				// 		image: "/static/img/login/p5.jpeg"
+				// 	},
+				// 	{
+				// 		image: "/static/img/login/p8.jpeg"
+				// 	}
+				// ],
 				detailImgs: [{
-						image: "/static/img/login/p1.jpeg"
-					},
-					{
-						image: "/static/img/login/p2.jpeg"
-					},
-					{
-						image: "/static/img/login/p3.jpeg"
-					},
-					{
-						image: "/static/img/login/p4.jpeg"
-					},
-					{
-						image: "/static/img/login/p5.jpeg"
-					},
-					{
-						image: "/static/img/login/p8.jpeg"
-					}
-				]
+					image: 'https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF'
+				}, {
+					image: 'https://t7.baidu.com/it/u=2295973985,242574375&fm=193&f=GIF'
+				}, {
+					image: 'https://t7.baidu.com/it/u=1522757721,1408622889&fm=193&f=GIF'
+				}, {
+					image: 'https://t7.baidu.com/it/u=192600061,2605776202&fm=193&f=GIF'
+				}, {
+					image: 'https://t7.baidu.com/it/u=1385589637,1465073693&fm=193&f=GIF'
+				}, {
+					image: 'https://t7.baidu.com/it/u=27018761,936335273&fm=193&f=GIF'
+				}],
+				mm_sisterInfo: null,
+				moreContactInfo: [],
+				order_no: ''
 			}
 		},
 		created() {
@@ -155,7 +164,25 @@
 					id: 1,
 				}).then((res) => {
 					if (res.code === 100000) {
-						this.userAssessInfo = res?.data || {}
+						this.mm_sisterInfo = res?.data || {}
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
+			lookContact() {
+				getMoreSisterContact({id: 1}).then((res) => {
+					if (res.code === 100000) {
+						this.moreContactInfo = res?.data?.more_contract || []
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
+			clicksubscribe() {
+				amOrder({sister_id: 1}).then((res) => {
+					if (res.code === 100000) {
+						this.order_no = res?.data?.order_no || ''
 					}
 				}).catch((err) => {
 					console.log(err, 'err');

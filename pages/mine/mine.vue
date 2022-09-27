@@ -15,7 +15,7 @@
 						登录
 					</navigator>
 				</view>
-				<view class="memberLevel">
+				<view class="memberLevel" @click="handleListItem({path:'/pages/mine/equity/equity'})">
 					<view class="text" :class="membershipLevel.levelstyle">{{membershipLevel.levelName}}</view>
 					<view class="memberImg">
 						<image

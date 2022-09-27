@@ -3,7 +3,7 @@
 		<view class="video_content">
 			<video id="myVideo" :src="videoInfos.video" :show-center-play-btn='false' :show-mute-btn='true'
 				:title="videoInfos.title" :enable-play-gesture='true' @timeupdate="video_timeupdate"
-				@play='handleplayVideo' @error="videoErrorCallback" @pause='pauseVideo'></video>
+				@play='handleplayVideo' @error="videoErrorCallback" @pause='pauseVideo' @click="isPlayVideo"></video>
 			<view class="playImg" @click="playVideo" v-if="playVideoBtnStatus">
 				<image src="/static/icon/big_play.png" mode=""></image>
 			</view>
@@ -53,6 +53,9 @@
 
 <script>
 	import moment from "moment";
+	import {
+		scoreVideo
+	} from "@/config/api/product.js";
 
 	export default {
 		data() {
@@ -61,16 +64,18 @@
 				createVideoContext: '',
 				playVideoBtnStatus: true, // 默认显示
 				videoInfos: null,
+				videoId: ''
 			}
 		},
 		onReady(res) {
 			this.createVideoContext = uni.createVideoContext('myVideo')
 		},
 		onLoad(options) {
-			// this.createVideoContext = uni.createVideoContext('myVideo');
+			this.videoId = options.id || ''
 		},
 		created() {
 			this.videoInfos = uni.getStorageSync('about_video_info');
+			this.changeVideoScore()
 		},
 		methods: {
 			videoErrorCallback: function(e) {
@@ -84,12 +89,24 @@
 				console.log(e, '这是')
 			},
 			playVideo() {
-				console.log(this.createVideoContext, '哈哈哈00')
 				this.createVideoContext.play()
-				this.playVideoBtnStatus = false
 			},
 			pauseVideo() {
-				this.playVideoBtnStatus = true
+				this.createVideoContext.pause()
+			},
+			changeVideoScore() {
+				scoreVideo({
+					id: this.videoId || this.videoInfos.id,
+				}).then((res) => {
+					if (res.code === 100000) {
+						console.log(res?.data)
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
+			isPlayVideo() {
+				this.playVideoBtnStatus = !this.playVideoBtnStatus
 			}
 		},
 		filters: {
@@ -98,6 +115,18 @@
 			}
 
 		},
+		watch: {
+			playVideoBtnStatus(newName, oldName) {
+				if (newName === true) {
+					this.pauseVideo()
+					return;
+				}
+				this.playVideo()
+
+
+			}
+		}
+
 	}
 </script>
 <style lang="scss" scoped>

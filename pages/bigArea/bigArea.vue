@@ -181,7 +181,7 @@
 					try {
 						uni.setStorageSync('about_video_info', val);
 						uni.navigateTo({
-							url: `/pages/playVideo/playVideo?id=${val}&s=${new Date().getTime()}`
+							url: `/pages/playVideo/playVideo?id=${val.id}&s=${new Date().getTime()}`
 						});
 					} catch (e) {
 						// error

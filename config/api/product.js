@@ -88,3 +88,10 @@ export const getWebsiteList = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/yy/website-address/search', params, config)
+
+// 排序分值增加-每次进入详情调用
+export const scoreVideo = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/video/add/score', params, config)
