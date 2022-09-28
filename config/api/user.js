@@ -2,7 +2,6 @@ const http = uni.$u.http
 
 // post请求，登录
 export const login = (params, config = {}) => {
-	console.log(params,config,'这里的是login')
 	return http.post('/api/security/user/login', params, config)
 }
 // 实名认证
