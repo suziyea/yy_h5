@@ -1,5 +1,7 @@
 <template>
 	<view class="bigAreaView">
+		<common-dialog v-if="showDialog" title="温馨提示" :content="membershipLevelEquity.tipContent"
+			:confirmText="membershipLevelEquity.btnName" v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<!-- 上面icon -->
 		<view class="topIcons u-flex u-flex-center u-flex-items-center">
 			<view class="sigleIconview u-flex u-flex-column  u-flex-center u-flex-items-center"
@@ -43,9 +45,11 @@
 								<view class="video">
 
 									<view class="img">
-										<!-- <image src="/static/icon/small_play.png" mode=""></image> -->
-										<image :src="item.video" mode=""></image>
+										<image src="/static/icon/small_play.png" mode="aspectFill"></image>
 									</view>
+									<!-- <video :src="item.video" :show-center-play-btn=aspectFill'false' :show-mute-btn='true'
+										:enable-play-gesture='true' :controls="false" object-fit="fill"></video> -->
+									<image :src="item.video" mode="aspectFill"></image>
 								</view>
 								<view class="desc u-flex  u-flex-items-center">
 									<view class="left">珍妮Jenny</view>
@@ -56,22 +60,22 @@
 
 						<view class="product_mm_content" v-else>
 							<view class="photo_content u-flex u-flex-wrap u-flex-between">
-								<view class="photoInfo" v-for="(item,index) in videoList" :key="index"
+								<view class="photoInfo" v-for="(item,index) in sisterList" :key="index"
 									@click="() => enterProduct('photo',item)">
 									<view class="image">
 										<!-- <image src="/static/img/login/p2.jpeg" mode=""></image> -->
-										<image :src="item.video" mode=""></image>
+										<image :src="item.index_image_url" mode="aspectFill"></image>
 									</view>
 									<view class="nicheng">
-										珍妮Jenny珍妮Jenny
+										{{item.name}}
 									</view>
 									<view class="maps u-flex  u-flex-items-center">
-										<image src="/static/icon/map.png" mode=""></image>
-										<text class="city">上海</text>
+										<image src="/static/icon/map.png" mode="aspectFill"></image>
+										<text class="city">{{item.address | formatCityAreat}}</text>
 									</view>
 									<view class="like">
 										<!-- <image src="/static/icon/like.png" mode=""></image> -->
-										<image src="/static/icon/nolike.png" mode=""></image>
+										<image src="/static/icon/nolike.png" mode="aspectFill"></image>
 									</view>
 								</view>
 							</view>
@@ -89,6 +93,10 @@
 	import {
 		getVideoList
 	} from "@/config/api/product.js";
+	import {
+		mapGetters,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -134,17 +142,48 @@
 				productTabIndex: 0,
 				costTypeTabIndex: 0,
 				videoList: [],
+				is_pay: 2, // 1-付费视频 2-免费
+				showDialog: false,
+				sisterList: []
 			}
 		},
 		created() {
 			this.initData()
+			this.sisterList = uni.getStorageSync('home_sister_list_total');
+		},
+		computed: {
+			...mapGetters(['isLogin', 'getUserInfos']),
+			membershipLevelEquity() {
+				/**	membershipLevel
+				 * @param 
+				 * 
+				 * 1-普通用户
+				 * 2-普通会员
+				 * 3-高级会员
+				 */
+				let obj = {
+					btnName: '开通会员',
+					tipContent: '成为我们的会员之后才能享受此项权益哦！',
+					levelStatus: 'ordinary'
+				}
+				if (this.getUserInfos?.status === 2) {
+					obj.btnName = '高级会员',
+						obj.tipContent = '成为高级会员之后才能享受此项权益哦！',
+						obj.levelStatus = 'silver'
+					return obj
+				}
+
+				return obj
+			}
 		},
 		methods: {
 			initData() {
 				this.getInitVideoList()
 			},
 			getInitVideoList() {
-				getVideoList({}).then((res) => {
+				getVideoList({
+					is_pay: this.is_pay
+				}).then((res) => {
 					if (res.code === 100000) {
 						// if (res?.data?.length > 0) {
 						// 	this.orderList = res?.data
@@ -158,6 +197,10 @@
 				})
 			},
 			handleNav(item) {
+				if (this.getUserInfos?.status === 1) {
+					this.showDialog = true
+					return;
+				}
 				if (item.engName === 'addr') {
 					uni.navigateTo({
 						url: `${item.path}`
@@ -173,6 +216,8 @@
 			handlecostTypeTab(i) {
 				if (i === this.costTypeTabIndex) return;
 				this.costTypeTabIndex = i
+				this.is_pay = i + 1;
+				this.getInitVideoList()
 			},
 
 			enterProduct(type, val) {
@@ -195,9 +240,32 @@
 					});
 					return;
 				}
-			}
+			},
+			confirm() {
+				this.showModal = false;
+				if (!(store.state.user.token)) {
+					uni.$u.route('/pages/login/login');
+					return;
+				}
+			},
+			onClickDialog(event) {
+				if (event == 'confirm') {
+					uni.navigateTo({
+						url: `/pages/mine/equity/equity`
+					});
+					return;
+				}
+				this.showDialog = false
+			},
 
-		}
+		},
+		filters: {
+			formatCityAreat(val) {
+				let arr = val.split(' ');
+				console.log(arr, '数组')
+				return arr[arr.length - 1]
+			},
+		},
 	}
 </script>
 
@@ -331,6 +399,19 @@
 									border: 2rpx solid #EDDBC3;
 									box-sizing: border-box;
 									position: relative;
+									z-index: 99;
+
+									video {
+										width: 100%;
+										height: 100%;
+										border-radius: 30rpx;
+									}
+
+									image {
+										width: 100%;
+										height: 100%;
+										border-radius: 30rpx;
+									}
 
 									.img {
 										position: absolute;
@@ -338,11 +419,13 @@
 										bottom: 20rpx;
 										width: 36rpx;
 										height: 36rpx;
+										z-index: 3;
 
 										image {
 											width: 100%;
 											height: 100%;
 										}
+
 									}
 								}
 

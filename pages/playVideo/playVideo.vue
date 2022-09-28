@@ -4,7 +4,7 @@
 			<video id="myVideo" :src="videoInfos.video" :show-center-play-btn='false' :show-mute-btn='true'
 				:title="videoInfos.title" :enable-play-gesture='true' @timeupdate="video_timeupdate"
 				@play='handleplayVideo' @error="videoErrorCallback" @pause='pauseVideo' @click="isPlayVideo"></video>
-			<view class="playImg" @click="playVideo" v-if="playVideoBtnStatus">
+			<view class="playImg" @click="isPlayVideo" v-if="playVideoBtnStatus">
 				<image src="/static/icon/big_play.png" mode=""></image>
 			</view>
 		</view>
@@ -33,16 +33,18 @@
 				<image src="/static/icon/line_icon.png" mode=""></image>
 			</view>
 			<view class="video_list u-flex u-flex-wrap u-flex-between">
-				<view class="single_video" v-for="(item,index) in 20" :key="index">
-					<view class="video">
-
+				<view class="single_video" v-for="(item,index) in videoList" :key="index">
+					<view class="video" @click="playOtherVideo(item)">
 						<view class="img">
 							<image src="/static/icon/small_play.png" mode=""></image>
 						</view>
+						<!-- <video :src="item.video" :show-center-play-btn='false' :show-mute-btn='true'
+							:enable-play-gesture='true' :controls="false" object-fit="fill"></video> -->
+							<image :src="item.video" mode=""></image>
 					</view>
 					<view class="desc u-flex  u-flex-items-center">
-						<view class="left">珍妮Jenny</view>
-						<view class="right">上海</view>
+						<view class="left">热度:{{item.score}}</view>
+						<view class="right">{{item.created_at | formatDate}}</view>
 					</view>
 
 				</view>
@@ -54,7 +56,8 @@
 <script>
 	import moment from "moment";
 	import {
-		scoreVideo
+		scoreVideo,
+		getVideoList
 	} from "@/config/api/product.js";
 
 	export default {
@@ -64,7 +67,8 @@
 				createVideoContext: '',
 				playVideoBtnStatus: true, // 默认显示
 				videoInfos: null,
-				videoId: ''
+				videoId: '',
+				videoList: [],
 			}
 		},
 		onReady(res) {
@@ -75,7 +79,9 @@
 		},
 		created() {
 			this.videoInfos = uni.getStorageSync('about_video_info');
+			this.videoInfos.video = 'https://www.w3schools.com/html/movie.mp4'
 			this.changeVideoScore()
+			this.getInitVideoList()
 		},
 		methods: {
 			videoErrorCallback: function(e) {
@@ -106,25 +112,54 @@
 				})
 			},
 			isPlayVideo() {
-				this.playVideoBtnStatus = !this.playVideoBtnStatus
+				if (this.playVideoBtnStatus) {
+					this.playVideo()
+					this.playVideoBtnStatus = false
+				} else {
+					this.playVideoBtnStatus = true
+					this.pauseVideo()
+
+				}
+
+			},
+			getInitVideoList() {
+				getVideoList({}).then((res) => {
+					if (res.code === 100000) {
+						// if (res?.data?.length > 0) {
+						// 	this.orderList = res?.data
+						// }
+						this.videoList = res?.data.list
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				}).finally(() => {
+					this.showOrderFlag = true;
+				})
+			},
+			playOtherVideo(val) {
+				console.log(val,'----')
+				this.videoInfos = val
 			}
 		},
 		filters: {
 			formatDateTime(val) {
 				return moment(val).format('YYYY-MM-DD HH:mm:ss');
+			},
+			formatDate(val) {
+				return moment(val).format('MM-DD');
 			}
 
 		},
 		watch: {
-			playVideoBtnStatus(newName, oldName) {
-				if (newName === true) {
-					this.pauseVideo()
-					return;
-				}
-				this.playVideo()
+			// playVideoBtnStatus(newName, oldName) {
+			// 	if (newName === true) {
+			// 		this.pauseVideo()
+			// 		return;
+			// 	}
+			// 	this.playVideo()
 
 
-			}
+			// }
 		}
 
 	}
@@ -146,6 +181,8 @@
 			video {
 				width: 750rpx;
 				height: 468rpx;
+				position: relative;
+				z-index: 99;
 			}
 
 			.playImg {
@@ -256,6 +293,18 @@
 						border: 2rpx solid #EDDBC3;
 						box-sizing: border-box;
 						position: relative;
+						z-index: 99;
+
+						video {
+							width: 100%;
+							height: 100%;
+							border-radius: 30rpx;
+						}
+						image {
+							width: 100%;
+							height: 100%;
+							border-radius: 30rpx;
+						}
 
 						.img {
 							position: absolute;
@@ -263,6 +312,7 @@
 							bottom: 20rpx;
 							width: 36rpx;
 							height: 36rpx;
+							z-index: 3;
 
 							image {
 								width: 100%;
@@ -278,7 +328,7 @@
 						margin: 14rpx 0rpx;
 
 						.left {
-							width: 150rpx;
+							width:  140rpx;
 							font-size: 24rpx;
 							font-weight: 500;
 							color: #444444;

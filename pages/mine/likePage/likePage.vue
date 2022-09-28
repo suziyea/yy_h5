@@ -1,21 +1,23 @@
 <template>
 	<view class="like_container">
 		<view class="likeContent u-flex u-flex-wrap u-flex-between">
-			<view class="photoInfo" v-for="(item,index) in 20" :key="index">
+			<view class="photoInfo" v-for="(item,index) in likeSisters" :key="index">
 				<view class="image">
 					<!-- <image src="/static/img/login/p2.jpeg" mode=""></image> -->
-					<image src="https://img0.baidu.com/it/u=4082019450,124630764&fm=253&fmt=auto&app=138&f=JPEG?w=254&h=272" mode=""></image>
-					
+					<image src="https://img0.baidu.com/it/u=4082019450,124630764&fm=253&fmt=auto&app=138&f=JPEG?w=254&h=272" mode="aspectFit"></image>
+					<!-- <image :src="item.index_image_url" mode="aspectFit"></image> -->
 				</view>
 				<view class="nicheng">
-					珍妮Jenny珍妮Jenny
+					<!-- 珍妮Jenny珍妮Jenny -->
+					{{item.name}}
 				</view>
 				<view class="maps u-flex  u-flex-items-center">
-					<image src="/static/icon/map.png" mode=""></image>
-					<text class="city">上海</text>
+					<image src="/static/icon/map.png" mode="aspectFit"></image>
+					<text class="city"> {{item.address}}
+					</text>
 				</view>
 				<view class="like">
-					<image src="/static/icon/like.png" mode=""></image>
+					<image src="/static/icon/like.png" mode="aspectFit"></image>
 				</view>
 			</view>
 		</view>
@@ -24,12 +26,12 @@
 
 <script>
 	import {
-		geCollectSisterList
-	} from "@/config/api/product.js";
+		getCollectSisterList
+	} from "@/config/api/sister.js";
 	export default {
 		data() {
 			return {
-
+				likeSisters: []
 			}
 		},
 		created() {
@@ -37,11 +39,10 @@
 		},
 		methods: {
 			getInitList() {
-				geCollectSisterList({}).then((res) => {
+				getCollectSisterList({}).then((res) => {
 					if (res.code === 100000) {
-						if (res?.data?.length > 0) {
-							this.orderList = res?.data
-						}
+						this.likeSisters = res?.data
+
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
@@ -92,11 +93,11 @@
 					position: absolute;
 					bottom: 16rpx;
 					left: 16rpx;
-					width: 180rpx;
+					width: 280rpx;
 					z-index: 2;
 
 					.city {
-						width: 100rpx;
+						width: 260rpx;
 						overflow: hidden;
 						white-space: nowrap;
 						text-overflow: ellipsis;

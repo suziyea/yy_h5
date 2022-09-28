@@ -261,11 +261,11 @@ export default {
 	getPosSuccess(pos) {
 		// alert()
 		console.log(pos,'哈哈哈')
-		uni.showToast({
-		title: `纬度:${pos?.coords?.latitude}  经度:${pos?.coords?.longitude}`,
-		icon:'none',
-		duration: 322000
-		});
+		// uni.showToast({
+		// title: `纬度:${pos?.coords?.latitude}  经度:${pos?.coords?.longitude}`,
+		// icon:'none',
+		// duration: 322000
+		// });
 		console.log(`纬度:${pos?.coords?.latitude}  经度:${pos?.coords?.longitude}`)
 		return pos
 	},

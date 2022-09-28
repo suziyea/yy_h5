@@ -80,6 +80,7 @@
 		background-size: cover;
 		// border: 1px solid red;
 		box-sizing: border-box;
+		z-index: 10000;
 
 		.content {
 			width: 100%;

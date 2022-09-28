@@ -76,7 +76,7 @@
 			},
 
 			submit() {
-				login(this.userInfo).then((res) => {
+				login(this.userInfo,{header: {'device-type': uni.$u.os()}}).then((res) => {
 					if (res.code === 100000) {
 						let handleBaseInfo = {
 							token: res.data.access_token,
@@ -87,7 +87,7 @@
 							token: res.data.access_token,
 							refresh_token: res.data.refresh_token
 						})
-						uni.navigateTo({
+						uni.redirectTo({
 							url: '/pages/index/index'
 						});
 						return;
@@ -134,7 +134,7 @@
 									token: res.data.access_token,
 									refresh_token: res.data.refresh_token
 								})
-								uni.switchTab({
+								uni.reLaunch({
 									url: '/pages/index/index'
 								})
 							}

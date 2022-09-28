@@ -91,7 +91,6 @@
 	} from 'vuex'
 	import common from '@/utils/common'
 	import store from "@/store"
-	import Tabbar from '@/components/tabbar/Tarbar.vue'
 	import {
 		deleteUser,
 		getUserInfo
@@ -102,6 +101,7 @@
 	export default {
 		components: {
 			commonDialog,
+			Tarbar
 		},
 		data() {
 			return {
@@ -262,7 +262,7 @@
 					deleteUser().then((res) => {
 						if (res.code === 100000) {
 							this.LOGOUT()
-							uni.navigateTo({
+							uni.redirectTo({
 								url: '/pages/login/login'
 							});
 							return;

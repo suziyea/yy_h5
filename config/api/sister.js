@@ -16,7 +16,7 @@ export const getSisterDetail = (params, config = {
 
 
 // 获取喜欢列表
-export const geCollectSisterList = (params, config = {
+export const getCollectSisterList = (params, config = {
 	custom: {
 		auth: true
 	}
@@ -35,3 +35,20 @@ export const amOrder = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/yy/am-order/init', params, config)
+
+
+
+//喜欢Sister
+export const likeSisterApi = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/collect-sister/create', params, config)
+
+
+//取消喜欢Sister
+export const cancelLikeSisterApi = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/collect-sister/delete', params, config)

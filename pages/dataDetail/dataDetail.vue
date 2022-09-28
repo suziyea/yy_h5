@@ -1,5 +1,5 @@
 <template>
-	<view class="container_detail">
+	<view class="container_detail" v-if="showFlag">
 		<!-- 详情图片 -->
 		<view class="sisterImg">
 			<!-- <img src="/static/img/login/p1.jpeg" alt=""> -->
@@ -13,7 +13,7 @@
 			<view class="address_info u-flex u-flex-center u-flex-items-center">
 				<view class="petusename">
 					<view class="info_name ellipsis">
-						{{mm_sisterInfo.name}}
+						{{mm_sisterInfo.name || ''}}
 					</view>
 					<view class="base  u-flex u-flex-center u-flex-items-center">
 						<image src="/static/icon/detail_map.png" mode=""></image>
@@ -21,7 +21,7 @@
 					</view>
 				</view>
 				<view class="age">
-					{{mm_sisterInfo.age}}
+					{{mm_sisterInfo.age}} 岁
 				</view>
 			</view>
 
@@ -31,7 +31,8 @@
 					基本资料
 				</view>
 				<view class="tips_container u-flex u-flex-wrap ">
-					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center" v-for="(item,index) in mm_sisterInfo.base_data" :key="index">
+					<view class="tip ml_12 u-flex u-flex-center u-flex-items-center"
+						v-for="(item,index) in mm_sisterInfo.base_data" :key="index">
 						{{item}}
 					</view>
 				</view>
@@ -146,10 +147,17 @@
 				}, {
 					image: 'https://t7.baidu.com/it/u=27018761,936335273&fm=193&f=GIF'
 				}],
-				mm_sisterInfo: null,
+				mm_sisterInfo: {
+					name: ''
+				},
 				moreContactInfo: [],
-				order_no: ''
+				order_no: '',
+				sisterId: '',
+				showFlag: false,
 			}
+		},
+		onLoad(options) {
+			this.sisterId = options.id || ''
 		},
 		created() {
 			this.storageUserInfo = uni.getStorageSync('userInfo');
@@ -161,17 +169,21 @@
 			},
 			getDetails() {
 				getSisterDetail({
-					id: 1,
+					id: this.sisterId,
 				}).then((res) => {
 					if (res.code === 100000) {
 						this.mm_sisterInfo = res?.data || {}
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
+				}).finally(() => {
+					this.showFlag = true;
 				})
 			},
 			lookContact() {
-				getMoreSisterContact({id: 1}).then((res) => {
+				getMoreSisterContact({
+					id: this.sisterId
+				}).then((res) => {
 					if (res.code === 100000) {
 						this.moreContactInfo = res?.data?.more_contract || []
 					}
@@ -180,7 +192,9 @@
 				})
 			},
 			clicksubscribe() {
-				amOrder({sister_id: 1}).then((res) => {
+				amOrder({
+					sister_id: this.sisterId
+				}).then((res) => {
 					if (res.code === 100000) {
 						this.order_no = res?.data?.order_no || ''
 					}
@@ -217,7 +231,7 @@
 			box-sizing: border-box;
 			position: relative;
 			padding: 50rpx 48rpx;
-			// z-index: 2;
+			z-index: 23;
 			border-radius: 40px 40px 0px 0px;
 			background: #fff;
 
@@ -329,6 +343,7 @@
 			bottom: 0;
 			box-shadow: 0rpx -12rpx 32px 0rpx rgba(0, 0, 0, 0.05);
 			box-sizing: border-box;
+			z-index: 108;
 
 			.subscribe_view {
 				width: 100%;
@@ -377,6 +392,11 @@
 			content: "";
 			top: 0;
 			left: 0;
+		}
+
+		/deep/ .u-swiper {
+			position: relative;
+			z-index: 21;
 		}
 	}
 </style>

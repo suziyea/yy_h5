@@ -1,10 +1,10 @@
 <template>
 	<view class="pay_container">
-		<u-tabs lineColor="#EDDBC3" lineWidth="80rpx" :scrollable="false" :list="topBarList"
+		<u-tabs lineColor="#EDDBC3" :current="topBarIndex" lineWidth="80rpx" :scrollable="false" :list="topBarList"
 			itemStyle="width:250rpx; height: 88rpx; padding:0rpx;"
 			activeStyle="font-size: 28rpx;font-weight: 500;color: #000000;" @click="click">
 		</u-tabs>
-		<swiper :current='topBarIndex'>
+		<swiper :current='topBarIndex'  @change="swiperChange">
 			<swiper-item v-for="(item,index) in topBarList" :key="index">
 				<view class="orderRecord u-flex u-flex-column u-flex-items-center">
 					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
@@ -88,11 +88,11 @@
 				}, {
 					name: '支付失败'
 				}],
-				topBarIndex: ''
+				topBarIndex: 0
 			}
 		},
 		created() {
-			this.getInitList()
+			// this.getInitList()
 		},
 		onLoad() {
 			this.loadmore()
@@ -154,6 +154,11 @@
 			},
 			loadmore() {
 				// 滚动分页
+			},
+			swiperChange(val) {
+				console.log(val,'你好')
+				this.topBarIndex = val.target.current;
+
 			}
 		},
 		computed: {
