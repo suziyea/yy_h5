@@ -1,5 +1,7 @@
 <template>
 	<view class="home_container">
+
+
 		<!-- <flipcard ref="stack" :pages="stackList" @click="handleStackClicked"></flipcard> -->
 		<view class="home_content u-flex u-flex-column u-flex-center u-flex-items-center">
 			<view class="mm_card_container">

@@ -89,12 +89,20 @@ export const register = (params, config = {}) => {
 export const getMenu = (data) => http.get('url', data)
 
 // 注销
-export const deleteUser = (params, config = {}) => {
+export const deleteUser = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => {
 	return http.post('/api/yy/user/delete', params, config)
 }
 
 
 // 获取价格等其他设置 
-export const getProductOtherInfos = (params, config = {}) => {
+export const getProductOtherInfos = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => {
 	return http.post('/api/yy/other-set/get', params, config)
 }

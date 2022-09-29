@@ -7,59 +7,21 @@
 		<swiper :current='topBarIndex'  @change="swiperChange">
 			<swiper-item v-for="(item,index) in topBarList" :key="index">
 				<view class="orderRecord u-flex u-flex-column u-flex-items-center">
-					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
+					<view class="orderinfo u-flex u-flex-center u-flex-items-center " v-for="(item,index) in orderFilterList" :key="index" @click="lookSisterDetail(item)">
 						<view class="name">
 							<view class="title">
-								升级高级会员
+								{{item.remark}}
 							</view>
 							<view class="date">
-								2022-08-08 19:23:33
+								{{item.create_at | formatGetTime}}
 							</view>
 						</view>
 
 						<view class="money">
-							999.00
-							<!-- 0.02<text class="">元</text> -->
+							{{item.order_amount}}
 						</view>
-						<view class="status errorBgColor">
-							未支付
-						</view>
-					</view>
-
-					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
-						<view class="name">
-							<view class="title">
-								单独消费
-							</view>
-							<view class="date">
-								2022-08-08 19:23:33
-							</view>
-						</view>
-
-						<view class="money">
-							999.00
-							<!-- 0.02<text class="">元</text> -->
-						</view>
-						<view class="status errorBgColor">
-							未支付
-						</view>
-					</view>
-					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
-						<view class="name">
-							<view class="title">
-								单独消费
-							</view>
-							<view class="date">
-								2022-08-08 19:23:33
-							</view>
-						</view>
-
-						<view class="money">
-							1999.00
-							<!-- 0.02<text class="">元</text> -->
-						</view>
-						<view class="status successBgColor">
-							未支付
+						<view class="status" :class="{'errorBgColor':item.is_paid === 3,'successBgColor':item.is_paid === 1,'orangeBgColor':item.is_paid === 2}">
+							{{item.is_paid | formatPayType}}
 						</view>
 					</view>
 				</view>
@@ -108,10 +70,10 @@
 				return ''
 			},
 			formatPayType(value) {
-				if (value == 1) {
+				if (value === 1) {
 					return '已支付'
 				}
-				if (value == 2) {
+				if (value === 2) {
 					return '未支付'
 				}
 				return '失败'
@@ -157,9 +119,14 @@
 				// 滚动分页
 			},
 			swiperChange(val) {
-				console.log(val,'你好')
 				this.topBarIndex = val.target.current;
 
+			},
+			lookSisterDetail(val) {
+				// uni.navigateTo({
+				// 	url: `/pages/dataDetail/dataDetail?id=${val.sister_id}&name=${new Date().getTime()}`
+				// });
+				console.log(val,'你好')
 			}
 		},
 		computed: {
@@ -172,6 +139,22 @@
 			emptyStatus() {
 				if (this.orderList?.length !== 0) return false
 				return true
+			},
+			orderFilterList() {
+				let arr = []
+				if (this.topBarIndex === 0) {
+					arr = this.orderList
+				}
+				if (this.topBarIndex === 1) {
+					arr = this.orderList.filter((item)=>item.is_paid === 2)
+				}
+				if (this.topBarIndex === 2) {
+					arr = this.orderList.filter((item)=>item.is_paid === 1)
+				}
+				if (this.topBarIndex === 3) {
+					arr = this.orderList.filter((item)=>item.is_paid === 3)
+				}
+				return arr;
 			}
 		}
 	}

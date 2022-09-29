@@ -76,7 +76,7 @@
 					<view class="iconInfo u-flex u-flex-column  u-flex-center u-flex-items-center"
 						v-for="(item,index) in privilegeList" :key="index">
 						<image :src="item.img" mode=""></image>
-						<view class="text u-flex u-flex-center u-flex-items-center"
+						<view class="text u-flex u-flex-center "
 							:class="[current === 1 ? 'gold_color' : 'silver_color' ]">
 							{{item.text}}
 						</view>
@@ -128,10 +128,10 @@
 		filters: {
 			formatMemberText(value) {
 				if (value === 0) {
-					return '白金会员'
+					return '普通会员'
 				}
 				if (value === 1) {
-					return '黄金会员'
+					return '高级会员'
 				}
 			},
 		},

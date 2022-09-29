@@ -42,7 +42,6 @@
 				getCollectSisterList({}).then((res) => {
 					if (res.code === 100000) {
 						this.likeSisters = res?.data
-
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
@@ -51,7 +50,6 @@
 				})
 			},
 			lookSisterDetail(val) {
-				console.log(val,'嘻哈')
 				uni.navigateTo({
 					url: `/pages/dataDetail/dataDetail?id=${val.sister_id}&name=${new Date().getTime()}`
 				});

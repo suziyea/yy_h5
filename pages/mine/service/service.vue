@@ -1,102 +1,98 @@
 <template>
 	<view class="container">
-		<!-- <view class="service">
-			<view class="logo">
-				<image src="/static/icon/logo.png" mode="aspectFill"></image>
-			</view>
-			<view class="cells">
-				<u-cell-group>
-					<u-cell title="客服电话" icon="/static/icon/tel_icon.png" isLink url="/pages/mine/telPhone/telPhone">
-					</u-cell>
-					<u-cell title="改善建议/投诉反馈" icon="/static/icon/callback_icon.png" isLink
-						url="/pages/mine/feedback/feedback"></u-cell>
-
-					#ifdef APP-PLUS
-					<u-cell title="版本号" icon="setting">
-						<text slot="value" class="u-slot-value">版本 {{version}}</text>
-					</u-cell>
-					#endif
-				</u-cell-group>
-			</view>
-		</view> -->
-
 		<view class="servece_view u-flex u-flex-center u-flex-between u-flex-wrap">
-			<view class="sigle_container u-flex u-flex-column u-flex-items-center " v-for="(item,index) in cellList" :key="index" @click="handleListItem(item)">
+			<view class="sigle_container u-flex u-flex-column u-flex-items-center" v-for="(item, index) in cellList"
+				:key="index" @click="handleListItem(item)">
 				<view class="bg_style">
 					<image :src="item.bgImg" mode="aspectFill"></image>
 				</view>
 				<view class="title">
-					{{item.name}}
+					{{ item.name }}
 				</view>
 			</view>
-			<!-- <view class="sigle_container">
-
-			</view>
- -->
 		</view>
+		<u-modal :show="showModal" title="联系客服" confirmColor='#7f5d2e' @confirm='handleCoonfirmModal'>
+			<view class="slot-content">
+				<u-tooltip :text="tooltipContent"></u-tooltip>
+			</view>
+		</u-modal>
 
 	</view>
 </template>
 
 <script>
+	import {
+		getProductOtherInfos
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
-				version: '',
+				version: "",
+				showModal: false,
 				cellList: [{
-						bgImg: '/static/img/service_phone.png',
-						path: '/pages/mine/telPhone/telPhone',
-						name: '客服电话',
-						enName: 'look',
-						power: false
+						bgImg: "/static/img/service_phone.png",
+						path: "/pages/mine/telPhone/telPhone",
+						name: "客服微信",
+						type: "wx",
 					},
 					{
-						bgImg: '/static/img/service_remark.png',
-						path: '/pages/mine/feedback/feedback',
-						name: '反馈/建议',
-						enName: 'about',
-						power: false
+						bgImg: "/static/img/service_remark.png",
+						path: "/pages/mine/feedback/feedback",
+						name: "电报(纸飞机)",
+						type: "tg",
 					},
-					// {
-					// 	bgImg: '/static/img/service_remark.png',
-					// 	path: '',
-					// 	name: '注销账户',
-					// 	enName: 'logoff'
-					// },
-					// {
-					// 	bgImg: '/static/img/service_phone.png',
-					// 	path: '/pages/login/login',
-					// 	name: '退出登录',
-					// 	enName: 'logout',
-					// 	power: true
-					// }
 				],
+				weChatNumber: '',
+				tgNumber: '',
+				tooltipContent: ''
 			};
 		},
 		created() {
 			// #ifdef APP-PLUS
 			this.version = plus.runtime.version;
 			// #endif
-
-
+			this.getJumpInfos();
 		},
 		methods: {
 			handleListItem(item) {
-				if (item.path) {
-					uni.$u.route(item.path)
-					return;
+				if (item.type === 'wx') {
+					this.tooltipContent = this.weChatNumber
+				}
+				if (item.type === 'tg') {
+					this.tooltipContent = this.tgNumber
+				}
+				this.showModal = true
+			},
+			handleCoonfirmModal() {
+				this.showModal = false
+			},
+			async getJumpInfos() {
+				try {
+					let res = await getProductOtherInfos({
+						code: "contract_us",
+					});
+					if (res.code === 100000) {
+						this.weChatNumber = res?.data?.value?.value?.wx
+						this.tgNumber = res?.data?.value?.value?.tg
+						console.log(this.tgNumber, this.weChatNumber)
+						// uni.navigateTo({
+						// 	url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.value?.value || '')}`,
+						// });
+					}
+					console.log(res, "你阿红");
+				} catch (e) {
+					// error
 				}
 			},
-		}
-
-	}
+		},
+	};
 </script>
 
 <style lang="scss" scoped>
 	.container {
 		width: 750rpx;
 		height: 100vh;
-		background: #090D34;
+		background: #090d34;
 
 		.servece_view {
 			padding: 0 60rpx;
@@ -105,22 +101,25 @@
 			.sigle_container {
 				width: 288rpx;
 				height: 344rpx;
-				background: linear-gradient(360deg, #F9F9F7 0%, #FDF1E5 100%);
+				background: linear-gradient(360deg, #f9f9f7 0%, #fdf1e5 100%);
 				border-radius: 16rpx;
 				margin-top: 36rpx;
 				position: relative;
+
 				.bg_style {
 					margin-top: 28rpx;
+
 					image {
 						width: 240rpx;
 						height: 240rpx;
 					}
 				}
+
 				.title {
 					font-size: 28rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
-					color: #341C0B;
+					color: #341c0b;
 					line-height: 40rpx;
 				}
 			}
@@ -141,8 +140,7 @@
 			}
 
 			/deep/ .u-cell-group__wrapper {
-				background: #FFFFFF;
-
+				background: #ffffff;
 			}
 
 			/deep/ .u-cell__body {

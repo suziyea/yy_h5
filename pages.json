@@ -16,6 +16,7 @@
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle":"white",
+				// "navigationStyle": "custom",
 				"h5": {
 					"titleNView": false
 				}
@@ -36,9 +37,7 @@
 			"style": {
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "我的",
-				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
-				// "navigationStyle": "custom",
+				"navigationStyle": "custom",
 
 				"h5": {
 					"titleNView": false

@@ -1,5 +1,8 @@
 <template>
 	<view class="container" v-if="true">
+		<view class="status_bar">
+            <!-- 这里是状态栏 -->
+        </view>
 		<common-dialog v-if="showDialog" title="温馨提示" content="您确认要注销账户吗！" confirmText="确认"
 			v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<view class="bgBox">
@@ -126,7 +129,7 @@
 				],
 				secondList: [{
 						icon: "/static/icon/mine_contact.png",
-						path: "/pages/mine/telPhone/telPhone",
+						path: "/pages/mine/service/service",
 						name: "联系我们",
 						enName: "contact",
 						isLogin: false,
@@ -248,10 +251,6 @@
 					uni.navigateTo({
 						url: `/pages/mine/equity/equity`,
 					});
-					return;
-				}
-				if (item.enName === "contact") {
-					this.getJumpInfos("contract_us");
 					return;
 				}
 				if (item.enName === "cooperation") {
@@ -397,6 +396,12 @@
 		height: 1624rpx;
 		background: #f9f9f9;
 	}
+	.status_bar {
+        height: var(--status-bar-height);
+        width: 100%;
+		background: #3D3C3A;
+    }
+
 
 	.bgBox {
 		// width: 100%;
@@ -635,3 +640,4 @@
 		}
 	}
 </style>
+<!--  -->
