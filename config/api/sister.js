@@ -4,7 +4,10 @@ export const getSisterList = (params, config = {
 	custom: {
 		auth: true
 	}
-}) => http.post('/api/yy/sister/home', params, config)
+}) => {
+	console.log('首页---',params)
+	return http.post('/api/yy/sister/home', params, config)
+}
 
 
 // 获取详情
@@ -52,3 +55,18 @@ export const cancelLikeSisterApi = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/yy/collect-sister/delete', params, config)
+
+
+//消费记录
+export const getExpensesRecord = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/expenses-record/get', params, config)
+
+//成为会员发起支付订单
+export const memberOrder = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/member-order/init', params, config)

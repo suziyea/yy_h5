@@ -73,7 +73,7 @@
 				</view>
 				<view class="tips_container u-flex u-flex-wrap u-flex-between">
 					<view class="tip u-flex u-flex-center u-flex-items-center">
-						本站价格是小妹的服务价格，来回路费需要哥哥承担哦，空降费用联系上小妹自行商议（本站价格可抵扣）
+						{{sister_rules  || '本站价格是小妹的服务价格，来回路费需要哥哥承担哦，空降费用联系上小妹自行商议（本站价格可抵扣）'}}
 					</view>
 				</view>
 			</view>
@@ -100,6 +100,9 @@
 		getMoreSisterContact,
 		amOrder
 	} from "@/config/api/sister.js";
+	import {
+	  getProductOtherInfos,
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
@@ -109,8 +112,6 @@
 					// '/static/img/login/p3.jpeg',
 					'https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF',
 					'https://t7.baidu.com/it/u=2295973985,242574375&fm=193&f=GIF'
-
-
 				],
 				indicatorStyle: {
 					bottom: 66
@@ -154,6 +155,7 @@
 				order_no: '',
 				sisterId: '',
 				showFlag: false,
+				sister_rules:''
 			}
 		},
 		onLoad(options) {
@@ -162,6 +164,7 @@
 		created() {
 			this.storageUserInfo = uni.getStorageSync('userInfo');
 			this.initData()
+			this.getJumpInfos('reservation_detail')
 		},
 		methods: {
 			initData() {
@@ -201,7 +204,14 @@
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
-			}
+			},
+			async getJumpInfos(code) {
+			   let res = await getProductOtherInfos({
+			     code,
+			   });
+			   this.sister_rules = res.data.value.value
+				  console.log(res,'反悔的数据')
+			 },
 		}
 	}
 </script>

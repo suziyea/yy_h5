@@ -10,7 +10,7 @@
 					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
 						<view class="name">
 							<view class="title">
-								升级黄金会员
+								升级高级会员
 							</view>
 							<view class="date">
 								2022-08-08 19:23:33
@@ -29,7 +29,7 @@
 					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
 						<view class="name">
 							<view class="title">
-								AM小妹单独消费
+								单独消费
 							</view>
 							<view class="date">
 								2022-08-08 19:23:33
@@ -47,7 +47,7 @@
 					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
 						<view class="name">
 							<view class="title">
-								AM小妹单独消费
+								单独消费
 							</view>
 							<view class="date">
 								2022-08-08 19:23:33
@@ -71,8 +71,8 @@
 
 <script>
 	import {
-		getMyOrderList
-	} from "@/config/api/product.js";
+		getExpensesRecord
+	} from "@/config/api/sister.js";
 	export default {
 		data() {
 			return {
@@ -92,7 +92,7 @@
 			}
 		},
 		created() {
-			// this.getInitList()
+			this.getInitList()
 		},
 		onLoad() {
 			this.loadmore()
@@ -137,10 +137,11 @@
 				this.topBarIndex = item.index;
 			},
 			getInitList() {
-				getMyOrderList({}).then((res) => {
+						getExpensesRecord({}).then((res) => {
 					if (res.code === 100000) {
 						if (res?.data?.length > 0) {
 							this.orderList = res?.data
+							console.log(res.data,'反悔的')
 						}
 					}
 				}).catch((err) => {

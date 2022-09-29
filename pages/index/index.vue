@@ -174,10 +174,7 @@
 			// 初始化 喜欢或者不喜欢
 		},
 		created() {
-			// const hello = common.getLocation();
-			// this.lon_js = hello?.coords?.longitude; //当前位置精度
-			// this.lat_js = hello?.coords?.latitude; //当前位置的纬度
-			// console.log("hello", hello);
+
 			// uni.getLocation({
 			// 	type: "wgs84",
 			// 	success: (res) => {
@@ -195,8 +192,8 @@
 			// } else {
 			// 	alert(' 浏览器不支持 geolocation ');
 			// }
-			// this.getLocationH5()
-			this.initDataCards()
+			this.getLocationH5()
+			// this.initDataCards()
 
 		},
 		onLoad() {
@@ -208,7 +205,7 @@
 				// 	this.cards = uni.getStorageSync('home_noLookSister_list')
 				// 	console.log('这里if', 'niaho')
 				// } else
-				 if (uni.getStorageSync('home_sister_list_total')) {
+				if (uni.getStorageSync('home_sister_list_total')) {
 					this.cards = uni.getStorageSync('home_sister_list_total')
 					console.log('这里elseif', 'niaho')
 				} else {
@@ -238,7 +235,7 @@
 								that.cards = res?.data
 								uni.setStorageSync('home_sister_list_total', res?.data);
 								uni.setStorageSync('home_noLookSister_list', res?.data);
-								
+
 							}
 						}).catch((err) => {
 							console.log(err, 'err');
@@ -251,7 +248,7 @@
 			clickCard() {
 				// console.log("点击了噢---");
 				uni.navigateTo({
-					url: `/pages/dataDetail/dataDetail?id=1&name=${new Date().getTime()}`
+					url: `/pages/dataDetail/dataDetail?id=${this.cards[0].id}&name=${new Date().getTime()}`
 				});
 			},
 			nextSister() {
@@ -275,10 +272,10 @@
 
 			},
 
-			getInitList() {
+			getInitList(lat,lon) {
 				getSisterList({
-					lat: this.lat || this.lat_js,
-					lon: this.lon || this.lon_js,
+					lat: lat || this.lat_js,
+					lon: lon || this.lon_js,
 				}).then((res) => {
 					if (res.code === 100000) {
 						this.sisterList = res?.data
@@ -290,35 +287,6 @@
 					this.showOrderFlag = true;
 				})
 				return;
-				uni.getLocation({
-					type: "wgs84",
-					success: (res) => {
-						console.log(res, "你好大口大口");
-						getSisterList({
-								Lat: res.latitude || this.lat_js,
-								Lon: res.longitude || this.lon_js,
-							})
-							.then((res) => {
-								if (res.code === 100000) {
-									this.sisterList = res?.data;
-									uni.setStorageSync('home_sister_list', this.sisterList);
-								}
-							})
-							.catch((err) => {
-								console.log(err, "err");
-							})
-							.finally(() => {
-								this.showOrderFlag = true;
-							});
-					},
-					fail(err) {
-						console.log("错误");
-						console.log(err);
-					},
-					complete() {
-						console.log("完毕");
-					},
-				});
 			},
 			onCardDragMove(obj) {
 				console.log(obj);
@@ -387,17 +355,7 @@
 				var x = position.coords.longitude;
 				var y = position.coords.latitude;
 				console.log(x, y, "h5定位"); //coords:需转换的源坐标，多组坐标以“；”分隔（经度，纬度）　　　　　//from :源坐标类型　　　　　　//to:目标坐标类型
-				jsonp(
-					`https://api.map.baidu.com/geoconv/v1/?coords=${x},${y}&from=1&to=5&ak=你的密钥`,
-					null,
-					(err, data) => {
-						if (err) {
-							console.error(err.message);
-						} else {
-							console.log(data);
-						}
-					}
-				);
+				this.getInitList(x,y)
 			},
 			locationError(error) {
 				switch (error.code) {
@@ -422,7 +380,6 @@
 				if (newVal.length <= 1) {
 					this.initDataCards()
 				}
-				this.isListStatus = false;
 			}
 		}
 	};

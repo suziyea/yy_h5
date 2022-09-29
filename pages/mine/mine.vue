@@ -8,19 +8,23 @@
 					<image src="/static/icon/mine_avatar.png" mode="aspectFill"></image>
 				</view>
 				<view class="userName u-flex u-flex-column" v-if="isLogin">
-					<text class="name">{{`HI，${getUserInfos.username || ''}`}}</text>
+					<text class="name">{{ `HI，${getUserInfos.username || ""}` }}</text>
 				</view>
 				<view class="userName" v-else>
 					<navigator open-type="navigate" url="/pages/login/login">
 						登录
 					</navigator>
 				</view>
-				<view class="memberLevel" @click="handleListItem({path:'/pages/mine/equity/equity'})">
-					<view class="text" :class="membershipLevel.levelstyle">{{membershipLevel.levelName}}</view>
+				<view class="memberLevel" @click="handleListItem({ path: '/pages/mine/equity/equity' })">
+					<view class="text" :class="membershipLevel.levelstyle">{{
+            membershipLevel.levelName
+          }}</view>
 					<view class="memberImg">
-						<image
-							:src="`/static/icon/${membershipLevel.levelStatus === 'silver' ? 'silver_mark' : 'gold_mark'}.png`"
-							mode="aspectFill">
+						<image :src="`/static/icon/${
+                membershipLevel.levelStatus === 'silver'
+                  ? 'silver_mark'
+                  : 'gold_mark'
+              }.png`" mode="aspectFill">
 						</image>
 					</view>
 				</view>
@@ -28,8 +32,8 @@
 		</view>
 
 		<!-- 特权 -->
-		<view class="privilege u-flex  u-flex-center u-flex-items-center">
-			<view class="privilegeImg u-flex  u-flex-center u-flex-items-center" @click="handleListItem('equity')">
+		<view class="privilege u-flex u-flex-center u-flex-items-center">
+			<view class="privilegeImg u-flex u-flex-center u-flex-items-center" @click="handleListItem('equity')">
 				<view class="text">我的特权</view>
 				<view class="clickImg">
 					<image src="/static/icon/mine_jumpcolor.png" mode="aspectFill"></image>
@@ -39,14 +43,14 @@
 
 		<!-- 列表 -->
 		<view class="mine_list u-flex u-flex-center">
-			<view class="list_content ">
+			<view class="list_content">
 				<view class="title">常用功能</view>
-				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item,index) in firstList"
+				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item, index) in firstList"
 					:key="index" @click="handleListItem(item)">
 					<view class="lefticon u-flex u-flex-center">
 						<image :src="item.icon" mode=""></image>
 					</view>
-					<view class="text">{{item.name}}</view>
+					<view class="text">{{ item.name }}</view>
 					<view class="rightIcon">
 						<image src="/static/icon/mine_jump.png" mode=""></image>
 					</view>
@@ -54,16 +58,15 @@
 			</view>
 		</view>
 
-
 		<view class="mine_list u-flex u-flex-center">
-			<view class="list_content ">
+			<view class="list_content">
 				<view class="title">其他工具</view>
-				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item,index) in secondList"
+				<view class="listSigle u-flex u-flex-center u-flex-items-center" v-for="(item, index) in secondList"
 					:key="index" @click="handleListItem(item)">
 					<view class="lefticon u-flex u-flex-center">
 						<image :src="item.icon" mode=""></image>
 					</view>
-					<view class="text">{{item.name}}</view>
+					<view class="text">{{ item.name }}</view>
 					<view class="rightIcon">
 						<image src="/static/icon/mine_jump.png" mode=""></image>
 					</view>
@@ -74,93 +77,93 @@
 		<!-- 弹窗 -->
 		<view>
 			<u-modal :show="showModal" :title="title" :confirmText="confirmText" @confirm="confirm"
-				:showCancelButton="true" @cancel=" showModal = false" :content='content'></u-modal>
+				:showCancelButton="true" @cancel="showModal = false" :content="content"></u-modal>
 			<!-- <u-button @click="show = true">打开</u-button> -->
 		</view>
 		<view class="tab">
 			<Tarbar currentPage="mine"></Tarbar>
 		</view>
 	</view>
-
 </template>
 
 <script>
 	import {
 		mapGetters,
 		mapMutations
-	} from 'vuex'
-	import common from '@/utils/common'
-	import store from "@/store"
+	} from "vuex";
+	import common from "@/utils/common";
+	import store from "@/store";
 	import {
 		deleteUser,
-		getUserInfo
+		getUserInfo,
+		getProductOtherInfos,
 	} from "@/config/api/user.js";
-	import Tarbar from '@/components/tabbar/Tarbar.vue'
-	import commonDialog from '@/components/common-dialog/common-dialog.vue'
+	import Tarbar from "@/components/tabbar/Tarbar.vue";
+	import commonDialog from "@/components/common-dialog/common-dialog.vue";
 
 	export default {
 		components: {
 			commonDialog,
-			Tarbar
+			Tarbar,
 		},
 		data() {
 			return {
 				showDialog: false,
 				firstList: [{
-						icon: '/static/icon/mine_like.png',
-						path: '/pages/mine/likePage/likePage',
-						name: '喜欢',
-						enName: 'like',
-						isLogin: false
-					},
-					{
-						icon: '/static/icon/mine_record.png',
-						path: '/pages/mine/payRecord/payRecord',
-						name: '消费记录',
-						enName: 'record',
-						isLogin: false
-					}
-				],
-				secondList: [{
-						icon: '/static/icon/mine_contact.png',
-						path: '/pages/mine/telPhone/telPhone',
-						name: '联系我们',
-						enName: 'contact',
-						isLogin: false
-					},
-					{
-						icon: '/static/icon/mine_about.png',
-						path: '/subpages/appPrivacyAgreement/appPrivacyAgreement',
-						name: '关于我们',
-						enName: 'about',
-						isLogin: false
-					},
-					{
-						icon: '/static/icon/mine_suggest.png',
-						path: '/pages/mine/feedback/feedback',
-						name: '建议反馈',
-						enName: 'suggest',
+						icon: "/static/icon/mine_like.png",
+						path: "/pages/mine/likePage/likePage",
+						name: "喜欢",
+						enName: "like",
 						isLogin: false,
 					},
 					{
-						icon: '/static/icon/mine_cooperation.png',
-						path: '/pages/login/login',
-						name: '商务合作',
-						enName: 'cooperation',
-						isLogin: false
+						icon: "/static/icon/mine_record.png",
+						path: "/pages/mine/payRecord/payRecord",
+						name: "消费记录",
+						enName: "record",
+						isLogin: false,
+					},
+				],
+				secondList: [{
+						icon: "/static/icon/mine_contact.png",
+						path: "/pages/mine/telPhone/telPhone",
+						name: "联系我们",
+						enName: "contact",
+						isLogin: false,
 					},
 					{
-						icon: '/static/icon/mine_logout.png',
-						path: '/pages/login/login',
-						name: '注销',
-						enName: 'logout',
-						isLogin: false
-					}
+						icon: "/static/icon/mine_about.png",
+						path: "/subpages/appPrivacyAgreement/appPrivacyAgreement",
+						name: "关于我们",
+						enName: "about",
+						isLogin: false,
+					},
+					{
+						icon: "/static/icon/mine_suggest.png",
+						path: "/pages/mine/feedback/feedback",
+						name: "建议反馈",
+						enName: "suggest",
+						isLogin: false,
+					},
+					{
+						icon: "/static/icon/mine_cooperation.png",
+						path: "/pages/login/login",
+						name: "商务合作",
+						enName: "cooperation",
+						isLogin: false,
+					},
+					{
+						icon: "/static/icon/mine_logout.png",
+						path: "/pages/login/login",
+						name: "注销",
+						enName: "logout",
+						isLogin: false,
+					},
 				],
 				showModal: false,
-				title: '登录',
-				content: '您好，请先完成登录！',
-				confirmText: '去登录',
+				title: "登录",
+				content: "您好，请先完成登录！",
+				confirmText: "去登录",
 			};
 		},
 		components: {
@@ -176,7 +179,6 @@
 			// 		icon:'none',
 			// 		duration: 200000
 			// 		});
-
 			// 		console.log('当前位置的经度：' + res.longitude);
 			// 		console.log('当前位置的纬度：' + res.latitude);
 			// 	}
@@ -189,44 +191,51 @@
 			// 		});
 		},
 		methods: {
-			...mapMutations(['LOGOUT']),
+			...mapMutations(["LOGOUT"]),
 			orderPage(item) {
 				uni.navigateTo({
-					url: item.path
-				})
+					url: item.path,
+				});
 			},
 
 			clickNav(item) {
-				if (!(store.state.user.token)) {
+				if (!store.state.user.token) {
 					this.showModal = true;
 					return;
 				}
 
 				if (item.page) {
-					getUserInfo({}).then(async (res) => {
-						if (res.code === 100000) {
-							if ((res?.data && res?.data.status === 4) || (res?.data && res?.data.status ===
-									5)) {
-								getQy({}).then((res) => {
-									if (res.code === 100000) {
-										uni.navigateTo({
-											url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+					getUserInfo({})
+						.then(async (res) => {
+							if (res.code === 100000) {
+								if (
+									(res?.data && res?.data.status === 4) ||
+									(res?.data && res?.data.status === 5)
+								) {
+									getQy({})
+										.then((res) => {
+											if (res.code === 100000) {
+												uni.navigateTo({
+													url: `/pages/webview/webview?urlPath=${encodeURIComponent(
+                          res?.data?.url
+                        )}`,
+												});
+											} else {
+												uni.$u.route(item.path);
+											}
+										})
+										.catch((err) => {
+											console.log(err, "err");
 										});
-									} else {
-										uni.$u.route(item.path);
-									}
-								}).catch((err) => {
-									console.log(err, 'err');
-								})
-							} else {
-								uni.$u.route(item.path);
+								} else {
+									uni.$u.route(item.path);
+								}
 							}
-
-						}
-					}).catch((err) => {
-						console.log(err, 'err');
-					})
-					return
+						})
+						.catch((err) => {
+							console.log(err, "err");
+						});
+					return;
 				}
 
 				if (item.path) {
@@ -234,129 +243,151 @@
 				}
 			},
 			handleListItem(item) {
-				console.log(item, '看看')
-				if (item === 'equity') {
+				console.log(item, "看看");
+				if (item === "equity") {
 					uni.navigateTo({
-						url: `/pages/mine/equity/equity`
+						url: `/pages/mine/equity/equity`,
 					});
 					return;
 				}
-				if (item.enName === 'logout') {
-					this.showDialog = true
+				if (item.enName === "contact") {
+					this.getJumpInfos("contract_us");
+					return;
+				}
+				if (item.enName === "cooperation") {
+					this.getJumpInfos("business_cooperation");
+					return;
+				}
+				if (item.enName === "logout") {
+					this.showDialog = true;
 					return;
 				}
 				uni.navigateTo({
-					url: `${item.path}`
+					url: `${item.path}`,
 				});
 				return;
 			},
 			confirm() {
 				this.showModal = false;
-				if (!(store.state.user.token)) {
-					uni.$u.route('/pages/login/login');
+				if (!store.state.user.token) {
+					uni.$u.route("/pages/login/login");
 					return;
 				}
 			},
 			onClickDialog(event) {
-				if (event == 'confirm') {
+				if (event == "confirm") {
 					deleteUser().then((res) => {
 						if (res.code === 100000) {
-							this.LOGOUT()
+							this.LOGOUT();
 							uni.redirectTo({
-								url: '/pages/login/login'
+								url: "/pages/login/login",
 							});
 							return;
 						}
-
-					})
+					});
 				}
-				this.showDialog = false
+				this.showDialog = false;
+			},
+			async getJumpInfos(code) {
+				try {
+					let res = await getProductOtherInfos({
+						code
+					});
+					if (res.code === 10000) {
+						uni.navigateTo({
+							url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.value?.value || '')}`,
+						});
+					}
+					console.log(res,'你阿红')
+					
+				} catch (e) {
+					// error
+				}
+
 			},
 		},
 		onLoad() {
-			uni.showLoading({
-
-			})
+			uni.showLoading({});
 		},
 		onReady() {
 			// #ifdef APP-PLUS
-			plus.navigator.setStatusBarStyle('light');
+			plus.navigator.setStatusBarStyle("light");
 			// #endif
 		},
 		onShow() {
 			// #ifdef APP-PLUS
-			plus.navigator.setStatusBarStyle('light');
+			plus.navigator.setStatusBarStyle("light");
 			// #endif
-			uni.hideLoading()
+			uni.hideLoading();
 		},
 		computed: {
-			...mapGetters(['isLogin', 'getUserInfos']),
+			...mapGetters(["isLogin", "getUserInfos"]),
 			headStr() {
 				/**	getSexByBirthday
 				 * @param idCard
 				 * '0' 男
 				 * '1' 女
 				 */
-				let sexNum = this.getUserInfos?.status ? common.getSexByBirthday(this.getUserInfos.id_number) : 2
-				if (sexNum === '0') {
-					return 'headman'
+				let sexNum = this.getUserInfos?.status ?
+					common.getSexByBirthday(this.getUserInfos.id_number) :
+					2;
+				if (sexNum === "0") {
+					return "headman";
 				}
-				if (sexNum === '1') {
-					return 'headwomen'
+				if (sexNum === "1") {
+					return "headwomen";
 				}
-				return 'head'
+				return "head";
 			},
 			membershipLevel() {
 				/**	membershipLevel
-				 * @param 
-				 * 
+				 * @param
+				 *
 				 * 1-普通用户
 				 * 2-普通会员
 				 * 3-高级会员
 				 */
 				let obj = {
-					levelName: '成为会员',
+					levelName: "成为会员",
 					levelstyle: {
 						baijinColor: true,
 						goldColor: false,
 					},
-					levelStatus: 'ordinary'
-				}
-				let sexNum = this.getUserInfos?.status
+					levelStatus: "ordinary",
+				};
+				let sexNum = this.getUserInfos?.status;
 				if (this.getUserInfos?.status === 1) {
-					obj.levelName = '成为会员',
-						obj.levelstyle = {
-							baijinColor: true,
-							goldColor: false,
-						}
+					(obj.levelName = "成为会员"),
+					(obj.levelstyle = {
+						baijinColor: true,
+						goldColor: false,
+					});
 					// obj.levelStatus ='ordinary'
-					obj.levelStatus = 'silver'
-					return obj
+					obj.levelStatus = "silver";
+					return obj;
 				}
 				if (this.getUserInfos?.status === 2) {
-					obj.levelName = '普通会员',
-						obj.levelstyle = {
-							baijinColor: true,
-							goldColor: false,
-						}
-					obj.levelStatus = 'silver'
-					return obj
+					(obj.levelName = "普通会员"),
+					(obj.levelstyle = {
+						baijinColor: true,
+						goldColor: false,
+					});
+					obj.levelStatus = "silver";
+					return obj;
 				}
 				if (this.getUserInfos?.status === 3) {
-					obj.levelName = '高级会员',
-						obj.levelstyle = {
-							baijinColor: false,
-							goldColor: true,
-						}
-					obj.levelStatus = 'gold'
-					return obj
+					(obj.levelName = "高级会员"),
+					(obj.levelstyle = {
+						baijinColor: false,
+						goldColor: true,
+					});
+					obj.levelStatus = "gold";
+					return obj;
 				}
-				return obj
-			}
-
-
-		}
-	}
+				return obj;
+			},
+		},
+	};
 </script>
 
 <style lang="scss" scoped>
@@ -364,7 +395,7 @@
 		width: 100%;
 		height: 100vh;
 		height: 1624rpx;
-		background: #F9F9F9;
+		background: #f9f9f9;
 	}
 
 	.bgBox {
@@ -433,13 +464,13 @@
 				}
 
 				.baijinColor {
-					background: #EAEDF2;
-					color: #A1C0E4;
+					background: #eaedf2;
+					color: #a1c0e4;
 				}
 
 				.goldColor {
-					background: #FFEBCF;
-					color: #C99B5C;
+					background: #ffebcf;
+					color: #c99b5c;
 				}
 
 				.memberImg {
@@ -456,7 +487,6 @@
 				}
 			}
 		}
-
 	}
 
 	.privilege {
@@ -478,7 +508,7 @@
 				font-size: 30rpx;
 				font-family: PingFangSC-Medium, PingFang SC;
 				font-weight: 500;
-				color: #7F5D2E;
+				color: #7f5d2e;
 				line-height: 42rpx;
 				margin-left: 56rpx;
 			}
@@ -495,7 +525,6 @@
 		}
 	}
 
-
 	.mine_list {
 		width: 100%;
 		margin-bottom: 48rpx;
@@ -505,7 +534,7 @@
 			// height: 296rpx;
 
 			padding: 0rpx 40rpx 0rpx 32rpx;
-			background: #FFFFFF;
+			background: #ffffff;
 			border-radius: 16rpx;
 			box-sizing: border-box;
 
@@ -585,7 +614,6 @@
 	// 			}
 	// 		}
 	// 	}
-
 
 	// }
 

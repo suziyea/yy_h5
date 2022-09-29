@@ -92,3 +92,9 @@ export const getMenu = (data) => http.get('url', data)
 export const deleteUser = (params, config = {}) => {
 	return http.post('/api/yy/user/delete', params, config)
 }
+
+
+// 获取价格等其他设置 
+export const getProductOtherInfos = (params, config = {}) => {
+	return http.post('/api/yy/other-set/get', params, config)
+}
