@@ -89,7 +89,7 @@
 			</view>
 		</view>
 
-		<view class="maskDialog">
+		<view class="maskDialog" v-if="false">
 			<view class="dialog">
 				<view class="title">七分甜-上海徐汇Ai plaza店
 					<view class="close" @click.stop="close">

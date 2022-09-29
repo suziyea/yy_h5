@@ -182,7 +182,6 @@
 				width: 750rpx;
 				height: 468rpx;
 				position: relative;
-				z-index: 99;
 			}
 
 			.playImg {
