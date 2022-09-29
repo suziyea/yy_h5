@@ -160,7 +160,7 @@
           class="pay_view u-flex u-flex-items-center"
           v-for="(item, index) in payTypeList"
           :key="index"
-         @click="handlePayMode(item)"
+          @click="handlePayMode(item)"
         >
           <!-- 2 -->
           <view class="icon_pay u-flex u-flex-center u-flex-items-center">
@@ -170,20 +170,26 @@
             {{ item.typeText }}支付
           </view>
           <view class="rightIcon">
-            <image src="/static/icon/mine_jump.png" mode=""></image>
+            <image src="/static/icon/mine_jump.png" mode="aspectFill"></image>
           </view>
         </view>
       </view>
     </u-popup>
 
-
-	<!--  展示图片  -->
-	<u-modal :show="showModal" title="请扫码支付" confirmColor='#7f5d2e' @confirm='handleCoonfirmModal'>
-			<view class="slot-content">
-				<!-- <u-tooltip :text="tooltipContent"></u-tooltip> -->
-				<image src="https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF" mode=""></image>
-			</view>
-		</u-modal>
+    <!--  展示图片  -->
+    <u-modal
+      :show="showModal"
+      title="请扫码支付"
+      confirmColor="#7f5d2e"
+      @confirm="handleCoonfirmModal"
+    >
+      <view class="slot-content">
+        <view class="text u-flex u-flex-center u-flex-items-center">
+          付款后请联系客服获取最新支付状态
+        </view>
+        <image :src="payQrcode" mode="aspectFill"></image>
+      </view>
+    </u-modal>
   </view>
 </template>
 
@@ -192,6 +198,7 @@ import {
   getSisterDetail,
   getMoreSisterContact,
   amOrder,
+  getPayQrcode,
 } from "@/config/api/sister.js";
 import { getProductOtherInfos } from "@/config/api/user.js";
 export default {
@@ -269,7 +276,8 @@ export default {
       payModal: false,
       showBottomPopup: false,
       reservePhone: "", // 预留手机号
-	  showModal: false,
+      showModal: false,
+      payQrcode: "",
     };
   },
   onLoad(options) {
@@ -314,8 +322,8 @@ export default {
         });
     },
     clicksubscribe() {
-    //   this.payModal = true;
-	this.showBottomPopup = true;
+      //   this.payModal = true;
+      this.showBottomPopup = true;
       amOrder({
         sister_id: this.sisterId,
       })
@@ -380,13 +388,22 @@ export default {
       this.showBottomPopup = false;
       // console.log('close');
     },
-	handlePayMode(item) {
-		console.log(item,'支付')
-		this.showModal = true
-	},
-	handleCoonfirmModal() {
-		this.showModal = false
-	},
+    async handlePayMode(item) {
+      let res = await getPayQrcode({});
+      if (res.code === 100000) {
+        this.payQrcode = "";
+        if (item.typeStatus === 1) {
+          this.payQrcode = res.data.wx;
+        }
+        if (item.typeStatus === 2) {
+          this.payQrcode = res.data.zfb;
+        }
+      }
+      this.showModal = true;
+    },
+    handleCoonfirmModal() {
+      this.showModal = false;
+    },
   },
 };
 </script>
@@ -788,14 +805,22 @@ export default {
     }
   }
   /deep/ .slot-content {
-	height:800rpx !important;
-	image {
-		height: 100%;
-	}
-	/deep/ .u-modal__button-group {
-			background: linear-gradient(90deg, #EFD4AF 0%, #C1914B 100%) !important;
-
-	}
+    height: 800rpx !important;
+    .text {
+      width: 100%;
+      margin: 30rpx 0rpx;
+      height: 80rpx;
+      font-size: 28rpx;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #7f5d2e;
+    }
+    image {
+      height: 600rpx;
+    }
+    /deep/ .u-modal__button-group {
+      background: linear-gradient(90deg, #efd4af 0%, #c1914b 100%) !important;
+    }
   }
 }
 </style>

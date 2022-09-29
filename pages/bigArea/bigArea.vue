@@ -166,8 +166,8 @@ export default {
       ],
       tapsList: [
         {
-          // "text": "上门服务",
-          text: "hello",
+          "text": "上门服务",
+        //   text: "hello",
         },
         {
           text: "视频",
@@ -299,7 +299,7 @@ export default {
       }
       if (type === "photo") {
         uni.navigateTo({
-          url: `/pages/dataDetail/dataDetail?id=${val}&name=${new Date().getTime()}`,
+          url: `/pages/dataDetail/dataDetail?id=${val.id}&name=${new Date().getTime()}`,
         });
         return;
       }

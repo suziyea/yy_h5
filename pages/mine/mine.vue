@@ -130,7 +130,7 @@
 				secondList: [{
 						icon: "/static/icon/mine_contact.png",
 						path: "/pages/mine/service/service",
-						name: "联系我们",
+						name: "联系客服",
 						enName: "contact",
 						isLogin: false,
 					},
@@ -292,7 +292,7 @@
 					let res = await getProductOtherInfos({
 						code
 					});
-					if (res.code === 10000) {
+					if (res.code === 100000) {
 						uni.navigateTo({
 							url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.value?.value || '')}`,
 						});

@@ -70,3 +70,11 @@ export const memberOrder = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/yy/member-order/init', params, config)
+
+
+// 获取支付码
+export const getPayQrcode = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/pay-qrcode/get', params, config)
