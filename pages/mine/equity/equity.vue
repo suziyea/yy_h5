@@ -166,14 +166,6 @@
         @on-click-preimgmodal-close="closePreImgModal"
       ></payImgModal>
     </view>
-
-    <!-- 输入手机号 -->
-    <view v-if="phoneModalStatus">
-      <phoneModal
-        @confirmSubmit="handleUserSavePhone"
-        @closePhoneModal="closePhoneModal"
-      ></phoneModal>
-    </view>
   </view>
 </template>
 
@@ -196,7 +188,6 @@ export default {
       current: 0,
       showSelectPayPopup: false, // 选择支付 弹窗状态
       showPreImgModalVisible: false, // 展示 图片组件 弹窗状态
-      phoneModalStatus: false, // 展示 输入手机号组件 弹窗状态
       list3: [
         "/static/img/mine_equity_silver.png",
         "/static/img/mine_equity_gold.png",
@@ -288,39 +279,9 @@ export default {
     closePreImgModal() {
       this.showPreImgModalVisible = false;
     },
-    // 手机号获取
-    handleUserSavePhone(phone) {
-      console.log(phone, "手机哦哦");
-
-      let phoneNum = phone.replace(/\s*/g, "");
-      if (!uni.$u.test.mobile(phoneNum)) {
-        uni.showToast({
-          title: "手机号不正确！",
-        });
-        return;
-      }
-      this.savePhone(phoneNum);
-    },
-    // 保存手机号
-    async savePhone(phone) {
-      try {
-        let res = await savePhoneApi({
-          phone
-        });
-        if (res.code === 100000) {
-          this.showSelectPayPopup = true;
-		  this.phoneModalStatus = false;
-        }
-      } catch (e) {
-        // error
-      }
-    },
-    closePhoneModal() {
-      this.phoneModalStatus = false;
-    },
 	// 成为会员前操作
 	beforeBecomeMember() {
-		this.phoneModalStatus = true;
+		this.showSelectPayPopup = true;
 	},
   },
   computed: {
