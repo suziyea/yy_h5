@@ -113,14 +113,6 @@
         @cancel="showModal = false"
         :content="content"
       ></u-modal>
-      <!-- <u-button @click="show = true">打开</u-button> -->
-    </view>
-    <view>
-      <selectModal
-        :showBottomPopup="showSelectPayPopup"
-        @on-click-pay-mode="handlePayMode"
-        @on-click-modal-close="closeSelectModal"
-      ></selectModal>
     </view>
     <view class="tab">
       <Tarbar currentPage="mine"></Tarbar>
@@ -138,25 +130,20 @@ import {
   getProductOtherInfos,
 } from "@/config/api/user.js";
 import {
-  getSisterDetail,
-  getMoreSisterContact,
-  amOrder,
   getPayQrcode,
 } from "@/config/api/sister.js";
 import Tarbar from "@/components/tabbar/Tarbar.vue";
 import commonDialog from "@/components/common-dialog/common-dialog.vue";
-import selectModal from "@/components/selectModal/selectModal.vue";
 
 export default {
   components: {
     commonDialog,
     Tarbar,
-    selectModal,
   },
   data() {
     return {
       showDialog: false,
-      showSelectPayPopup: true,
+      showSelectPayPopup: false,
       firstList: [
         {
           icon: "/static/icon/mine_like.png",
@@ -363,9 +350,6 @@ export default {
         }
       }
       // this.showModal = true;
-    },
-    closeSelectModal() {
-      this.showSelectPayPopup = false;
     },
   },
   onLoad() {
