@@ -107,6 +107,7 @@ export default {
 
 <style lang="scss" scoped>
 .preImgContainer {
+  height: 100%;
   /deep/ .slot-content {
     height: 800rpx !important;
 
@@ -121,7 +122,7 @@ export default {
     }
 
     image {
-      height: 600rpx;
+      height: 650rpx;
     }
 
     /deep/ .u-modal__button-group {
