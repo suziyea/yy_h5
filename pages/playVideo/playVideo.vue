@@ -55,7 +55,7 @@
             <image :src="item.video" mode=""></image>
           </view>
           <view class="desc u-flex u-flex-items-center">
-            <view class="left">热度:{{ item.score }}</view>
+            <view class="left u-flex  u-flex-items-center"><u-icon name="eye" size="16"></u-icon>{{ item.score }}</view>
             <view class="right">{{ item.created_at | formatDate }}</view>
           </view>
         </view>
@@ -74,7 +74,9 @@ export default {
       src: "https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4",
       createVideoContext: "",
       playVideoBtnStatus: true, // 默认显示
-      videoInfos: null,
+      videoInfos: {
+        video: "",
+      },
       videoId: "",
       videoList: [],
     };
@@ -86,8 +88,11 @@ export default {
     this.videoId = options.id || "";
   },
   created() {
-    this.videoInfos = uni.getStorageSync("about_video_info");
-    this.videoInfos.video = "https://www.w3schools.com/html/movie.mp4";
+    if (uni.getStorageSync("about_video_info")) {
+      this.videoInfos = uni.getStorageSync("about_video_info");
+    } else {
+      this.videoInfos.video = "https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4";
+    }
     this.changeVideoScore();
     this.getInitVideoList();
   },
@@ -134,9 +139,6 @@ export default {
       getVideoList({})
         .then((res) => {
           if (res.code === 100000) {
-            // if (res?.data?.length > 0) {
-            // 	this.orderList = res?.data
-            // }
             this.videoList = res?.data.list;
           }
         })
@@ -334,7 +336,7 @@ export default {
           margin: 14rpx 0rpx;
 
           .left {
-            width: 140rpx;
+            width: 220rpx;
             font-size: 24rpx;
             font-weight: 500;
             color: #444444;
