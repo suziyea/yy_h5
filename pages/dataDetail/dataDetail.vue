@@ -1,9 +1,8 @@
 <template>
   <view class="container_detail" v-if="showFlag">
+    <u-toast class="toastTop" ref="uToast"></u-toast>
     <!-- 详情图片 -->
     <view class="sisterImg">
-      <!-- <img src="/static/img/login/p1.jpeg" alt=""> -->
-      <!-- <image src="/static/img/login/p1.jpeg" mode=""></image> -->
       <u-swiper
         :list="list3"
         indicator
@@ -90,110 +89,39 @@
           <view class="money">{{ mm_sisterInfo.price }}</view>
           <view class="text">元/次</view>
         </view>
-        <view class="subscribeBtn u-flex u-flex-center u-flex-items-center">
-          <view class="text" @click="clicksubscribe">立即预约</view>
+        <view
+          class="subscribeBtn u-flex u-flex-center u-flex-items-center"
+          @click="beforeSubscribe"
+        >
+          <view class="text">立即预约</view>
         </view>
       </view>
     </view>
-
-    <view class="maskDialog" v-if="payModal">
-      <view class="dialog">
-        <view class="title"
-          >温馨提示
-          <view class="close" @click.stop="close">
-            <image src="/static/icon/close_icon.png" mode="aspectFill"></image>
-          </view>
-        </view>
-        <view
-          class="content u-flex u-flex-column u-flex-center u-flex-items-center"
-        >
-          <view class="desc_dialog">
-            <view class="text"> 请填写真实的联系方式， </view>
-            <view class="text"> 便于小妹联系到你! </view>
-          </view>
-          <view class="inputView u-flex u-flex-items-center">
-            <input
-              class="inputText"
-              placeholder-class="input-placeholder"
-              v-model="reservePhone"
-              placeholder="请输入手机号"
-              @input="handleTelInput"
-            />
-          </view>
-        </view>
-        <view class="button_layout">
-          <!-- <view v-if="showCancel" class="cancel" @click.stop="cancel">{{
-            cancelText
-          }}</view> -->
-          <view class="confirm" @click.stop="confirm">提交</view>
-        </view>
-      </view>
-      <view class="mask" @touchmove.stop.prevent="stopScroll"></view>
+    <!-- 选择支付 -->
+    <view v-if="showSelectPayPopup">
+      <selectModal
+        :showBottomPopup="showSelectPayPopup"
+        @on-click-pay-mode="handlePayMode"
+        @on-click-modal-close="closeSelectModal"
+      ></selectModal>
     </view>
 
-    <!-- 付款选项弹窗 -->
-    <u-popup
-      :show="showBottomPopup"
-      mode="bottom"
-      :round="10"
-      @close="closePopup"
-      @open="openPopup"
-    >
-      <view class="popup_container">
-        <view class="title_view u-flex u-flex-center u-flex-items-center">
-          请选择
-          <view class="close_popup" @click.stop="closePopup">
-            <image src="/static/icon/close_icon.png" mode="aspectFill"></image>
-          </view>
-        </view>
-        <!-- <text>人生若只如初见，何事秋风悲画扇</text> -->
-        <!-- <view class="pay_view u-flex u-flex-items-center">
-          <view class="icon_pay u-flex u-flex-center u-flex-items-center">
-            <u-icon name="weixin-circle-fill" size="28"></u-icon>
-          </view>
-          <view class="pay_type u-flex u-flex-items-center"> 微信支付 </view>
-          <view class="rightIcon">
-            <image src="/static/icon/mine_jump.png" mode=""></image>
-          </view>
-        </view> -->
-        <view
-          class="pay_view u-flex u-flex-items-center"
-          v-for="(item, index) in payTypeList"
-          :key="index"
-          @click="handlePayMode(item)"
-        >
-          <!-- 2 -->
-          <view class="icon_pay u-flex u-flex-center u-flex-items-center">
-            <u-icon :name="item.icon" size="28"></u-icon>
-          </view>
-          <view class="pay_type u-flex u-flex-items-center">
-            {{ item.typeText }}支付
-          </view>
-          <view class="rightIcon">
-            <image src="/static/icon/mine_jump.png" mode="aspectFill"></image>
-          </view>
-        </view>
-      </view>
-    </u-popup>
+    <!-- 展示图片 -->
+    <view v-if="showPreImgModalVisible">
+      <payImgModal
+        :showModal="showPreImgModalVisible"
+        :payQrcode="paySrcImg"
+        @on-click-preimgmodal-close="closePreImgModal"
+      ></payImgModal>
+    </view>
 
-    <!--  展示图片  -->
-    <u-modal
-      :show="showModal"
-      title="请扫码支付"
-      confirmColor="#7f5d2e"
-      @confirm="handleCoonfirmModal"
-    >
-      <view class="slot-content">
-        <view class="text u-flex u-flex-center u-flex-items-center">
-          付款后请联系客服获取最新支付状态
-        </view>
-        <image
-          :src="payQrcode"
-          @longpress="downlaodImage(payQrcode)"
-          mode="aspectFill"
-        ></image>
-      </view>
-    </u-modal>
+    <!-- 输入手机号 -->
+    <view v-if="phoneModalStatus">
+      <phoneModal
+        @confirmSubmit="handleUserSavePhone"
+        @closePhoneModal="closePhoneModal"
+      ></phoneModal>
+    </view>
   </view>
 </template>
 
@@ -203,52 +131,24 @@ import {
   getMoreSisterContact,
   amOrder,
   getPayQrcode,
+  savePhoneApi,
 } from "@/config/api/sister.js";
 import { getProductOtherInfos } from "@/config/api/user.js";
+import selectModal from "@/components/selectModal/selectModal.vue";
+import payImgModal from "@/components/payImgModal/payImgModal.vue";
+import phoneModal from "@/components/phoneModal/phoneModal.vue";
 export default {
+  components: {
+    selectModal,
+    payImgModal,
+    phoneModal,
+  },
   data() {
     return {
       list3: [
-        // '/static/img/login/p1.jpeg',
-        // '/static/img/login/p2.jpeg',
-        // '/static/img/login/p3.jpeg',
         "https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF",
         "https://t7.baidu.com/it/u=2295973985,242574375&fm=193&f=GIF",
       ],
-      payTypeList: [
-        {
-          icon: "weixin-circle-fill",
-          typeStatus: 1,
-          typeText: "微信",
-        },
-        {
-          icon: "zhifubao-circle-fill",
-          typeStatus: 2,
-          typeText: "支付宝",
-        },
-      ],
-      indicatorStyle: {
-        bottom: 66,
-      },
-      // detailImgs: [{
-      // 		image: "/static/img/login/p1.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p2.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p3.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p4.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p5.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p8.jpeg"
-      // 	}
-      // ],
       detailImgs: [
         {
           image: "https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF",
@@ -276,12 +176,11 @@ export default {
       order_no: "",
       sisterId: "",
       showFlag: false,
-      sister_rules: "",
-      payModal: false,
-      showBottomPopup: false,
-      reservePhone: "", // 预留手机号
-      showModal: false,
-      payQrcode: "",
+      sister_rules: "", // 预约细则
+      showSelectPayPopup: false, // 选择支付 弹窗状态
+      showPreImgModalVisible: false, // 展示 图片组件 弹窗状态
+      phoneModalStatus: false, // 展示 输入手机号组件 弹窗状态
+      paySrcImg: "",
     };
   },
   onLoad(options) {
@@ -299,7 +198,6 @@ export default {
     getDetails() {
       getSisterDetail({
         id: this.sisterId,
-        id: 1,
       })
         .then((res) => {
           if (res.code === 100000) {
@@ -326,9 +224,11 @@ export default {
           console.log(err, "err");
         });
     },
+    // 立即预约前操作
+    beforeSubscribe() {
+      this.phoneModalStatus = true;
+    },
     clicksubscribe() {
-      //   this.payModal = true;
-      this.showBottomPopup = true;
       amOrder({
         sister_id: this.sisterId,
       })
@@ -342,81 +242,97 @@ export default {
         });
     },
     async getJumpInfos(code) {
-      let res = await getProductOtherInfos({
-        code,
-      });
-    },
-    close() {
-      this.payModal = false;
-    },
-    confirm() {
-      let phone = this.reservePhone.replace(/\s*/g, "");
-      if (!uni.$u.test.mobile(phone)) {
-        return;
+      try {
+        let res = await getProductOtherInfos({
+          code,
+        });
+        if (res.code === 100000) {
+          this.sister_rules = res.data.remark || "";
+        }
+      } catch (e) {
+        // error
       }
     },
-    cancel() {
-      console.log("ceancel");
+    // 选择支付方式
+    async handlePayMode(item) {
+      let res = await getPayQrcode({});
+      if (res.code === 100000) {
+        this.paySrcImg = "";
+        if (item.typeStatus === 1) {
+          this.paySrcImg = res.data.wx;
+        }
+        if (item.typeStatus === 2) {
+          this.paySrcImg = res.data.zfb;
+        }
+      }
+      this.showSelectPayPopup = false;
+      this.showPreImgModalVisible = true;
+    },
+
+    // 关闭选择支付方式弹窗
+    closeSelectModal() {
+      this.showSelectPayPopup = false;
+    },
+
+    // 关闭展示支付图片
+    closePreImgModal() {
+      this.showPreImgModalVisible = false;
+      this.clicksubscribe();
+    },
+    // 关闭 输入手机号弹窗
+    closePhoneModal() {
+      this.phoneModalStatus = false;
+    },
+    // 输入手机号弹窗 点击确定
+    handleUserSavePhone(phone) {
+      console.log(phone, "手机哦哦");
+
+      let phoneNum = phone.replace(/\s*/g, "");
+      if (!uni.$u.test.mobile(phoneNum)) {
+        console.log(phone, "手机号输入有误哦哦");
+
+        // uni.showToast({
+        //   title: "手机号不正确！",
+        // });
+		let params = {
+						type: 'error',
+						icon: false,
+						title: '失败主题',
+						message: "一弦一柱思华年",
+						iconUrl: 'https://cdn.uviewui.com/uview/demo/toast/error.png'
+					}
+        this.showToast(params);
+        return;
+      }
+      this.savePhone(phoneNum);
+    },
+    // 保存手机号
+    async savePhone(phone) {
+      try {
+        let res = await savePhoneApi({
+          phone,
+        });
+        if (res.code === 100000) {
+          this.showSelectPayPopup = true;
+          this.phoneModalStatus = false;
+        }
+      } catch (e) {
+        // error
+      }
     },
     stopScroll() {
       return false;
     },
-    handleTelInput(e) {
-      var len = this.reservePhone.length;
-      // var {phone} = this.formContent
-      var reg = new RegExp("\\s", "g");
-      var mobile_ = "";
-      this.reservePhone = this.reservePhone.replace(reg, "");
-      for (var i = 0; i < len; i++) {
-        if (i == 2 || i == 6) {
-          // charAt(int index)方法是一个能够用来检索特定索引下的字符的String实例的方法。
-          //这里用来检索this.reservePhone 的index为2和6
-          mobile_ = mobile_ + this.reservePhone.charAt(i) + " "; //当检索到2和6时，将原本的mobile_值加上新增的this.reservePhone 值再加一个" "后再赋值给mobile_自己
-        } else {
-          mobile_ += this.reservePhone.charAt(i);
-        }
-      }
-      this.reservePhone = mobile_;
-    },
-    openPopup() {
-      // console.log('open');
-    },
-    closePopup() {
-      this.showBottomPopup = false;
-      // console.log('close');
-    },
-    async handlePayMode(item) {
-      let res = await getPayQrcode({});
-      if (res.code === 100000) {
-        this.payQrcode = "";
-        if (item.typeStatus === 1) {
-          this.payQrcode = res.data.wx;
-        }
-        if (item.typeStatus === 2) {
-          this.payQrcode = res.data.zfb;
-        }
-      }
-      this.showModal = true;
-    },
-    handleCoonfirmModal() {
-      this.showModal = false;
-    },
-    downlaodImage(url) {
-      uni.downloadFile({
-        url,
-        success: (res) => {
-          // 获取到图片本地地址后再保存图片到相册(因为此方法不支持远程地址)
-          uni.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success: () => {
-              uni.showToast({
-                title: "保存成功！",
-              });
-            },
-            fail: (err) => {
-              console.log(err);
-            },
-          });
+    showToast(params) {
+		// console.log(params,'入餐')
+      this.$refs.uToast.show({
+        ...params,
+		
+        complete() {
+          params.url &&
+            uni.navigateTo({
+              url: params.url,
+            });
         },
       });
     },
@@ -429,6 +345,10 @@ export default {
   width: 750rpx;
   height: 100%;
   position: relative;
+  .toastTop {
+	position: relative;
+	// z-index: 999;
+  }
 
   .sisterImg {
     width: 750rpx;
@@ -465,11 +385,9 @@ export default {
 
         .info_name {
           width: 308rpx;
-          // height: 76rpx;
           font-size: 48rpx;
           font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
-          // color: #FFFFFF;
           line-height: 76rpx;
         }
 
@@ -617,239 +535,9 @@ export default {
     z-index: 21;
   }
 
-  .maskDialog {
-    .dialog {
-      position: fixed;
-      z-index: 100000;
-      top: 30%;
-      left: 50%;
-      margin-left: -40%;
-      width: 622rpx;
-      height: 468rpx;
-      background: #ffffff;
-      border-radius: 32rpx;
-      padding: 0 32rpx;
-      box-sizing: border-box;
-
-      .title {
-        width: 100%;
-        text-align: center;
-        font-weight: 600;
-        position: relative;
-        font-size: 36rpx;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
-        color: #000000;
-        margin-top: 48rpx;
-        // line-height: 50rpx;
-
-        .close {
-          position: absolute;
-          right: -8rpx;
-          top: 0rpx;
-          width: 30rpx;
-          height: 31rpx;
-
-          image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-      }
-
-      .content {
-        width: 100%;
-        // margin: 24rpx 0rpx 32rpx 0rpx;
-        text-align: center;
-        font-size: 28rpx;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #444444;
-
-        .desc_dialog {
-          width: 100%;
-          margin: 30rpx 0rpx;
-          height: 80rpx;
-
-          .text {
-            width: 558rpx;
-            font-size: 28rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #444444;
-          }
-        }
-
-        .inputView {
-          width: 100%;
-          height: 82rpx;
-          background: #f9f3eb;
-          border-radius: 48rpx;
-          display: flex;
-
-          /*输入框*/
-          .nameImage {
-            margin-left: 66rpx;
-            margin-right: 36rpx;
-            width: 30rpx;
-            height: 32rpx;
-          }
-
-          .inputText {
-            font-size: 32rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
-            width: 100%;
-            box-sizing: border-box;
-            font-weight: 500;
-            color: #7f5d2e;
-          }
-        }
-      }
-
-      .content_bottom {
-        width: 100%;
-        // width: 558rpx;
-
-        // margin: 0 auto;
-        font-size: 28rpx;
-        color: #333333;
-      }
-
-      .cancel {
-        width: 100%;
-        height: 82rpx;
-        text-align: center;
-        line-height: 82rpx;
-        color: rgb(111, 111, 111);
-        margin: 30rpx 30rpx 0 auto;
-        background: rgb(255, 255, 255);
-        border-radius: 42rpx;
-        border: 1px solid rgb(179, 179, 179);
-      }
-
-      .confirm {
-        width: 100%;
-        height: 82rpx;
-        text-align: center;
-        line-height: 82rpx;
-        margin: 30rpx auto 0 auto;
-        background: linear-gradient(90deg, #efd4af 0%, #c1914b 100%);
-        border-radius: 48rpx;
-        font-size: 32rpx;
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 500;
-        color: #7f5d2e;
-      }
-
-      .button_layout {
-        display: flex;
-        flex-direction: row;
-      }
-    }
-
-    .mask {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 99999;
-      background: rgba(0, 0, 0, 0.5);
-    }
-  }
-
   /deep/ .uni-input-placeholder {
     color: #7f5d2e;
     font-size: 28rpx;
-  }
-
-  /deep/ .u-popup {
-    // background: rgb(245, 245, 245) !important;
-    .popup_container {
-      width: 100%;
-      padding: 0 32rpx !important;
-      // border: 1px solid green;
-      box-sizing: border-box;
-      background: #f5f5f5;
-      border-radius: 20rpx !important;
-
-      .title_view {
-        width: 100%;
-        font-size: 28rpx;
-        height: 60rpx;
-        font-weight: 500;
-        // border: 1px solid orange;
-        margin-top: 24rpx;
-        position: relative;
-
-        .close_popup {
-          position: absolute;
-          left: -8rpx;
-          top: 14rpx;
-          width: 30rpx;
-          height: 31rpx;
-
-          image {
-            width: 100%;
-            height: 100%;
-          }
-        }
-      }
-
-      .pay_view {
-        width: 100%;
-        height: 140rpx;
-        // border: 1px solid hotpink;
-        margin: 24rpx 0;
-        border-radius: 30rpx;
-        background: #fff;
-
-        .icon_pay {
-          width: 120rpx;
-          height: 120rpx;
-          // border:1px solid skyblue;
-        }
-
-        .pay_type {
-          width: 300rpx;
-          // border: 1px solid gold;
-        }
-
-        .rightIcon {
-          margin-left: auto;
-          margin-right: 32rpx;
-
-          image {
-            width: 28rpx;
-            height: 28rpx;
-          }
-        }
-      }
-    }
-  }
-
-  /deep/ .slot-content {
-    height: 800rpx !important;
-
-    .text {
-      width: 100%;
-      margin: 30rpx 0rpx;
-      height: 80rpx;
-      font-size: 28rpx;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #7f5d2e;
-    }
-
-    image {
-      height: 600rpx;
-    }
-
-    /deep/ .u-modal__button-group {
-      background: linear-gradient(90deg, #efd4af 0%, #c1914b 100%) !important;
-    }
   }
 }
 </style>
