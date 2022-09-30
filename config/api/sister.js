@@ -65,7 +65,7 @@ export const getExpensesRecord = (params, config = {
 }) => http.post('/api/yy/expenses-record/get', params, config)
 
 //成为会员发起支付订单
-export const memberOrder = (params, config = {
+export const becomeMemberOrder = (params, config = {
 	custom: {
 		auth: true
 	}
@@ -78,3 +78,11 @@ export const getPayQrcode = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/yy/pay-qrcode/get', params, config)
+
+
+// 用户预约前添加联系方式
+export const savePhoneApi = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/user-contract/create', params, config)

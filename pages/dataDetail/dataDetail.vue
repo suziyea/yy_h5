@@ -187,7 +187,11 @@
         <view class="text u-flex u-flex-center u-flex-items-center">
           付款后请联系客服获取最新支付状态
         </view>
-        <image :src="payQrcode" mode="aspectFill"></image>
+        <image
+          :src="payQrcode"
+          @longpress="downlaodImage(payQrcode)"
+          mode="aspectFill"
+        ></image>
       </view>
     </u-modal>
   </view>
@@ -281,7 +285,7 @@ export default {
     };
   },
   onLoad(options) {
-    this.sisterId = options.id || "";
+    this.sisterId = options.id || "1";
   },
   created() {
     this.storageUserInfo = uni.getStorageSync("userInfo");
@@ -295,6 +299,7 @@ export default {
     getDetails() {
       getSisterDetail({
         id: this.sisterId,
+        id: 1,
       })
         .then((res) => {
           if (res.code === 100000) {
@@ -340,25 +345,17 @@ export default {
       let res = await getProductOtherInfos({
         code,
       });
-      //   this.sister_rules = res.data.value.value;
-      console.log(res, "反悔的数据");
     },
     close() {
-      // this.$emit('on-click-dialog', 'close')
       this.payModal = false;
-      console.log("close");
     },
     confirm() {
       let phone = this.reservePhone.replace(/\s*/g, "");
-      // this.$emit('on-click-dialog', 'confirm')
       if (!uni.$u.test.mobile(phone)) {
-        console.log("手机号不正确", phone);
         return;
       }
-      console.log("confirm", phone);
     },
     cancel() {
-      // this.$emit('on-click-dialog', 'cancel')
       console.log("ceancel");
     },
     stopScroll() {
@@ -403,6 +400,25 @@ export default {
     },
     handleCoonfirmModal() {
       this.showModal = false;
+    },
+    downlaodImage(url) {
+      uni.downloadFile({
+        url,
+        success: (res) => {
+          // 获取到图片本地地址后再保存图片到相册(因为此方法不支持远程地址)
+          uni.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success: () => {
+              uni.showToast({
+                title: "保存成功！",
+              });
+            },
+            fail: (err) => {
+              console.log(err);
+            },
+          });
+        },
+      });
     },
   },
 };
@@ -600,6 +616,7 @@ export default {
     position: relative;
     z-index: 21;
   }
+
   .maskDialog {
     .dialog {
       position: fixed;
@@ -613,6 +630,7 @@ export default {
       border-radius: 32rpx;
       padding: 0 32rpx;
       box-sizing: border-box;
+
       .title {
         width: 100%;
         text-align: center;
@@ -647,6 +665,7 @@ export default {
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: #444444;
+
         .desc_dialog {
           width: 100%;
           margin: 30rpx 0rpx;
@@ -755,6 +774,7 @@ export default {
       box-sizing: border-box;
       background: #f5f5f5;
       border-radius: 20rpx !important;
+
       .title_view {
         width: 100%;
         font-size: 28rpx;
@@ -763,6 +783,7 @@ export default {
         // border: 1px solid orange;
         margin-top: 24rpx;
         position: relative;
+
         .close_popup {
           position: absolute;
           left: -8rpx;
@@ -776,6 +797,7 @@ export default {
           }
         }
       }
+
       .pay_view {
         width: 100%;
         height: 140rpx;
@@ -783,15 +805,18 @@ export default {
         margin: 24rpx 0;
         border-radius: 30rpx;
         background: #fff;
+
         .icon_pay {
           width: 120rpx;
           height: 120rpx;
           // border:1px solid skyblue;
         }
+
         .pay_type {
           width: 300rpx;
           // border: 1px solid gold;
         }
+
         .rightIcon {
           margin-left: auto;
           margin-right: 32rpx;
@@ -804,8 +829,10 @@ export default {
       }
     }
   }
+
   /deep/ .slot-content {
     height: 800rpx !important;
+
     .text {
       width: 100%;
       margin: 30rpx 0rpx;
@@ -815,9 +842,11 @@ export default {
       font-weight: 400;
       color: #7f5d2e;
     }
+
     image {
       height: 600rpx;
     }
+
     /deep/ .u-modal__button-group {
       background: linear-gradient(90deg, #efd4af 0%, #c1914b 100%) !important;
     }
