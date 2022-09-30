@@ -94,15 +94,6 @@ export default {
     this.loadmore();
   },
   filters: {
-    formatOrderType(value) {
-      if (value == "1") {
-        return "第一笔付款";
-      }
-      if (value == "2") {
-        return "第二笔付款";
-      }
-      return "";
-    },
     formatPayType(value) {
       if (value === 1) {
         return "已支付";
