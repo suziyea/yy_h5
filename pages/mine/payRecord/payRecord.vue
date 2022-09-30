@@ -11,7 +11,11 @@
       @click="click"
     >
     </u-tabs>
-    <swiper :current="topBarIndex" @change="swiperChange">
+    <swiper
+      :current="topBarIndex"
+      @change="swiperChange"
+      v-if="orderFilterList.length > 0"
+    >
       <swiper-item v-for="(item, index) in topBarList" :key="index">
         <view class="orderRecord u-flex u-flex-column u-flex-items-center">
           <view
@@ -45,15 +49,15 @@
           </view>
         </view>
       </swiper-item>
-      <!-- <view class="empty" v-else>
-        <u-empty
-          mode="order"
-          :text="emptyText"
-          icon="http://cdn.uviewui.com/uview/empty/order.png"
-        >
-        </u-empty>
-      </view> -->
     </swiper>
+    <view class="empty" v-else>
+      <u-empty
+        mode="order"
+        :text="emptyText"
+        icon="http://cdn.uviewui.com/uview/empty/order.png"
+      >
+      </u-empty>
+    </view>
   </view>
 </template>
 
@@ -124,7 +128,6 @@ export default {
   },
   methods: {
     click(item) {
-      console.log("item", item);
       this.topBarIndex = item.index;
     },
     getInitList() {
@@ -133,7 +136,6 @@ export default {
           if (res.code === 100000) {
             if (res?.data?.length > 0) {
               this.orderList = res?.data;
-              console.log(res.data, "反悔的");
             }
           }
         })
@@ -154,6 +156,7 @@ export default {
       this.topBarIndex = val.target.current;
     },
     lookSisterDetail(val) {
+      if (val.is_paid === 1) return;
       // 1-小妹预约订单 2-普通会员订单 3-高级会员订单
       let url = "";
       if (val.order_type === 1) {
@@ -170,7 +173,6 @@ export default {
       uni.navigateTo({
         url: url,
       });
-      console.log(val, "你好");
     },
   },
   computed: {
