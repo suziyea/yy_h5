@@ -49,6 +49,7 @@
 		methods: {
 			async handleUnlike(item, key) {
 				this.likeSisters.splice(key, 1)
+				let noSeeList = []
 				if (uni.getStorageSync('home_noLookSister_list') && uni.getStorageSync('home_noLookSister_list')
 					.length >= 1) {
 					noSeeList = uni.getStorageSync('home_noLookSister_list')
@@ -59,9 +60,6 @@
 					console.log('改变', noSeeList)
 					uni.setStorageSync('home_noLookSister_list', noSeeList);
 				}
-				this.$set(this.cards[0], 'is_like', type === 1 ? false : true)
-				uni.setStorageSync('home_sister_list_total', this.cards);
-
 				await cancelLikeSisterApi({
 					sister_id: item.sister_id
 				});

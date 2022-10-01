@@ -34,7 +34,7 @@
 					<!-- 费用类型 -->
 					<view class="producnt_type u-flex" v-if="productTabIndex === 1">
 						<view class="tab u-flex u-flex-column u-flex-center u-flex-items-center"
-							v-for="(item, i) in videoTypeList" :key="i" @click="handlecostTypeTab(i)"
+							v-for="(item, i) in videoTypeList" :key="i" @click="handlecostTypeTab(item,i)"
 							:class="{ activeTabStyle: costTypeTabIndex === i }">
 							<view class="text">
 								{{ item.text }}
@@ -44,7 +44,8 @@
 					<!-- 产品列表 - 内容 -->
 					<view class="product_content">
 						<view class="product_video u-flex u-flex-wrap u-flex-between" v-if="productTabIndex === 1">
-							<view class="single_video" v-for="(item, index) in videoList" :key="index"
+							<template v-if="videoList.length > 0">
+								<view class="single_video" v-for="(item, index) in videoList" :key="index"
 								@click="() => enterProduct('video', item)">
 								<view class="video">
 									<view class="img">
@@ -52,13 +53,21 @@
 									</view>
 									<!-- <video :src="item.video" :show-center-play-btn=aspectFill'false' :show-mute-btn='true'
 										:enable-play-gesture='true' :controls="false" object-fit="fill"></video> -->
-									<image :src="item.video" mode="aspectFill"></image>
+									<image :src="item.image || videoCoverImg" mode="aspectFill"></image>
 								</view>
 								<view class="desc u-flex u-flex-items-center">
-									<view class="left">珍妮Jenny</view>
-									<view class="right">上海</view>
+									<view class="left ellipsis">{{item.title}}</view>
+									<!-- <view class="right">上海</view> -->
+									<view class="right u-flex  u-flex-items-center"><u-icon name="eye" size="16"></u-icon>{{ item.score }}</view>
 								</view>
 							</view>
+
+
+							</template>
+							        <view class="empty" v-else>
+			<u-empty mode="order" :text="emptyText" icon="http://cdn.uviewui.com/uview/empty/order.png">
+			</u-empty>
+		</view>
 						</view>
 
 						<view class="product_mm_content" v-else>
@@ -69,7 +78,7 @@
 										<!-- <image src="/static/img/login/p2.jpeg" mode=""></image> -->
 										<image :src="item.index_image_url" mode="aspectFill"></image>
 									</view>
-									<view class="nicheng">
+									<view class="nicheng ellipsis">
 										{{ item.name }}
 									</view>
 									<view class="maps u-flex u-flex-items-center">
@@ -78,9 +87,8 @@
                       item.address | formatCityAreat
                     }}</text>
 									</view>
-									<view class="like">
-										<!-- <image src="/static/icon/like.png" mode=""></image> -->
-										<image :src="`/static/icon/${item.is_like ? 'nolike' : 'like'}.png`"
+									<view class="like" @click.stop="handleUnlike(item,index)">
+										<image :src="`/static/icon/${item.is_like ? 'like' : 'nolike'}.png`"
 											mode="aspectFill"></image>
 									</view>
 								</view>
@@ -103,7 +111,9 @@
 		getVideoList
 	} from "@/config/api/product.js";
 	import {
-		getProductOtherInfos
+		getProductOtherInfos,
+		likeSisterApi,
+		cancelLikeSisterApi
 	} from "@/config/api/user.js";
 	import {
 		mapGetters,
@@ -139,7 +149,6 @@
 				],
 				tapsList: [{
 						"text": "上门服务",
-						//   text: "hello",
 					},
 					{
 						text: "视频",
@@ -147,9 +156,11 @@
 				],
 				videoTypeList: [{
 						text: "免费视频",
+						type: "free"
 					},
 					{
 						text: "会员视频",
+						type: "pay"
 					},
 				],
 				productTabIndex: 0,
@@ -158,7 +169,10 @@
 				is_pay: 2, // 1-付费视频 2-免费
 				showDialog: false,
 				sisterList: [],
-				showLoginDialog: false
+				showLoginDialog: false,
+				videoCoverImg: '/static/img/login/p2.jpeg',
+      emptyText: "暂无视频",
+
 			};
 		},
 		onShow: () => {
@@ -242,6 +256,10 @@
 				}
 
 				if (item.engName === "group") {
+					if (this.getUserInfos?.status === 2) {
+						this.showDialog = true;
+						return;
+					}
 					this.getJumpInfos("exchange_group");
 					return;
 				}
@@ -260,14 +278,14 @@
 				this.productTabIndex = val;
 				this.costTypeTabIndex = 0;
 			},
-			handlecostTypeTab(i) {
+			handlecostTypeTab(val,i) {
 				if (i === this.costTypeTabIndex) return;
-				if (this.getUserInfos?.status !== 2 || this.getUserInfos?.status !== 3) {
+				if (this.getUserInfos?.status === 1) {
 					this.showDialog = true;
 					return;
 				}
 				this.costTypeTabIndex = i;
-				this.is_pay = i + 1;
+				this.is_pay = val.type ==='pay' ? 1: 2;
 				this.getInitVideoList();
 			},
 
@@ -364,7 +382,30 @@
 					}
 				}
 				this.reservePhone = mobile_;
-			}
+			},
+			async handleUnlike(item, key) {
+				this.$set(item[0], 'is_like', item.is_like === 1 ? false : true)
+				let noSeeList = []
+				if (uni.getStorageSync('home_sister_list_total') && uni.getStorageSync('home_sister_list_total')
+					.length >= 1) {
+					noSeeList = uni.getStorageSync('home_sister_list_total')
+					console.log('noseelist 没改变', noSeeList)
+					let index = noSeeList.findIndex(noseeitem => noseeitem.id = item.id)
+					let noseeItem = noSeeList[index].is_like = item.is_like ? false : true;
+					noSeeList.splice(index, 1, noseeItem)
+					console.log('改变', noSeeList)
+					uni.setStorageSync('home_sister_list_total', noSeeList);
+				}
+				let method = likeSisterApi;
+				if (item.is_like === 1) {
+					method = cancelLikeSisterApi;
+				}
+				await method({
+					sister_id: item.id
+				});
+				
+			
+			},
 		},
 		filters: {
 			formatCityAreat(val) {
@@ -650,6 +691,11 @@
 				}
 			}
 		}
+		.empty {
+			width: 100%;
+
+        margin: 90rpx 0;
+      }
 
 	}
 </style>

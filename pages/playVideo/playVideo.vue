@@ -4,7 +4,7 @@
       <video
         id="myVideo"
         :src="videoInfos.video"
-        :show-center-play-btn="false"
+        :show-center-play-btn="true"
         :show-mute-btn="true"
         :title="videoInfos.title"
         :enable-play-gesture="true"
@@ -12,21 +12,20 @@
         @play="handleplayVideo"
         @error="videoErrorCallback"
         @pause="pauseVideo"
-        @click="isPlayVideo"
       ></video>
-      <view class="playImg" @click="isPlayVideo" v-if="playVideoBtnStatus">
+      <!-- <view class="playImg" @click="isPlayVideo" v-if="playVideoBtnStatus">
         <image src="/static/icon/big_play.png" mode=""></image>
-      </view>
+      </view> -->
     </view>
 
     <!-- 视频介绍 -->
     <view class="video_introduce u-flex u-flex-column u-flex-center">
       <view class="desc">
-        {{ videoInfos.remark }}
+        {{ videoInfos.title}}
       </view>
       <view class="info u-flex">
         <view class="left_text ellipsis">
-          {{ videoInfos.title }}
+          {{ videoInfos.remark }}
         </view>
         <view class="right_text ellipsis">
           {{ videoInfos.created_at | formatDateTime }}
@@ -52,7 +51,8 @@
             </view>
             <!-- <video :src="item.video" :show-center-play-btn='false' :show-mute-btn='true'
 							:enable-play-gesture='true' :controls="false" object-fit="fill"></video> -->
-            <image :src="item.video" mode=""></image>
+            <!-- <image :src="item.video" mode=""></image> -->
+			<image :src="item.image || videoCoverImg" mode="aspectFill"></image>
           </view>
           <view class="desc u-flex u-flex-items-center">
             <view class="left u-flex  u-flex-items-center"><u-icon name="eye" size="16"></u-icon>{{ item.score }}</view>
@@ -71,7 +71,6 @@ import { scoreVideo, getVideoList } from "@/config/api/product.js";
 export default {
   data() {
     return {
-      src: "https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4",
       createVideoContext: "",
       playVideoBtnStatus: true, // 默认显示
       videoInfos: {
@@ -79,6 +78,7 @@ export default {
       },
       videoId: "",
       videoList: [],
+	  videoCoverImg: '/static/img/login/p2.jpeg'
     };
   },
   onReady(res) {
@@ -257,7 +257,8 @@ export default {
 
   .hotvideo {
     width: 750rpx;
-    height: 812rpx;
+    // height: 812rpx;
+	height: 100%;
     background: #ffffff;
     padding: 0 48rpx;
     box-sizing: border-box;

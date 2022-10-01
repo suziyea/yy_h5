@@ -1,6 +1,6 @@
 <template>
-  <view class="pay_container">
-    <u-sticky>
+  <view class="pay_container" v-if="showOrderFlag">
+    <!-- <u-sticky> -->
     <u-tabs
       lineColor="#EDDBC3"
       :current="topBarIndex"
@@ -12,7 +12,7 @@
       @click="click"
     >
     </u-tabs>
-    </u-sticky>
+    <!-- </u-sticky> -->
     <view class="recordList">
        <view class="orderRecord u-flex u-flex-column u-flex-items-center" v-if="orderFilterList.length>0">
           <view
@@ -179,6 +179,7 @@ export default {
       this.topBarIndex = val.target.current;
     },
     lookSisterDetail(val) {
+      if (val.is_paid === 1) return;
       // 1-小妹预约订单 2-普通会员订单 3-高级会员订单
       let url = "";
       if (val.order_type === 1) {
