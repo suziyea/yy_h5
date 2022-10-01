@@ -1,11 +1,13 @@
 <template>
-	<view class="like_container">
-		<view class="likeContent u-flex u-flex-wrap u-flex-between">
+	<view class="like_container" v-if="showFlag">
+		<view class="likeContent u-flex u-flex-wrap u-flex-between" v-if="likeSisters.length > 0">
 			<view class="photoInfo" v-for="(item,index) in likeSisters" :key="index" @click="lookSisterDetail(item)">
 				<view class="image">
 					<!-- <image src="/static/img/login/p2.jpeg" mode=""></image> -->
-					<image src="https://img0.baidu.com/it/u=4082019450,124630764&fm=253&fmt=auto&app=138&f=JPEG?w=254&h=272" mode="aspectFit"></image>
-					<!-- <image :src="item.index_image_url" mode="aspectFit"></image> -->
+					<!-- <image
+						src="https://img0.baidu.com/it/u=4082019450,124630764&fm=253&fmt=auto&app=138&f=JPEG?w=254&h=272"
+						mode="aspectFit"></image> -->
+					<image :src="item.index_image_url" mode="aspectFit"></image>
 				</view>
 				<view class="nicheng">
 					<!-- 珍妮Jenny珍妮Jenny -->
@@ -21,6 +23,10 @@
 				</view>
 			</view>
 		</view>
+		<view class="empty" v-else>
+			<u-empty mode="order" :text="emptyText" icon="http://cdn.uviewui.com/uview/empty/order.png">
+			</u-empty>
+		</view>
 	</view>
 </template>
 
@@ -31,7 +37,9 @@
 	export default {
 		data() {
 			return {
-				likeSisters: []
+				likeSisters: [],
+				emptyText: "暂无喜欢的小姐姐哦",
+				showFlag: false,
 			}
 		},
 		created() {
@@ -46,7 +54,7 @@
 				}).catch((err) => {
 					console.log(err, 'err');
 				}).finally(() => {
-					this.showOrderFlag = true;
+					this.showFlag = true;
 				})
 			},
 			lookSisterDetail(val) {

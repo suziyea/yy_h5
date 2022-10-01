@@ -19,14 +19,11 @@
           <text class="name">{{ `HI，${getUserInfos.username || ""}` }}</text>
         </view>
         <view class="userName" v-else>
-          <navigator open-type="navigate" url="/pages/login/login">
+          <navigator class="name" open-type="navigate" url="/pages/login/login">
             登录
           </navigator>
         </view>
-        <view
-          class="memberLevel"
-          @click="handleListItem({ path: '/pages/mine/equity/equity' })"
-        >
+        <view class="memberLevel" @click="handleListItem({enName:'equity'})">
           <view class="text" :class="membershipLevel.levelstyle">{{
             membershipLevel.levelName
           }}</view>
@@ -49,7 +46,7 @@
     <view class="privilege u-flex u-flex-center u-flex-items-center">
       <view
         class="privilegeImg u-flex u-flex-center u-flex-items-center"
-        @click="handleListItem('equity')"
+        @click="handleListItem({enName:'equity'})"
       >
         <view class="text">我的特权</view>
         <view class="clickImg">
@@ -129,9 +126,7 @@ import {
   getUserInfo,
   getProductOtherInfos,
 } from "@/config/api/user.js";
-import {
-  getPayQrcode,
-} from "@/config/api/sister.js";
+import { getPayQrcode } from "@/config/api/sister.js";
 import Tarbar from "@/components/tabbar/Tarbar.vue";
 import commonDialog from "@/components/common-dialog/common-dialog.vue";
 
@@ -280,10 +275,18 @@ export default {
       }
     },
     handleListItem(item) {
-      console.log(item, "看看");
-      if (item === "equity") {
+		if (!(this.isLogin)) {
+			uni.$u.route("/pages/login/login");
+			return;
+		}
+		console.log(this.isLogin,'是否登录')
+      if (item.enName === "equity") {
+         let  url = `/pages/mine/equity/equity?id=0&timer=${new Date().getTime()}`;
+        // if (this.getUserInfos?.status === 1) {
+        //   url = `/pages/mine/equity/equity?id=1&timer=${new Date().getTime()}`;
+        // }
         uni.navigateTo({
-          url: `/pages/mine/equity/equity`,
+          url: `${url}`,
         });
         return;
       }

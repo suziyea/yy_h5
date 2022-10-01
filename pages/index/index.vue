@@ -80,7 +80,7 @@
 	import Tabbar from "../../components/tabbar/Tarbar.vue";
 	import commonDialog from "@/components/common-dialog/common-dialog.vue";
 	import common from "@/utils/common";
-
+import { mapGetters, mapMutations } from "vuex";
 	import {
 		getSisterList,
 		likeSisterApi,
@@ -94,7 +94,7 @@
 		},
 		data() {
 			return {
-				title: "Hello",
+				title: "Home",
 				actionName: "22",
 				// cards: [{
 				// 		image: "/static/img/login/p1.jpeg"
@@ -170,6 +170,7 @@
 			// this.getInitList();
 		},
 		computed: {
+			...mapGetters(["isLogin", "getUserInfos"]),
 			isListStatus() {
 				return this.cards[0].is_like || false;
 			}
@@ -194,20 +195,21 @@
 			// } else {
 			// 	alert(' 浏览器不支持 geolocation ');
 			// }
-			this.getLocationH5()
-			// this.initDataCards()
-
+			// can
+			// this.getLocationH5()
+			// this.address()
+			this.initDataCards()
 		},
 		onLoad() {
 
 		},
 		methods: {
 			initDataCards() {
-				// if (uni.getStorageSync('home_noLookSister_list')) {
-				// 	this.cards = uni.getStorageSync('home_noLookSister_list')
-				// 	console.log('这里if', 'niaho')
-				// } else
-				if (uni.getStorageSync('home_sister_list_total')) {
+				// console.log(uni.getStorageSync('home_noLookSister_list'),'快看看')
+				if (uni.getStorageSync('home_noLookSister_list') && uni.getStorageSync('home_noLookSister_list').length > 1) {
+					this.cards = uni.getStorageSync('home_noLookSister_list')
+					console.log('这里if', 'niaho')
+				} else if (uni.getStorageSync('home_sister_list_total') && uni.getStorageSync('home_sister_list_total').length > 1) {
 					this.cards = uni.getStorageSync('home_sister_list_total')
 					console.log('这里elseif', 'niaho')
 				} else {
@@ -220,6 +222,7 @@
 				uni.getLocation({
 					type: 'wgs84',
 					success: function(res) {
+						console.log(res,'没手吗')
 						// uni.showToast({
 						// 	title: `${res.longitude} -你好啊- 当前位置的纬度 ${res.latitude}`,
 						// 	icon: 'none',
@@ -231,8 +234,9 @@
 							lat: that.lat || res.latitude,
 							lon: that.lon || res.longitude,
 						}).then((res) => {
-							console.log(JSON.stringify(res), 'hai')
+							console.log(JSON.stringify(res), '接口 调用了')
 							if (res.code === 100000) {
+								console.log('quickly')
 								that.sisterList = res?.data
 								that.cards = res?.data
 								uni.setStorageSync('home_sister_list_total', res?.data);
@@ -248,23 +252,41 @@
 				});
 			},
 			clickCard() {
-				// console.log("点击了噢---");
 				uni.navigateTo({
 					url: `/pages/dataDetail/dataDetail?id=${this.cards[0].id}&name=${new Date().getTime()}`
 				});
 			},
 			nextSister() {
 				// this.cards.splice(0, 1);
+
 				uni.setStorageSync('home_noLookSister_list', this.cards.splice(0, 1));
 			},
 			async handleLikeSister(item, type) {
-				console.log(item, 'nihoa')
+				console.log(item, '嘿宝贝')
+				if (type === 2 && !(this.isLogin)) {
+					uni.$u.route("/pages/login/login");
+					return;
+				}
 				// type === 1, 取消喜欢 2，喜欢
 				this.isListStatus = type === 1 ? false : true;
 				// this.cards[0].
+				let noSeeList = []
+				if (uni.getStorageSync('home_noLookSister_list') && uni.getStorageSync('home_noLookSister_list').length > 1) {
+					noSeeList = uni.getStorageSync('home_noLookSister_list')
+					console.log('noseelist 没改变',noSeeList)
+					let index = noSeeList.findIndex(noseeitem => noseeitem.id = item.id)
+					let noseeItem = noSeeList[index].is_like = type === 1 ? false : true;
+					noSeeList.splice(index,1,noseeItem)
+					console.log('改变',noSeeList)
+
+					uni.setStorageSync('home_noLookSister_list', noSeeList);
+				}  
 				this.$set(this.cards[0], 'is_like', type === 1 ? false : true)
+				uni.setStorageSync('home_sister_list_total', this.cards);
+
 				let method = likeSisterApi;
 				if (type === 1) {
+					// uni.setStorageSync('home_noLookSister_list', res?.data)
 					method = cancelLikeSisterApi;
 				}
 				await method({
@@ -274,7 +296,7 @@
 
 			},
 
-			getInitList(lat,lon) {
+			getInitList(lat, lon) {
 				getSisterList({
 					lat: lat || this.lat_js,
 					lon: lon || this.lon_js,
@@ -357,7 +379,7 @@
 				var x = position.coords.longitude;
 				var y = position.coords.latitude;
 				console.log(x, y, "h5定位"); //coords:需转换的源坐标，多组坐标以“；”分隔（经度，纬度）　　　　　//from :源坐标类型　　　　　　//to:目标坐标类型
-				this.getInitList(x,y)
+				this.getInitList(x, y)
 			},
 			locationError(error) {
 				switch (error.code) {
@@ -378,9 +400,10 @@
 		},
 		watch: {
 			cards(newVal, oldVal) {
-				// console.log(newVal,oldVal,'嘿嘿嘿')
+				console.log(newVal,oldVal,'嘿嘿嘿',newVal.length)
 				if (newVal.length <= 1) {
-					this.initDataCards()
+					console.log('wathc接口 调用了')
+					this.address()
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 <template>
   <view class="pay_container">
+    <u-sticky>
     <u-tabs
       lineColor="#EDDBC3"
       :current="topBarIndex"
@@ -11,7 +12,45 @@
       @click="click"
     >
     </u-tabs>
-    <swiper
+    </u-sticky>
+    <view class="recordList">
+       <view class="orderRecord u-flex u-flex-column u-flex-items-center" v-if="orderFilterList.length>0">
+          <view
+            class="orderinfo u-flex u-flex-center u-flex-items-center"
+            v-for="(item, index) in orderFilterList"
+            :key="index"
+            @click="lookSisterDetail(item)"
+          >
+            <view class="name">
+              <view class="title">
+                {{ item.remark }}
+              </view>
+              <view class="date">
+                {{ item.create_at | formatGetTime }}
+              </view>
+            </view>
+
+            <view class="money">
+              {{ item.order_amount }}
+            </view>
+            <view
+              class="status"
+              :class="{
+                errorBgColor: item.is_paid === 3,
+                successBgColor: item.is_paid === 1,
+                orangeBgColor: item.is_paid === 2,
+              }"
+            >
+              {{ item.is_paid | formatPayType }}
+            </view>
+          </view>
+        </view>
+        <view class="empty" v-else>
+			<u-empty mode="order" :text="emptyText" icon="http://cdn.uviewui.com/uview/empty/order.png">
+			</u-empty>
+		</view>
+    </view>
+    <!-- <swiper
       :current="topBarIndex"
       @change="swiperChange"
       v-if="orderFilterList.length > 0"
@@ -49,15 +88,8 @@
           </view>
         </view>
       </swiper-item>
-    </swiper>
-    <view class="empty" v-else>
-      <u-empty
-        mode="order"
-        :text="emptyText"
-        icon="http://cdn.uviewui.com/uview/empty/order.png"
-      >
-      </u-empty>
-    </view>
+    </swiper> -->
+   
   </view>
 </template>
 
@@ -205,7 +237,6 @@ export default {
 
   /deep/ .u-tabs__wrapper {
     width: 750rpx;
-    // height: 88rpx;
     height: 100%;
     background: #ffffff;
     font-size: 28rpx;
@@ -218,9 +249,16 @@ export default {
   /deep/ .uni-swiper-wrapper {
     height: 1800rpx !important;
   }
+  .recordList {
+      min-height: calc(100vh -88rpx);
+      .empty {
+        margin: 90rpx 0;
+      }
+  }
 
   .orderRecord {
     width: 100%;
+    height: 100%;
     margin-top: 12rpx;
 
     .orderinfo {
@@ -290,6 +328,9 @@ export default {
           color: #b5804f;
           line-height: 28rpx;
         }
+      }
+      &:last-child {
+        margin-bottom: 50rpx;
       }
     }
   }

@@ -115,7 +115,7 @@
                   <view class="like">
                     <!-- <image src="/static/icon/like.png" mode=""></image> -->
                     <image
-                      src="/static/icon/nolike.png"
+                      :src="`/static/icon/${item.is_like ? 'nolike' : 'like'}.png`"
                       mode="aspectFill"
                     ></image>
                   </view>

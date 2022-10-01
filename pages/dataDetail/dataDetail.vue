@@ -4,7 +4,7 @@
     <!-- 详情图片 -->
     <view class="sisterImg">
       <u-swiper
-        :list="list3"
+        :list="mm_sisterInfo.image_url"
         indicator
         indicatorMode="dot"
         height="416"
@@ -149,6 +149,7 @@ export default {
         "https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF",
         "https://t7.baidu.com/it/u=2295973985,242574375&fm=193&f=GIF",
       ],
+	  // swiperList:
       detailImgs: [
         {
           image: "https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF",
@@ -202,6 +203,7 @@ export default {
         .then((res) => {
           if (res.code === 100000) {
             this.mm_sisterInfo = res?.data || {};
+			console.log(res.data,'详情---')
           }
         })
         .catch((err) => {
