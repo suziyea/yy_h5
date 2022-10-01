@@ -75,14 +75,9 @@
 						code: "contract_us",
 					});
 					if (res.code === 100000) {
-						this.weChatNumber = res?.data?.value?.value?.wx
-						this.tgNumber = res?.data?.value?.value?.tg
-						console.log(this.tgNumber, this.weChatNumber)
-						// uni.navigateTo({
-						// 	url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.value?.value || '')}`,
-						// });
+						this.weChatNumber = res?.data?.value?.wx
+						this.tgNumber = res?.data?.value?.tg
 					}
-					console.log(res, "你阿红");
 				} catch (e) {
 					// error
 				}
