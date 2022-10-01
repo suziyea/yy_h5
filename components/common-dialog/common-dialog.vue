@@ -2,7 +2,7 @@
 	<view>
 		<view class="dialog">
 			<view class="title">{{title}}
-				<view class="close" @click.stop="close">
+				<view v-if="showCancelIcon" class="close" @click.stop="close">
 					<image src="/static/icon/close_icon.png" mode="aspectFill"></image>
 				</view>
 			</view>
@@ -41,6 +41,10 @@
 			showCancel: {
 				type: Boolean,
 				default: false
+			},
+			showCancelIcon: {
+				type: Boolean,
+				default: true
 			}
 		},
 		// data() {

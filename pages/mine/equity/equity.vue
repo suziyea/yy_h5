@@ -45,7 +45,8 @@
         <view class="member_status u-flex u-flex-center u-flex-items-center">
           <image src="/static/icon/avatar.png" mode=""></image>
           <view class="tip">
-            {{ true ? "暂未" : "已" }}激活{{ current | formatMemberText }}
+            <!-- {{ true ? "暂未" : "已" }}激活{{ current | formatMemberText }} -->
+            {{ membershipLevel.descStatus }}
           </view>
         </view>
 
@@ -138,7 +139,10 @@
         </view>
       </view>
     </view>
-    <view class="bottomTabbar u-flex u-flex-center u-flex-items-center">
+    <view
+      class="bottomTabbar u-flex u-flex-center u-flex-items-center"
+      v-if="membershipLevel.bottomBtn"
+    >
       <view class="subscribe_view u-flex u-flex-items-center">
         <view
           class="subscribeBtn u-flex u-flex-center u-flex-items-center"
@@ -170,7 +174,11 @@
 </template>
 
 <script>
-import { becomeMemberOrder, savePhoneApi,getPayQrcode } from "@/config/api/sister.js";
+import {
+  becomeMemberOrder,
+  getUserStatusApi,
+  getPayQrcode,
+} from "@/config/api/sister.js";
 import { getProductOtherInfos } from "@/config/api/user.js";
 import { mapGetters, mapMutations } from "vuex";
 import selectModal from "@/components/selectModal/selectModal.vue";
@@ -229,6 +237,7 @@ export default {
     );
   },
   methods: {
+    ...mapMutations(["SET_USERINFO"]),
     // 轮播图切换时
     changeSwiper(e) {
       this.current = e.current;
@@ -257,9 +266,8 @@ export default {
         // error
       }
     },
-	// 选择支付方式
+    // 选择支付方式
     async handlePayMode(item) {
-		console.log(item,'哭哭哭都哭')
       let res = await getPayQrcode({});
       if (res.code === 100000) {
         this.paySrcImg = "";
@@ -270,7 +278,7 @@ export default {
           this.paySrcImg = res.data.zfb;
         }
       }
-	  this.showSelectPayPopup = false;
+      this.showSelectPayPopup = false;
       this.showPreImgModalVisible = true;
     },
     closeSelectModal() {
@@ -278,11 +286,29 @@ export default {
     },
     closePreImgModal() {
       this.showPreImgModalVisible = false;
+      this.becomeMember();
+      this.getMemberStatus()
     },
-	// 成为会员前操作
-	beforeBecomeMember() {
-		this.showSelectPayPopup = true;
-	},
+   async getMemberStatus() {
+    let res = await getUserStatusApi({});
+    if (res.code === 100000) {
+      this.SET_USERINFO(res.data.status)
+      console.log(res,'用户信息')
+    }
+    //   if (res.code === 100000) {
+    //     this.paySrcImg = "";
+    //     if (item.typeStatus === 1) {
+    //       this.paySrcImg = res.data.wx;
+    //     }
+    //     if (item.typeStatus === 2) {
+    //       this.paySrcImg = res.data.zfb;
+    //     }
+    //   }
+    },
+    // 成为会员前操作
+    beforeBecomeMember() {
+      this.showSelectPayPopup = true;
+    },
   },
   computed: {
     ...mapGetters(["isLogin", "getUserInfos"]),
@@ -300,14 +326,32 @@ export default {
           silver_color: true,
           silver_background_btn: true,
         },
+        descStatus: "暂未激活普通会员",
+        bottomBtn: true,
         levelStatus: "ordinary",
       };
       if (this.current === 0) {
-        (obj.levelName = "成为会员"), (obj.levelStatus = "silver");
+        if (this.getUserInfos?.status === 2 || this.getUserInfos?.status === 3) {
+          (obj.descStatus = "您好，尊敬的普通会员"), (obj.bottomBtn = false);
+        }
+        (obj.levelName = "立即成为普通会员"), (obj.levelStatus = "silver");
         return obj;
       }
-      if (this.current === 2 && this.getUserInfos?.status === 2) {
-        (obj.levelName = "升级高级会员"),
+      if (this.current === 1 && this.getUserInfos?.status === 2) {
+        obj.bottomBtn = true;
+        (obj.descStatus = "暂未激活高级会员"),
+          (obj.levelName = "立即成为高级会员"),
+          (obj.levelstyle = {
+            gold_color: true,
+            gold_background_btn: true,
+          });
+        obj.levelStatus = "gold";
+        return obj;
+      }
+      if (this.current === 1 && this.getUserInfos?.status === 3) {
+        obj.bottomBtn = false;
+        (obj.descStatus = "您好，尊敬的普通会员"),
+          (obj.levelName = "已开通高级会员"),
           (obj.levelstyle = {
             gold_color: true,
             gold_background_btn: true,
@@ -316,7 +360,7 @@ export default {
         return obj;
       }
       if (this.current === 1) {
-        (obj.levelName = "高级会员"),
+        (obj.levelName = "立即成为高级会员"),
           (obj.levelstyle = {
             gold_color: true,
             gold_background_btn: true,

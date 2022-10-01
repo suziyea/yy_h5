@@ -86,3 +86,11 @@ export const savePhoneApi = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/yy/user-contract/create', params, config)
+
+
+// 获取用户最新的信息（会员状态）
+export const getUserStatusApi = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/yy/user/get', params, config)

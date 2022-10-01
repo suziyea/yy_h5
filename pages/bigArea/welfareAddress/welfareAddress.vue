@@ -4,7 +4,7 @@
 			<view class="name ellipsis">
 				{{item.name}}
 			</view>
-			<view class="btn u-flex u-flex-center u-flex-items-center">
+			<view class="btn u-flex u-flex-center u-flex-items-center" @click="enterAddr(item)">
 				点击进入
 			</view>
 		</view>
@@ -33,11 +33,19 @@
 			getDetails() {
 				getWebsiteList({}).then((res) => {
 					if (res.code === 100000) {
-						this.websiteAddrList = res?.data || {}
+						this.websiteAddrList = res?.data.list || {}
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
+			},
+			enterAddr(val) {
+				// #ifdef APP-PLUS
+				plus.runtime.openURL(val.address)
+				// #endif
+				// #ifdef H5
+				location.href = val.address;
+				// #endif
 			}
 		}
 	}

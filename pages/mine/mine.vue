@@ -23,7 +23,7 @@
             登录
           </navigator>
         </view>
-        <view class="memberLevel" @click="handleListItem({enName:'equity'})">
+        <view class="memberLevel" @click="handleListItem({ enName: 'equity' })">
           <view class="text" :class="membershipLevel.levelstyle">{{
             membershipLevel.levelName
           }}</view>
@@ -46,7 +46,7 @@
     <view class="privilege u-flex u-flex-center u-flex-items-center">
       <view
         class="privilegeImg u-flex u-flex-center u-flex-items-center"
-        @click="handleListItem({enName:'equity'})"
+        @click="handleListItem({ enName: 'equity' })"
       >
         <view class="text">我的特权</view>
         <view class="clickImg">
@@ -111,9 +111,9 @@
         :content="content"
       ></u-modal>
     </view>
-    <view class="tab">
+    <!-- <view class="tab">
       <Tarbar currentPage="mine"></Tarbar>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -275,13 +275,12 @@ export default {
       }
     },
     handleListItem(item) {
-		if (!(this.isLogin)) {
-			uni.$u.route("/pages/login/login");
-			return;
-		}
-		console.log(this.isLogin,'是否登录')
+      if (!this.isLogin) {
+        uni.$u.route("/pages/login/login");
+        return;
+      }
       if (item.enName === "equity") {
-         let  url = `/pages/mine/equity/equity?id=0&timer=${new Date().getTime()}`;
+        let url = `/pages/mine/equity/equity?id=0&timer=${new Date().getTime()}`;
         // if (this.getUserInfos?.status === 1) {
         //   url = `/pages/mine/equity/equity?id=1&timer=${new Date().getTime()}`;
         // }
@@ -330,13 +329,13 @@ export default {
           code,
         });
         if (res.code === 100000) {
-          uni.navigateTo({
-            url: `/pages/webview/webview?urlPath=${encodeURIComponent(
-              res?.data?.value?.value || ""
-            )}`,
-          });
+          // #ifdef APP-PLUS
+          plus.runtime.openURL(res?.data?.value?.value);
+          // #endif
+          // #ifdef H5
+          window.open(res?.data?.value?.value);
+          // #endif
         }
-        console.log(res, "你阿红");
       } catch (e) {
         // error
       }
@@ -352,7 +351,6 @@ export default {
           this.payQrcode = res.data.zfb;
         }
       }
-      // this.showModal = true;
     },
   },
   onLoad() {

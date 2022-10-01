@@ -18,7 +18,7 @@
 					<text class="city"> {{item.address}}
 					</text>
 				</view>
-				<view class="like">
+				<view class="like" @click.stop="handleUnlike(item,index)">
 					<image src="/static/icon/like.png" mode="aspectFit"></image>
 				</view>
 			</view>
@@ -32,7 +32,8 @@
 
 <script>
 	import {
-		getCollectSisterList
+		getCollectSisterList,
+		cancelLikeSisterApi
 	} from "@/config/api/sister.js";
 	export default {
 		data() {
@@ -46,6 +47,26 @@
 			this.getInitList()
 		},
 		methods: {
+			async handleUnlike(item, key) {
+				this.likeSisters.splice(key, 1)
+				if (uni.getStorageSync('home_noLookSister_list') && uni.getStorageSync('home_noLookSister_list')
+					.length >= 1) {
+					noSeeList = uni.getStorageSync('home_noLookSister_list')
+					console.log('noseelist 没改变', noSeeList)
+					let index = noSeeList.findIndex(noseeitem => noseeitem.id = item.id)
+					let noseeItem = noSeeList[index].is_like = false;
+					noSeeList.splice(index, 1, noseeItem)
+					console.log('改变', noSeeList)
+					uni.setStorageSync('home_noLookSister_list', noSeeList);
+				}
+				this.$set(this.cards[0], 'is_like', type === 1 ? false : true)
+				uni.setStorageSync('home_sister_list_total', this.cards);
+
+				await cancelLikeSisterApi({
+					sister_id: item.sister_id
+				});
+
+			},
 			getInitList() {
 				getCollectSisterList({}).then((res) => {
 					if (res.code === 100000) {

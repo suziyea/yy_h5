@@ -40,6 +40,11 @@ export default {
 		},
 		PAY_ERROR(state,payload) {
 			state.insufficient_balance = payload;
+		},
+		SET_USERINFO(state,payload) {
+			console.log(payload,'kkkk')
+			state.userInfo.status = payload
+			uni.setStorageSync('userInfo', state.userInfo)
 		}
 	},
 	getters: {

@@ -149,7 +149,7 @@ export default {
         "https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF",
         "https://t7.baidu.com/it/u=2295973985,242574375&fm=193&f=GIF",
       ],
-	  // swiperList:
+      // swiperList:
       detailImgs: [
         {
           image: "https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF",
@@ -203,7 +203,7 @@ export default {
         .then((res) => {
           if (res.code === 100000) {
             this.mm_sisterInfo = res?.data || {};
-			console.log(res.data,'详情---')
+            this.mm_sisterInfo.image_url = [res.data.index_image_url,...res.data.image_url]
           }
         })
         .catch((err) => {
@@ -287,22 +287,16 @@ export default {
     },
     // 输入手机号弹窗 点击确定
     handleUserSavePhone(phone) {
-      console.log(phone, "手机哦哦");
-
       let phoneNum = phone.replace(/\s*/g, "");
       if (!uni.$u.test.mobile(phoneNum)) {
         console.log(phone, "手机号输入有误哦哦");
-
-        // uni.showToast({
-        //   title: "手机号不正确！",
-        // });
-		let params = {
-						type: 'error',
-						icon: false,
-						title: '失败主题',
-						message: "一弦一柱思华年",
-						iconUrl: 'https://cdn.uviewui.com/uview/demo/toast/error.png'
-					}
+        let params = {
+          type: "error",
+          icon: false,
+          title: "失败主题",
+          message: "一弦一柱思华年",
+          iconUrl: "https://cdn.uviewui.com/uview/demo/toast/error.png",
+        };
         this.showToast(params);
         return;
       }
@@ -326,10 +320,9 @@ export default {
       return false;
     },
     showToast(params) {
-		// console.log(params,'入餐')
       this.$refs.uToast.show({
         ...params,
-		
+
         complete() {
           params.url &&
             uni.navigateTo({
@@ -348,8 +341,7 @@ export default {
   height: 100%;
   position: relative;
   .toastTop {
-	position: relative;
-	// z-index: 999;
+    position: relative;
   }
 
   .sisterImg {
@@ -366,7 +358,6 @@ export default {
   .data_card {
     margin-top: -120rpx;
     width: 750rpx;
-    // height: 1800rpx;
     height: 100%;
     box-sizing: border-box;
     position: relative;

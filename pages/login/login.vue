@@ -87,7 +87,7 @@
 							token: res.data.access_token,
 							refresh_token: res.data.refresh_token
 						})
-						uni.redirectTo({
+						uni.switchTab({
 							url: '/pages/index/index'
 						});
 						return;

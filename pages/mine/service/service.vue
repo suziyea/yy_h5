@@ -13,7 +13,8 @@
 		</view>
 		<u-modal :show="showModal" title="联系客服" confirmColor='#7f5d2e' @confirm='handleCoonfirmModal'>
 			<view class="slot-content">
-				<u-tooltip :text="tooltipContent"></u-tooltip>
+				<u-tooltip v-if="selecttype === 'wx'" :text="tooltipContent"></u-tooltip>
+				<u-link  v-if="selecttype === 'tg'" href="https://t.me/richrov" text="电报(点击跳转)" @click="click"></u-link>
 			</view>
 		</u-modal>
 
@@ -44,7 +45,8 @@
 				],
 				weChatNumber: '',
 				tgNumber: '',
-				tooltipContent: ''
+				tooltipContent: '',
+				selecttype: ''
 			};
 		},
 		created() {
@@ -55,6 +57,7 @@
 		},
 		methods: {
 			handleListItem(item) {
+				this.selecttype = item.type
 				if (item.type === 'wx') {
 					this.tooltipContent = this.weChatNumber
 				}

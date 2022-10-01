@@ -15,7 +15,7 @@
 				"navigationBarTitleText": "首页",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				// "navigationStyle": "custom",
 				"h5": {
 					"titleNView": false
@@ -66,7 +66,7 @@
 			"style": {
 				"navigationBarTitleText": "反馈",
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": false,
 				"h5": {
 					"titleNView": false
@@ -122,7 +122,7 @@
 			"style": {
 				"navigationBarTitleText": "福利地址",
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": false,
 				"h5": {
 					"titleNView": false
@@ -135,7 +135,7 @@
 				"navigationBarTitleText": "大区",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"h5": {
 					"titleNView": false
 				}
@@ -146,7 +146,7 @@
 			"style": {
 				"navigationBarTitleText": "喜欢",
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": false,
 				"h5": {
 					"titleNView": false
@@ -159,7 +159,7 @@
 				"navigationBarTitleText": "消费记录",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"h5": {
 					"titleNView": false
 				}
@@ -171,7 +171,7 @@
 				"navigationBarTitleText": "福利地址",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"h5": {
 					"titleNView": false
 				}
@@ -184,14 +184,13 @@
 				"enablePullDownRefresh": false
 			}
 
-		}
-		, {
+		}, {
 			"path": "pages/dataDetail/dataDetail",
 			"style": {
 				"navigationBarTitleText": "详细信息",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"h5": {
 					"titleNView": false
 				}
@@ -202,25 +201,25 @@
 			"style": {
 				"navigationBarTitleText": "我的权益",
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": false,
 				"h5": {
 					"titleNView": false
 				}
 			}
 
-		},{
+		}, {
 			"path": "pages/playVideo/playVideo",
 			"style": {
 				"navigationBarTitleText": "视频播放",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle":"white",
+				"navigationBarTextStyle": "white",
 				"h5": {
 					"titleNView": false
 				}
 			}
-		
+
 		}
 	],
 	"subPackages": [{
@@ -264,6 +263,44 @@
 
 		}]
 	}],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"height": "50px",
+		"fontSize": "10px",
+		"iconWidth": "24px",
+		"spacing": "3px",
+		"iconfontSrc": "static/iconfont.ttf", // app tabbar 字体.ttf文件路径 app 3.4.4+
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/tabIcon/home.png",
+			"selectedIconPath": "static/tabIcon/home_fill.png",
+			"text": ""
+		},
+			// #ifdef H5
+		{
+			"pagePath": "pages/bigArea/bigArea",
+			"iconPath": "static/tabIcon/home.png",
+			"selectedIconPath": "static/tabIcon/home.png",
+			"text": ""
+		},
+			// #endif
+
+		{
+			"pagePath": "pages/mine/mine",
+			"iconPath": "static/tabIcon/user_line.png",
+			"selectedIconPath": "static/tabIcon/user_fill.png",
+			"text": ""
+		}],
+		"midButton": {
+			"width": "80px",
+			"height": "50px",
+			"iconPath": "static/tabIcon/bigArea.png",
+			"iconWidth": "52px"
+		}
+	},
 	// "tabBar": {
 	// 	"color": "#B4BCCF",
 	// 	"selectedColor": "#ECC6A1",
@@ -298,14 +335,12 @@
 	"easycom": {
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
-	"condition" : { //模式配置，仅开发期间生效
+	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "首页", //模式名称
-				"path": "pages/index/index", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}
-		]
+		"list": [{
+			"name": "首页", //模式名称
+			"path": "pages/index/index", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
 	}
 }

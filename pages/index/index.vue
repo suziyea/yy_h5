@@ -69,9 +69,9 @@
 			</view>
 		</view>
 		<!-- tabs -->
-		<view class="tab">
+		<!-- <view class="tab">
 			<Tabbar currentPage="index"></Tabbar>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -417,7 +417,8 @@ import { mapGetters, mapMutations } from "vuex";
 
 	.home_container {
 		width: 750rpx;
-		height: calc(100vh - 156rpx);
+		// height: calc(100vh - 156rpx);
+		height: 100%;
 		box-sizing: border-box;
 		overflow: hidden;
 

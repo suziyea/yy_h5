@@ -2,6 +2,13 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			/* #ifdef APP-PLUS */
+            uni.onTabBarMidButtonTap(()=>{
+                uni.navigateTo({
+                    url: '/pages/bigArea/bigArea',
+                });
+            })
+            /* #endif */
 		},
 		onShow: function() {
 			console.log('App Show')

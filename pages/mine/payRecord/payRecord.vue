@@ -179,7 +179,6 @@ export default {
       this.topBarIndex = val.target.current;
     },
     lookSisterDetail(val) {
-      if (val.is_paid === 1) return;
       // 1-小妹预约订单 2-普通会员订单 3-高级会员订单
       let url = "";
       if (val.order_type === 1) {
