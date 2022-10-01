@@ -282,8 +282,8 @@
 			// #ifdef H5
 		{
 			"pagePath": "pages/bigArea/bigArea",
-			"iconPath": "static/tabIcon/home.png",
-			"selectedIconPath": "static/tabIcon/home.png",
+			"iconPath": "static/tabIcon/area.png",
+			"selectedIconPath": "static/tabIcon/area_fill.png",
 			"text": ""
 		},
 			// #endif
