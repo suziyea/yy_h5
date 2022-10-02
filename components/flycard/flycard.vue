@@ -63,7 +63,7 @@
 			// 卡片的圆角弧度
 			borderRadius: {
 				type: Number,
-				default: 10
+				default: 30
 			},
 			// 卡片触发飞卡效果的距离
 			throwTriggerDistance: {

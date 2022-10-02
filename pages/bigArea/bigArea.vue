@@ -225,7 +225,7 @@ export default {
   },
   onPullDownRefresh() {
     console.log("refresh");
-    setTimeout( () => {
+    setTimeout(() => {
       this.videoList = [];
       this.sisterList = [];
       this.initData();
@@ -419,11 +419,13 @@ export default {
         let index = noSeeList.findIndex(
           (noseeitem) => noseeitem.id === item.id
         );
-        noSeeList.splice(index, 1, {
-          ...noSeeList[index],
-          is_like: item.is_like ? false : true,
-        });
-        uni.setStorageSync("home_sister_list_total", noSeeList);
+        if (index > -1) {
+          noSeeList.splice(index, 1, {
+            ...noSeeList[index],
+            is_like: item.is_like ? false : true,
+          });
+          uni.setStorageSync("home_sister_list_total", noSeeList);
+        }
       }
       let method = likeSisterApi;
       if (item.is_like) {

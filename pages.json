@@ -13,7 +13,7 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
 				// "navigationStyle": "custom",

@@ -1,5 +1,6 @@
 <template>
 	<view class="container u-flex u-flex-center u-flex-items-center">
+		<u-toast ref="uToast"></u-toast>
 		<view class="content u-flex u-flex-column u-flex-center ">
 			<view class="title">
 				密码登录
@@ -54,6 +55,7 @@
 					phone: ''
 				},
 				tips: '获取验证码',
+				show: true,
 			}
 		},
 		computed: {
@@ -65,7 +67,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['SETDEVICE', 'LOGIN', 'SET_TOKEN','LOGOUT']),
+			...mapMutations(['SETDEVICE', 'LOGIN', 'SET_TOKEN', 'LOGOUT']),
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
 			},
@@ -74,9 +76,58 @@
 					url: '/pages/login/register/register'
 				});
 			},
+			// 提示弹窗
+			showToast(params) {
+				this.$refs.uToast.show({
+					...params,
+					complete() {
+						params.url &&
+							uni.navigateTo({
+								url: params.url,
+							});
+					},
+				});
+			},
 
 			submit() {
-				login(this.userInfo,{header: {'device-type': uni.$u.os()}}).then((res) => {
+				let {
+					username,password
+				} = this.userInfo
+				let params_username = uni.$u.trim(username, "all");
+				let params_password = uni.$u.trim(password, "all");
+				if (!uni.$u.test.rangeLength(params_username, [5, 10])) {
+					this.showToast({
+						type: "warning",
+						message: "用户名长度应在5-10范围",
+						iconUrl: "https://cdn.uviewui.com/uview/demo/toast/warning.png",
+					})
+					return;
+				}
+				if (!uni.$u.test.enOrNum(params_username)) {
+					this.showToast({
+						type: "warning",
+						message: "用户名只能是数字和字母",
+						iconUrl: "https://cdn.uviewui.com/uview/demo/toast/warning.png",
+					})
+					return;
+				}
+				if (!uni.$u.test.rangeLength(params_password, [3, 16])) {
+					this.showToast({
+						type: "warning",
+						message: "密码长度应在3-16范围",
+						iconUrl: "https://cdn.uviewui.com/uview/demo/toast/warning.png",
+					})
+					return;
+				}
+				let params = {
+					username: params_username,
+					password: params_password,
+				};
+				login(params, {
+					header: {
+						'device-type': uni.$u.os()
+					}
+				}).then((res) => {
 					if (res.code === 100000) {
 						let handleBaseInfo = {
 							token: res.data.access_token,
@@ -92,10 +143,6 @@
 							url: '/pages/index/index'
 						});
 						return;
-						// uni.switchTab({
-						// 	url: '/pages/index/index'
-						// })
-
 					}
 				})
 				return;

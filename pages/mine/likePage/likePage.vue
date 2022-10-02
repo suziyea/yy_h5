@@ -76,7 +76,7 @@ export default {
         noSeeList = uni.getStorageSync("home_sister_list_total");
         console.log("noseelist 没改变", noSeeList);
         let index = noSeeList.findIndex(
-          (noseeitem) => (noseeitem.id = item.sister_id)
+          (noseeitem) => (noseeitem.id === item.sister_id)
         );
         console.log(index, "空空的口袋");
         if (index > -1) {
