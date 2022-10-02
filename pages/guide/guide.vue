@@ -38,7 +38,7 @@
 							<image :src="item.img" mode="aspectFill"></image>
 						</view>
 						<view class="desc u-flex  u-flex-items-center">
-							<view class="left">{{item.addr}}</view>
+							<view class="left">{{item.name}}</view>
 							<view class="right">{{item.age}}</view>
 						</view>
 					</view>
