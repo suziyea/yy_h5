@@ -261,7 +261,7 @@ export default {
           code,
         });
         if (res.code === 100000) {
-          this.sister_rules = res.data.remark || "";
+          this.sister_rules = res.data.value.value || "";
         }
       } catch (e) {
         // error
