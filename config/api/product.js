@@ -74,3 +74,8 @@ export const clickProductItem = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/product-recommend/click', params, config)
+
+// get请求
+export const addDrainage = (data) => http.get('/api/public/channel/drainage', {
+	params: data
+})

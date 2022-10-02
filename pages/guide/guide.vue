@@ -125,6 +125,9 @@
 </template>
 
 <script>
+	import {
+		addDrainage
+	} from "@/config/api/product.js"
 	export default {
 		data() {
 			return {
@@ -161,11 +164,37 @@
 					}
 
 				],
-				isWeat: false
+				isWeat: false,
+				channel_code: ''
 			}
 		},
 		onLoad() {
 			this.isWeat = this.is_weixin()
+			let routes = getCurrentPages();
+			let curRoute = routes[routes.length - 1].route //获取当前页面路由
+			let curParam = routes[routes.length - 1].options; //获取路由参数
+
+			let keys = Object.keys(curParam); //获取对象的key 返回对象key的数组
+			if (keys.length >= 1) {
+				if (curParam.source) {
+					this.channel_code = curParam.source
+					addDrainage({
+							source: curParam.source
+						}).then((res) => {
+							if (res.code === 100000) {
+								// 这里此提示会被this.start()方法中的提示覆盖
+								console.log('引流', res)
+							}
+
+						})
+						.catch((err) => {
+							uni.showToast({
+								icon: "none",
+								title: err.msg || "请稍后再试",
+							});
+						});
+				}
+			}
 		},
 		created() {
 			// console.log(parseInt(3*Math.random())+1)
