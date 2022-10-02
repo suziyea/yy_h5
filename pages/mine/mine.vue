@@ -411,16 +411,14 @@ export default {
           baijinColor: true,
           goldColor: false,
         },
-        levelStatus: "ordinary",
+        levelStatus: "silver",
       };
-      let sexNum = this.getUserInfos?.status;
       if (this.getUserInfos?.status === 1) {
         (obj.levelName = "成为会员"),
           (obj.levelstyle = {
             baijinColor: true,
             goldColor: false,
           });
-        // obj.levelStatus ='ordinary'
         obj.levelStatus = "silver";
         return obj;
       }

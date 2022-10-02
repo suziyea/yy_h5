@@ -270,7 +270,7 @@ export default {
       uni.getLocation({
         type: "wgs84",
         success: function (res) {
-          console.log(res, "没手吗");
+          console.log(res, "定位数据");
           // uni.showToast({
           // 	title: `${res.longitude} -你好啊- 当前位置的纬度 ${res.latitude}`,
           // 	icon: 'none',
@@ -309,13 +309,13 @@ export default {
       });
     },
     nextSister() {
-      // this.cards.splice(0, 1);
-      console.log("next,==----");
+      this.cards.splice(0, 1);
+    //   console.log("next,==----");
 
       //   uni.setStorageSync("home_noLookSister_list", this.cards.splice(0, 1));
     },
     async handleLikeSister(item, type) {
-      console.log(item, "嘿宝贝", type);
+      console.log(item, "嘿item", type);
       this.$set(this.cards, 0, {
         ...item,
         is_like: item.is_like ? false : true,
@@ -334,7 +334,7 @@ export default {
         noSeeList = JSON.parse(
           JSON.stringify(uni.getStorageSync("home_sister_list_total"))
         );
-        console.log("缓存的裂变--", noSeeList);
+        console.log("缓存的数据--", noSeeList);
         let index = noSeeList.findIndex(
           (noseeitem) => noseeitem.id === item.id
         );
