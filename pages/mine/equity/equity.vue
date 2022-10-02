@@ -167,6 +167,7 @@
       <payImgModal
         :showModal="showPreImgModalVisible"
         :payQrcode="paySrcImg"
+        @on-click-preimgmodal-cancel="closePreimgmodalOverlay"
         @on-click-preimgmodal-close="closePreImgModal"
       ></payImgModal>
     </view>
@@ -235,6 +236,7 @@ export default {
     this.getMemberPriceInfos(
       this.current === 0 ? "ordinary_member_price" : "premium_member_price"
     );
+    this.getMemberStatus()
   },
   methods: {
     ...mapMutations(["SET_USERINFO"]),
@@ -284,6 +286,13 @@ export default {
     closeSelectModal() {
       this.showSelectPayPopup = false;
     },
+     // 允许点击遮罩关闭Modal
+    closePreimgmodalOverlay(val) {
+      if (val == 'cancel') {
+					this.showPreImgModalVisible = false;
+				}
+    },
+    
     closePreImgModal() {
       this.showPreImgModalVisible = false;
       this.becomeMember();
@@ -293,7 +302,6 @@ export default {
     let res = await getUserStatusApi({});
     if (res.code === 100000) {
       this.SET_USERINFO(res.data.status)
-      console.log(res,'用户信息')
     }
     //   if (res.code === 100000) {
     //     this.paySrcImg = "";
@@ -350,7 +358,7 @@ export default {
       }
       if (this.current === 1 && this.getUserInfos?.status === 3) {
         obj.bottomBtn = false;
-        (obj.descStatus = "您好，尊敬的普通会员"),
+        (obj.descStatus = "您好，尊敬的高级会员"),
           (obj.levelName = "已开通高级会员"),
           (obj.levelstyle = {
             gold_color: true,

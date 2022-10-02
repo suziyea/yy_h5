@@ -65,7 +65,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['SETDEVICE', 'LOGIN', 'SET_TOKEN']),
+			...mapMutations(['SETDEVICE', 'LOGIN', 'SET_TOKEN','LOGOUT']),
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
 			},
@@ -82,6 +82,7 @@
 							token: res.data.access_token,
 							userInfo: res.data
 						}
+						this.LOGOUT()
 						this.LOGIN(handleBaseInfo)
 						this.SET_TOKEN({
 							token: res.data.access_token,

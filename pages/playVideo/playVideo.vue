@@ -8,8 +8,6 @@
         :show-mute-btn="true"
         :title="videoInfos.title"
         :enable-play-gesture="true"
-        @timeupdate="video_timeupdate"
-        @play="handleplayVideo"
         @error="videoErrorCallback"
         @pause="pauseVideo"
       ></video>
@@ -20,12 +18,15 @@
 
     <!-- 视频介绍 -->
     <view class="video_introduce u-flex u-flex-column u-flex-center">
+      <view class="video_title">
+        {{ videoInfos.title }}{{ videoInfos.remark }}{{ videoInfos.remark }}
+      </view>
       <view class="desc">
-        {{ videoInfos.title}}
+        {{ videoInfos.remark }}
       </view>
       <view class="info u-flex">
         <view class="left_text ellipsis">
-          {{ videoInfos.remark }}
+          <!-- {{ videoInfos.remark }} -->
         </view>
         <view class="right_text ellipsis">
           {{ videoInfos.created_at | formatDateTime }}
@@ -52,11 +53,12 @@
             <!-- <video :src="item.video" :show-center-play-btn='false' :show-mute-btn='true'
 							:enable-play-gesture='true' :controls="false" object-fit="fill"></video> -->
             <!-- <image :src="item.video" mode=""></image> -->
-			<image :src="item.image || videoCoverImg" mode="aspectFill"></image>
+            <image :src="item.image || videoCoverImg" mode="aspectFill"></image>
           </view>
           <view class="desc u-flex u-flex-items-center">
-            <view class="left u-flex  u-flex-items-center"><u-icon name="eye" size="16"></u-icon>{{ item.score }}</view>
-            <view class="right">{{ item.created_at | formatDate }}</view>
+            <!-- <view class="left u-flex  u-flex-items-center"><u-icon name="eye" size="16"></u-icon>{{ item.score }}</view>
+            <view class="right">{{ item.created_at | formatDate }}</view> -->
+            {{ item.title }}
           </view>
         </view>
       </view>
@@ -78,7 +80,7 @@ export default {
       },
       videoId: "",
       videoList: [],
-	  videoCoverImg: '/static/img/login/p2.jpeg'
+      videoCoverImg: "/static/img/login/p2.jpeg",
     };
   },
   onReady(res) {
@@ -91,7 +93,8 @@ export default {
     if (uni.getStorageSync("about_video_info")) {
       this.videoInfos = uni.getStorageSync("about_video_info");
     } else {
-      this.videoInfos.video = "https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4";
+      this.videoInfos.video =
+        "https://api.yeyuesm.com/resource/mp4/2022-09/c4e83f904c6fb7a3.mp4";
     }
     this.changeVideoScore();
     this.getInitVideoList();
@@ -100,12 +103,6 @@ export default {
     videoErrorCallback: function (e) {
       console.log("视频错误信息:");
       console.log(e.target.errMsg);
-    },
-    video_timeupdate() {
-      console.log("你好啊video---");
-    },
-    handleplayVideo(e) {
-      console.log(e, "这是");
     },
     playVideo() {
       this.createVideoContext.play();
@@ -136,7 +133,9 @@ export default {
       }
     },
     getInitVideoList() {
-      getVideoList({})
+      getVideoList({
+        is_pay: 1,
+      })
         .then((res) => {
           if (res.code === 100000) {
             this.videoList = res?.data.list;
@@ -182,7 +181,7 @@ export default {
 
   .video_content {
     width: 750rpx;
-    height: 468rpx;
+    // height: 468rpx;
     background: rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
     position: relative;
@@ -208,18 +207,27 @@ export default {
 
   .video_introduce {
     width: 750rpx;
-    height: 198rpx;
+    // height: 198rpx;
     padding: 0 48rpx;
     box-sizing: border-box;
     margin-bottom: 16rpx;
     background: #ffffff;
+    .video_title {
+      width: 654rpx;
+      font-size: 28rpx;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #444444;
+      line-height: 34rpx;
+      margin: 16rpx 0;
+    }
 
     .desc {
       width: 654rpx;
       height: 80rpx;
-      font-size: 28rpx;
+      font-size: 24rpx;
       font-family: PingFangSC-Medium, PingFang SC;
-      font-weight: 500;
+      font-weight: 400;
       color: #000000;
       line-height: 40rpx;
       overflow: hidden;
@@ -258,7 +266,7 @@ export default {
   .hotvideo {
     width: 750rpx;
     // height: 812rpx;
-	height: 100%;
+    height: 100%;
     background: #ffffff;
     padding: 0 48rpx;
     box-sizing: border-box;
@@ -291,8 +299,7 @@ export default {
 
       .single_video {
         width: 312rpx;
-        height: 380rpx;
-        // border: 1px solid green;
+        // height: 380rpx;
         margin-bottom: 28rpx;
 
         .video {
@@ -332,9 +339,15 @@ export default {
 
         .desc {
           width: 100%;
-          height: 40rpx;
+          min-height: 40rpx;
           font-family: PingFangSC-Medium, PingFang SC;
           margin: 14rpx 0rpx;
+          font-size: 24rpx;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
 
           .left {
             width: 220rpx;

@@ -111,6 +111,7 @@
       <payImgModal
         :showModal="showPreImgModalVisible"
         :payQrcode="paySrcImg"
+        @on-click-preimgmodal-cancel="closePreimgmodalOverlay"
         @on-click-preimgmodal-close="closePreImgModal"
       ></payImgModal>
     </view>
@@ -122,6 +123,13 @@
         @closePhoneModal="closePhoneModal"
       ></phoneModal>
     </view>
+
+    <u-modal :show="showContractModal" title="联系方式" confirmColor='#7f5d2e' @confirm='handleCoonfirmModal'>
+			<view class="slot-content">
+				<u-tooltip v-if="moreContactInfo.length >= 1 " :text="moreContactInfo[0]"></u-tooltip>
+				<u-tooltip v-if="moreContactInfo.length >= 2" :text="moreContactInfo[1]"></u-tooltip>
+			</view>
+		</u-modal>
   </view>
 </template>
 
@@ -182,6 +190,7 @@ export default {
       showPreImgModalVisible: false, // 展示 图片组件 弹窗状态
       phoneModalStatus: false, // 展示 输入手机号组件 弹窗状态
       paySrcImg: "",
+      showContractModal: false, // 展示 查看更多联系方式 弹窗状态
     };
   },
   onLoad(options) {
@@ -220,6 +229,7 @@ export default {
         .then((res) => {
           if (res.code === 100000) {
             this.moreContactInfo = res?.data?.more_contract || [];
+            this.showContractModal = true;
           }
         })
         .catch((err) => {
@@ -276,6 +286,13 @@ export default {
       this.showSelectPayPopup = false;
     },
 
+    // 允许点击遮罩关闭Modal
+    closePreimgmodalOverlay(val) {
+      if (val == 'cancel') {
+					this.showPreImgModalVisible = false;
+				}
+    },
+
     // 关闭展示支付图片
     closePreImgModal() {
       this.showPreImgModalVisible = false;
@@ -290,14 +307,16 @@ export default {
       let phoneNum = phone.replace(/\s*/g, "");
       if (!uni.$u.test.mobile(phoneNum)) {
         console.log(phone, "手机号输入有误哦哦");
-        let params = {
-          type: "error",
-          icon: false,
-          title: "失败主题",
-          message: "一弦一柱思华年",
-          iconUrl: "https://cdn.uviewui.com/uview/demo/toast/error.png",
-        };
-        this.showToast(params);
+        // let params = {
+        //   type: "error",
+        //   icon: false,
+        //   title: "失败主题",
+        //   message: "一弦一柱思华年",
+        //   iconUrl: "https://cdn.uviewui.com/uview/demo/toast/error.png",
+        // };
+        // this.showToast(params);
+        this.showSelectPayPopup = true;
+        this.phoneModalStatus = false;
         return;
       }
       this.savePhone(phoneNum);
@@ -331,6 +350,9 @@ export default {
         },
       });
     },
+    handleCoonfirmModal() {
+				this.showContractModal = false
+			},
   },
 };
 </script>

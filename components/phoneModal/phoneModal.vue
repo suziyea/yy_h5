@@ -12,8 +12,7 @@
       >
         <view class="desc_dialog">
           <view class="text"> 请填写真实的联系方式， </view>
-          <!-- <view class="text"> 便于小妹联系到你! </view> -->
-          <view class="text"> 便于联系到你! </view>
+          <view class="text"> 便于小妹联系到你! </view>
         </view>
         <view class="inputView u-flex u-flex-items-center">
           <input

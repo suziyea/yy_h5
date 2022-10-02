@@ -126,7 +126,7 @@ import {
   getUserInfo,
   getProductOtherInfos,
 } from "@/config/api/user.js";
-import { getPayQrcode } from "@/config/api/sister.js";
+import { getPayQrcode,getUserStatusApi } from "@/config/api/sister.js";
 import Tarbar from "@/components/tabbar/Tarbar.vue";
 import commonDialog from "@/components/common-dialog/common-dialog.vue";
 
@@ -223,7 +223,7 @@ export default {
     // 		});
   },
   methods: {
-    ...mapMutations(["LOGOUT"]),
+    ...mapMutations(["LOGOUT","SET_USERINFO"]),
     orderPage(item) {
       uni.navigateTo({
         url: item.path,
@@ -352,6 +352,14 @@ export default {
         }
       }
     },
+
+    // 获取用户信息
+    async getMemberStatus() {
+      let res = await getUserStatusApi({});
+      if (res.code === 100000) {
+        this.SET_USERINFO(res.data.status);
+      }
+    },
   },
   onLoad() {
     uni.showLoading({});
@@ -360,6 +368,9 @@ export default {
     // #ifdef APP-PLUS
     plus.navigator.setStatusBarStyle("light");
     // #endif
+  },
+  created() {
+    this.getMemberStatus()
   },
   onShow() {
     // #ifdef APP-PLUS

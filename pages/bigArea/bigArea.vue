@@ -87,12 +87,12 @@
                     ></image>
                   </view>
                   <view class="desc u-flex u-flex-items-center">
-                    <view class="left ellipsis">{{ item.title }}</view>
-                    <!-- <view class="right">上海</view> -->
+                    <!-- <view class="left ellipsis">{{ item.title }}</view>
                     <view class="right u-flex u-flex-items-center"
                       ><u-icon name="eye" size="16"></u-icon
                       >{{ item.score }}</view
-                    >
+                    > -->
+                    {{ item.title }}
                   </view>
                 </view>
               </template>
@@ -223,6 +223,17 @@ export default {
   onShow: () => {
     console.log("App Show");
   },
+  onPullDownRefresh() {
+    console.log("refresh");
+    setTimeout( () => {
+      this.videoList = [];
+      this.sisterList = [];
+      this.initData();
+      this.sisterList = uni.getStorageSync("home_sister_list_total");
+      uni.stopPullDownRefresh();
+    }, 600);
+  },
+
   created() {
     console.log("App Show", this.isLogin);
     if (!this.isLogin) {
@@ -391,43 +402,8 @@ export default {
         // error
       }
     },
-    close() {
-      // this.$emit('on-click-dialog', 'close')
-      this.payModal = false;
-      console.log("close");
-    },
-    confirm() {
-      let phone = this.reservePhone.replace(/\s*/g, "");
-      // this.$emit('on-click-dialog', 'confirm')
-      if (!uni.$u.test.mobile(phone)) {
-        console.log("手机号不正确", phone);
-        return;
-      }
-      console.log("confirm", phone);
-    },
-    cancel() {
-      // this.$emit('on-click-dialog', 'cancel')
-      console.log("ceancel");
-    },
     stopScroll() {
       return false;
-    },
-    handleTelInput(e) {
-      var len = this.reservePhone.length;
-      // var {phone} = this.formContent
-      var reg = new RegExp("\\s", "g");
-      var mobile_ = "";
-      this.reservePhone = this.reservePhone.replace(reg, "");
-      for (var i = 0; i < len; i++) {
-        if (i == 2 || i == 6) {
-          // charAt(int index)方法是一个能够用来检索特定索引下的字符的String实例的方法。
-          //这里用来检索this.reservePhone 的index为2和6
-          mobile_ = mobile_ + this.reservePhone.charAt(i) + " "; //当检索到2和6时，将原本的mobile_值加上新增的this.reservePhone 值再加一个" "后再赋值给mobile_自己
-        } else {
-          mobile_ += this.reservePhone.charAt(i);
-        }
-      }
-      this.reservePhone = mobile_;
     },
     async handleUnlike(item, key) {
       this.$set(this.sisterList, key, {
@@ -589,7 +565,7 @@ export default {
           .product_video {
             .single_video {
               width: 312rpx;
-              height: 380rpx;
+              //   height: 380rpx;
               margin-bottom: 28rpx;
 
               .video {
@@ -630,10 +606,15 @@ export default {
 
               .desc {
                 width: 100%;
-                height: 40rpx;
+                min-height: 40rpx;
                 font-family: PingFangSC-Medium, PingFang SC;
                 margin: 14rpx 0rpx;
-
+                font-size: 24rpx;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
                 .left {
                   width: 150rpx;
                   font-size: 24rpx;

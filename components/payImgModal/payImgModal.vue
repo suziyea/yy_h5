@@ -4,6 +4,8 @@
       :show="showModal"
       :title="title"
       confirmColor="#7f5d2e"
+      :closeOnClickOverlay="true"
+      @close="handleModal"
       @confirm="handleCoonfirmModal"
     >
       <view class="slot-content">
@@ -76,8 +78,8 @@ export default {
     stopScroll() {
       return false;
     },
-    handlePayMode(val) {
-      this.$emit("on-click-pay-mode", "cancel");
+    handleModal() {
+      this.$emit("on-click-preimgmodal-cancel", "cancel");
     },
     handleCoonfirmModal() {
       this.$emit("on-click-preimgmodal-close", "closePreImgModal");

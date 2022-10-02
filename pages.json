@@ -133,7 +133,7 @@
 			"path": "pages/bigArea/bigArea",
 			"style": {
 				"navigationBarTitleText": "大区",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
 				"h5": {
@@ -147,7 +147,7 @@
 				"navigationBarTitleText": "喜欢",
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"h5": {
 					"titleNView": false
 				}
