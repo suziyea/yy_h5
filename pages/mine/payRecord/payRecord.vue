@@ -184,7 +184,7 @@ export default {
       let url = "";
       if (val.order_type === 1) {
         url = `/pages/dataDetail/dataDetail?id=${
-          val.id
+          val.sister.sister_id
         }&s=${new Date().getTime()}`;
       }
       if (val.order_type === 2 && val.is_paid !== 1) {

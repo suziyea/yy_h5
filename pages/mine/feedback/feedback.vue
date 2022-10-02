@@ -92,7 +92,7 @@
 						this.$refs.uToast.show({
 							...params,
 							complete() {
-								params.url && uni.navigateTo({
+								params.url && uni.switchTab({
 									url: params.url
 								})
 							}

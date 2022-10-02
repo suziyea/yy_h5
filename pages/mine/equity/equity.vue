@@ -369,6 +369,7 @@ export default {
       }
       if (this.current === 1) {
         (obj.levelName = "立即成为高级会员"),
+          (obj.descStatus = "暂未激活高级会员"),
           (obj.levelstyle = {
             gold_color: true,
             gold_background_btn: true,

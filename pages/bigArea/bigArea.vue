@@ -160,7 +160,7 @@
 <script>
 import { getVideoList } from "@/config/api/product.js";
 import { getProductOtherInfos } from "@/config/api/user.js";
-import { likeSisterApi, cancelLikeSisterApi } from "@/config/api/sister.js";
+import { likeSisterApi, cancelLikeSisterApi,getUserStatusApi } from "@/config/api/sister.js";
 import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
@@ -269,6 +269,7 @@ export default {
     },
   },
   methods: {
+	  ...mapMutations(["SET_USERINFO"]),
     goLogin() {
       uni.reLaunch({
         url: "/pages/login/login",
@@ -277,6 +278,7 @@ export default {
     },
     initData() {
       this.getInitVideoList();
+	  this.getMemberStatus();
     },
     getInitVideoList() {
       getVideoList({
@@ -395,7 +397,7 @@ export default {
           plus.runtime.openURL(res?.data?.value?.value);
           // #endif
           // #ifdef H5
-          window.open(res?.data?.value?.value);
+		  location.href = res?.data?.value?.value
           // #endif
         }
       } catch (e) {
@@ -435,6 +437,13 @@ export default {
         sister_id: item.id,
       });
     },
+	// 获取用户信息
+	async getMemberStatus() {
+	  let res = await getUserStatusApi({});
+	  if (res.code === 100000) {
+	    this.SET_USERINFO(res.data.status);
+	  }
+	},
   },
   filters: {
     formatCityAreat(val) {

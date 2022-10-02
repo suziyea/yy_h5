@@ -333,7 +333,7 @@ export default {
           plus.runtime.openURL(res?.data?.value?.value);
           // #endif
           // #ifdef H5
-          window.open(res?.data?.value?.value);
+		  location.href = res?.data?.value?.value
           // #endif
         }
       } catch (e) {
