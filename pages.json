@@ -157,7 +157,7 @@
 			"path": "pages/mine/payRecord/payRecord",
 			"style": {
 				"navigationBarTitleText": "消费记录",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
 				"h5": {

@@ -122,8 +122,12 @@ export default {
   created() {
     this.getInitList();
   },
-  onLoad() {
-    this.loadmore();
+  onPullDownRefresh() {
+    console.log("refresh");
+    setTimeout(() => {
+      this.getInitList();
+      uni.stopPullDownRefresh();
+    }, 600);
   },
   filters: {
     formatPayType(value) {
@@ -168,12 +172,6 @@ export default {
         .finally(() => {
           this.showOrderFlag = true;
         });
-    },
-    scrolltolower() {
-      this.loadmore();
-    },
-    loadmore() {
-      // 滚动分页
     },
     swiperChange(val) {
       this.topBarIndex = val.target.current;

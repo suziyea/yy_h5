@@ -184,6 +184,13 @@ export default {
           enName: "cooperation",
           isLogin: false,
         },
+		{
+		  icon: "/static/icon/mine_signout.png",
+		  path: "/pages/login/login",
+		  name: "退出登录",
+		  enName: "signout",
+		  isLogin: false,
+		},
         {
           icon: "/static/icon/mine_logout.png",
           path: "/pages/login/login",
@@ -279,6 +286,13 @@ export default {
         uni.$u.route("/pages/login/login");
         return;
       }
+	  if (item.enName === 'logout') {
+		  this.LOGOUT();
+		  uni.reLaunch({
+		  	url: `${item.path}`,
+		  });
+		  return;
+	  }
       if (item.enName === "equity") {
         let url = `/pages/mine/equity/equity?id=0&timer=${new Date().getTime()}`;
         // if (this.getUserInfos?.status === 1) {
@@ -314,7 +328,7 @@ export default {
         deleteUser().then((res) => {
           if (res.code === 100000) {
             this.LOGOUT();
-            uni.redirectTo({
+            uni.reLaunch({
               url: "/pages/login/login",
             });
             return;
@@ -362,7 +376,8 @@ export default {
     },
   },
   onLoad() {
-    uni.showLoading({});
+	console.log('load')
+    // uni.showLoading({});
   },
   onReady() {
     // #ifdef APP-PLUS
@@ -377,6 +392,7 @@ export default {
     plus.navigator.setStatusBarStyle("light");
     // #endif
     uni.hideLoading();
+	this.getMemberStatus()
   },
   computed: {
     ...mapGetters(["isLogin", "getUserInfos"]),

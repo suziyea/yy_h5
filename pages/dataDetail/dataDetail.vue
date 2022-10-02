@@ -191,6 +191,7 @@ export default {
       phoneModalStatus: false, // 展示 输入手机号组件 弹窗状态
       paySrcImg: "",
       showContractModal: false, // 展示 查看更多联系方式 弹窗状态
+			pay_type: "", // 选择支付方式 wx、zfb
     };
   },
   onLoad(options) {
@@ -243,6 +244,7 @@ export default {
     clicksubscribe() {
       amOrder({
         sister_id: this.sisterId,
+        pay_type: this.pay_type
       })
         .then((res) => {
           if (res.code === 100000) {
@@ -271,9 +273,11 @@ export default {
       if (res.code === 100000) {
         this.paySrcImg = "";
         if (item.typeStatus === 1) {
+					this.pay_type = 'wx'
           this.paySrcImg = res.data.wx;
         }
         if (item.typeStatus === 2) {
+					this.pay_type = 'zfb'
           this.paySrcImg = res.data.zfb;
         }
       }
