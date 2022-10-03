@@ -132,25 +132,6 @@ export default {
     return {
       title: "Home",
       actionName: "22",
-      // cards: [{
-      // 		image: "/static/img/login/p1.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p2.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p3.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p4.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p5.jpeg"
-      // 	},
-      // 	{
-      // 		image: "/static/img/login/p8.jpeg"
-      // 	}
-      // ],
       cards: [
         {
           image: "https://t7.baidu.com/it/u=2788258239,1192178650&fm=193&f=GIF",
@@ -213,8 +194,8 @@ export default {
     // 初始化 喜欢或者不喜欢
   },
   onPullDownRefresh() {
-    console.log("refresh");
     setTimeout(() => {
+      uni.removeStorageSync('home_sister_list_total');
       this.initDataCards();
       uni.stopPullDownRefresh();
     }, 600);
@@ -246,14 +227,6 @@ export default {
   onLoad() {},
   methods: {
     initDataCards() {
-      // console.log(uni.getStorageSync('home_noLookSister_list'),'快看看')
-      //   if (
-      //     uni.getStorageSync("home_noLookSister_list") &&
-      //     uni.getStorageSync("home_noLookSister_list").length > 1
-      //   ) {
-      //     this.cards = uni.getStorageSync("home_noLookSister_list");
-      //     console.log("这里if", "niaho");
-      //   } else
       if (
         uni.getStorageSync("home_sister_list_total") &&
         uni.getStorageSync("home_sister_list_total").length > 1
@@ -296,8 +269,8 @@ export default {
             .catch((err) => {
               console.log(err, "err");
             });
-          console.log("当前位置的经度：" + res.longitude);
-          console.log("当前位置的纬度：" + res.latitude);
+          // console.log("当前位置的经度：" + res.longitude);
+          // console.log("当前位置的纬度：" + res.latitude);
         },
       });
     },
@@ -310,12 +283,9 @@ export default {
     },
     nextSister() {
       this.cards.splice(0, 1);
-    //   console.log("next,==----");
-
       //   uni.setStorageSync("home_noLookSister_list", this.cards.splice(0, 1));
     },
     async handleLikeSister(item, type) {
-      console.log(item, "嘿item", type);
       this.$set(this.cards, 0, {
         ...item,
         is_like: item.is_like ? false : true,
@@ -334,11 +304,9 @@ export default {
         noSeeList = JSON.parse(
           JSON.stringify(uni.getStorageSync("home_sister_list_total"))
         );
-        console.log("缓存的数据--", noSeeList);
         let index = noSeeList.findIndex(
           (noseeitem) => noseeitem.id === item.id
         );
-        console.log(index, "这里是下表---");
         noSeeList.splice(index, 1, {
           ...noSeeList[index],
           is_like: item.is_like ? false : true,
@@ -381,8 +349,6 @@ export default {
       return;
     },
     onCardDragMove(obj) {
-      console.log(obj);
-
       if (obj.left < -10) {
         this.actionName = "不喜欢";
       } else if (obj.left > 10) {
@@ -395,7 +361,7 @@ export default {
       this.actionName = "";
     },
     onCardThrowDone(obj) {
-      console.log("obj,", obj);
+      // console.log("obj,", obj);
       // 没有浏览过的数据
       //   uni.setStorageSync("home_noLookSister_list", this.cards.splice(0, 1));
       this.cards.splice(0, 1);
@@ -418,7 +384,6 @@ export default {
           var lng = position.coords.longitude; //当前位置精度
           that.lat_js = lat;
           that.lon_js = lng;
-          console("lat", lat, "lat_js", that.lat_js, that.lon_js, "位置");
         }
 
         function error(err) {
@@ -451,7 +416,6 @@ export default {
     showLocation(position) {
       var x = position.coords.longitude;
       var y = position.coords.latitude;
-      console.log(x, y, "h5定位"); //coords:需转换的源坐标，多组坐标以“；”分隔（经度，纬度）　　　　　//from :源坐标类型　　　　　　//to:目标坐标类型
       this.getInitList(x, y);
     },
     locationError(error) {
