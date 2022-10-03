@@ -11,14 +11,9 @@
         @click="lookSisterDetail(item)"
       >
         <view class="image">
-          <!-- <image src="/static/img/login/p2.jpeg" mode=""></image> -->
-          <!-- <image
-						src="https://img0.baidu.com/it/u=4082019450,124630764&fm=253&fmt=auto&app=138&f=JPEG?w=254&h=272"
-						mode="aspectFit"></image> -->
           <image :src="item.index_image_url" mode="aspectFit"></image>
         </view>
         <view class="nicheng">
-          <!-- 珍妮Jenny珍妮Jenny -->
           {{ item.name }}
         </view>
         <view class="maps u-flex u-flex-items-center">
@@ -74,11 +69,9 @@ export default {
         uni.getStorageSync("home_sister_list_total").length >= 1
       ) {
         noSeeList = uni.getStorageSync("home_sister_list_total");
-        console.log("noseelist 没改变", noSeeList);
         let index = noSeeList.findIndex(
           (noseeitem) => (noseeitem.id === item.sister_id)
         );
-        console.log(index, "空空的口袋");
         if (index > -1) {
           noSeeList.splice(index, 1, {
             ...noSeeList[index],
@@ -202,6 +195,9 @@ export default {
       top: 0;
       left: 0;
     }
+	.photoInfo:last-child {
+		margin-bottom: 30rpx;
+	}
   }
 }
 </style>

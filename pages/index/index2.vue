@@ -213,7 +213,7 @@ export default {
     },
     // 初始化 喜欢或者不喜欢
   },
-   onPullDownRefresh() {
+  onPullDownRefresh() {
     console.log("refresh");
     setTimeout(() => {
       this.initDataCards();
@@ -248,14 +248,14 @@ export default {
   methods: {
     initDataCards() {
       // console.log(uni.getStorageSync('home_noLookSister_list'),'快看看')
-    //   if (
-    //     uni.getStorageSync("home_noLookSister_list") &&
-    //     uni.getStorageSync("home_noLookSister_list").length > 1
-    //   ) {
-    //     this.cards = uni.getStorageSync("home_noLookSister_list");
-    //     console.log("这里if", "niaho");
-    //   } else
-	   if (
+      //   if (
+      //     uni.getStorageSync("home_noLookSister_list") &&
+      //     uni.getStorageSync("home_noLookSister_list").length > 1
+      //   ) {
+      //     this.cards = uni.getStorageSync("home_noLookSister_list");
+      //     console.log("这里if", "niaho");
+      //   } else
+      if (
         uni.getStorageSync("home_sister_list_total") &&
         uni.getStorageSync("home_sister_list_total").length > 1
       ) {
@@ -288,9 +288,9 @@ export default {
                 console.log("quickly");
                 that.sisterList = res?.data;
                 that.cards = res?.data;
-				// 缓存所有客户小姐姐信息
+                // 缓存所有客户小姐姐信息
                 uni.setStorageSync("home_sister_list_total", res?.data);
-				// 缓存没有看过的客户小姐姐信息
+                // 缓存没有看过的客户小姐姐信息
                 uni.setStorageSync("home_noLookSister_list", res?.data);
               }
             })
@@ -311,13 +311,10 @@ export default {
     },
     nextSister() {
       // this.cards.splice(0, 1);
-		console.log('next,==----')
-
-    //   uni.setStorageSync("home_noLookSister_list", this.cards.splice(0, 1));
+      //   uni.setStorageSync("home_noLookSister_list", this.cards.splice(0, 1));
     },
     async handleLikeSister(item, type) {
-      console.log(item, "嘿宝贝",type);
-	  this.$set(this.cards, 0, {
+      this.$set(this.cards, 0, {
         ...item,
         is_like: item.is_like ? false : true,
       });
@@ -326,19 +323,19 @@ export default {
         return;
       }
       // type === 1, 取消喜欢 2，喜欢
-    //   this.isListStatus = (type === 1) ? false : true;
+      //   this.isListStatus = (type === 1) ? false : true;
       let noSeeList = [];
       if (
         uni.getStorageSync("home_sister_list_total") &&
         uni.getStorageSync("home_sister_list_total").length >= 1
       ) {
-        noSeeList = JSON.parse(JSON.stringify(uni.getStorageSync("home_sister_list_total")));
-		console.log('缓存的裂变--',noSeeList)
-        let index = noSeeList.findIndex(
-          (noseeitem) => (noseeitem.id === item.id)
+        noSeeList = JSON.parse(
+          JSON.stringify(uni.getStorageSync("home_sister_list_total"))
         );
-		console.log(index,'这里是下表---')
-		noSeeList.splice(index, 1, {
+        let index = noSeeList.findIndex(
+          (noseeitem) => noseeitem.id === item.id
+        );
+        noSeeList.splice(index, 1, {
           ...noSeeList[index],
           is_like: item.is_like ? false : true,
         });
@@ -394,9 +391,9 @@ export default {
       this.actionName = "";
     },
     onCardThrowDone(obj) {
-		console.log('obj,',obj)
+      console.log("obj,", obj);
       // 没有浏览过的数据
-    //   uni.setStorageSync("home_noLookSister_list", this.cards.splice(0, 1));
+      //   uni.setStorageSync("home_noLookSister_list", this.cards.splice(0, 1));
       this.cards.splice(0, 1);
     },
     getLongitudeLatitude() {

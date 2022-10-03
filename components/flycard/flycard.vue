@@ -119,7 +119,6 @@
 		},
 		methods: {
 			clickCard() {
-			// console.log('点击了噢')	
 			},
 			getDistance: function(x1, y1, x2, y2) {
 				var _x = Math.abs(x1 - x2);

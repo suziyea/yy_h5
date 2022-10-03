@@ -243,7 +243,6 @@ export default {
       uni.getLocation({
         type: "wgs84",
         success: function (res) {
-          console.log(res, "定位数据");
           // uni.showToast({
           // 	title: `${res.longitude} -你好啊- 当前位置的纬度 ${res.latitude}`,
           // 	icon: 'none',

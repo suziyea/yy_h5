@@ -213,9 +213,10 @@
 			"path": "pages/playVideo/playVideo",
 			"style": {
 				"navigationBarTitleText": "视频播放",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
+				"onReachBottomDistance": 50, // 距离底部 50px 时触发
 				"h5": {
 					"titleNView": false
 				}

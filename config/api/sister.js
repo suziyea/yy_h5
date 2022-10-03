@@ -5,7 +5,6 @@ export const getSisterList = (params, config = {
 		auth: true
 	}
 }) => {
-	console.log('首页---',params)
 	return http.post('/api/yy/sister/home', params, config)
 }
 
