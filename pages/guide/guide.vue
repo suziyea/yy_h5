@@ -234,7 +234,7 @@ export default {
     downloadAppAndroid() {
       let href = "";
       if (val === "android") {
-        href = `https://apk.yeyuesm.com/apk/yeyuesm.apk?v=${new Date().getTime()}`;
+        href = `https://apk.yeyuesm.com/yeyuesm.apk?v=${new Date().getTime()}`;
       }
       if (val) {
         const link = document.createElement("a");
