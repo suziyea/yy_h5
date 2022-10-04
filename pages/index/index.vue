@@ -541,7 +541,8 @@
 		width: 100%;
 		height: 100%;
 		position: absolute;
-		background: linear-gradient(360deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+		// background: linear-gradient(360deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+		background: linear-gradient(360deg, #000000 0%, rgba(0, 0, 0, 0) 16%);
 		border-radius: 30rpx;
 		content: "";
 		top: 0;

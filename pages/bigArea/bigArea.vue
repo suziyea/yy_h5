@@ -203,6 +203,8 @@
 			setTimeout(() => {
 				this.videoList = [];
 				this.sisterList = [];
+				this.productTabIndex = 0;
+				this.costTypeTabIndex = 0;
 				this.initData();
 				this.sisterList = uni.getStorageSync("home_sister_list_total");
 				uni.stopPullDownRefresh();
@@ -740,9 +742,12 @@
 									position: absolute;
 									width: 312rpx;
 									height: 500rpx;
+									// background: linear-gradient(360deg,
+									// 		#000000 0%,
+									// 		rgba(0, 0, 0, 0) 100%);
 									background: linear-gradient(360deg,
 											#000000 0%,
-											rgba(0, 0, 0, 0) 100%);
+											rgba(102, 102, 102, 0) 22%);
 									border-radius: 30rpx;
 									content: "";
 									top: 0;
