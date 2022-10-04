@@ -91,7 +91,8 @@
 
 			submit() {
 				let {
-					username,password
+					username,
+					password
 				} = this.userInfo
 				let params_username = uni.$u.trim(username, "all");
 				let params_password = uni.$u.trim(password, "all");

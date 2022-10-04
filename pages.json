@@ -16,7 +16,6 @@
 				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
-				// "navigationStyle": "custom",
 				"h5": {
 					"titleNView": false
 				}
@@ -118,25 +117,13 @@
 			}
 
 		}, {
-			"path": "pages/welfare/welfare",
-			"style": {
-				"navigationBarTitleText": "福利地址",
-				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle": "white",
-				"enablePullDownRefresh": false,
-				"h5": {
-					"titleNView": false
-				}
-			}
-
-		}, {
 			"path": "pages/bigArea/bigArea",
 			"style": {
 				"navigationBarTitleText": "大区",
 				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
-				"onReachBottomDistance": 50, // 距离底部 50px 时触发
+				"onReachBottomDistance": 50,
 				"h5": {
 					"titleNView": false
 				}
@@ -216,7 +203,7 @@
 				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#3D3C3A",
 				"navigationBarTextStyle": "white",
-				"onReachBottomDistance": 50, // 距离底部 50px 时触发
+				"onReachBottomDistance": 50,
 				"h5": {
 					"titleNView": false
 				}
@@ -274,28 +261,28 @@
 		"fontSize": "10px",
 		"iconWidth": "24px",
 		"spacing": "3px",
-		"iconfontSrc": "static/iconfont.ttf", // app tabbar 字体.ttf文件路径 app 3.4.4+
 		"list": [{
-			"pagePath": "pages/index/index",
-			"iconPath": "static/tabIcon/home.png",
-			"selectedIconPath": "static/tabIcon/home_fill.png",
-			"text": ""
-		},
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabIcon/home.png",
+				"selectedIconPath": "static/tabIcon/home_fill.png",
+				"text": ""
+			},
 			// #ifdef H5
-		{
-			"pagePath": "pages/bigArea/bigArea",
-			"iconPath": "static/tabIcon/area.png",
-			"selectedIconPath": "static/tabIcon/area_fill.png",
-			"text": ""
-		},
+			{
+				"pagePath": "pages/bigArea/bigArea",
+				"iconPath": "static/tabIcon/area.png",
+				"selectedIconPath": "static/tabIcon/area_fill.png",
+				"text": ""
+			},
 			// #endif
 
-		{
-			"pagePath": "pages/mine/mine",
-			"iconPath": "static/tabIcon/user_line.png",
-			"selectedIconPath": "static/tabIcon/user_fill.png",
-			"text": ""
-		}],
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/tabIcon/user_line.png",
+				"selectedIconPath": "static/tabIcon/user_fill.png",
+				"text": ""
+			}
+		],
 		"midButton": {
 			"width": "80px",
 			"height": "50px",
@@ -303,34 +290,9 @@
 			"iconWidth": "52px"
 		}
 	},
-	// "tabBar": {
-	// 	"color": "#B4BCCF",
-	// 	"selectedColor": "#ECC6A1",
-	// 	"backgroundColor": "#171D41",
-	// 	// #ifdef APP-PLUS
-	// 	"borderStyle": "#171D41",
-	// 	// #endif
-	// 	// #ifdef H5
-	// 	"borderStyle": "#171D41",
-	// 	// #endif
-	// 	"list": [
-	// 		{
-	// 			"pagePath": "pages/index/index",
-	// 			"text": "首页",
-	// 			"iconPath": "static/tabIcon/home.png",
-	// 			"selectedIconPath": "static/tabIcon/home_select.png"
-	// 		},
-	// 		{
-	// 			"pagePath": "pages/mine/mine",
-	// 			"text": "我的",
-	// 			"iconPath": "static/tabIcon/center.png",
-	// 			"selectedIconPath": "static/tabIcon/center_select.png"
-	// 		}
-	// 	]
-	// },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "yy",
+		"navigationBarTitleText": "夜约",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},

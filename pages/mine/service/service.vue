@@ -14,7 +14,7 @@
 		<u-modal :show="showModal" title="联系客服" confirmColor='#7f5d2e' @confirm='handleCoonfirmModal'>
 			<view class="slot-content">
 				<u-tooltip v-if="selecttype === 'wx'" :text="tooltipContent"></u-tooltip>
-				<u-link  v-if="selecttype === 'tg'" :href="tgNumber" text="电报(点击跳转)" @click="click"></u-link>
+				<u-link v-if="selecttype === 'tg'" :href="tgNumber" text="电报(点击跳转)" @click="click"></u-link>
 			</view>
 		</u-modal>
 

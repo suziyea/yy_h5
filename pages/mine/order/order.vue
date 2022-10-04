@@ -1,34 +1,10 @@
 <template>
-	<!-- <view class="container" :class="addClassName" v-if="showOrderFlag">
-		<view class="empty" v-if="emptyStatus">
-			<u-empty mode="order" :text="emptyText" icon="http://cdn.uviewui.com/uview/empty/order.png">
-			</u-empty>
-		</view>
-		<view v-else class="order_list">
-			<u-list @scrolltolower="scrolltolower">
-				<u-list-item v-for="(item, index) in orderList" :key="index">
-					<u-cell-group>
-						<u-cell :title="item.order_type | formatOrderType" :value="`¥ ${item.order_amount} 元`"
-							:label='item.pay_time | formatGetTime' center>
-							<u-tag slot="icon" :text="item.is_paid | formatPayType" plain size="mini"
-								:type="item.is_paid | formatTagColorType"></u-tag>
-
-						</u-cell>
-					</u-cell-group>
-				</u-list-item>
-			</u-list>
-		</view>
-	</view> -->
 	<view class="container">
-		<!-- <u-sticky bgColor="#fff"> -->
 		<u-tabs lineColor="#EDDBC3" lineWidth="80rpx" :scrollable="false" :list="topBarList"
 			itemStyle="width:250rpx; height: 88rpx; padding:0rpx;"
 			activeStyle="font-size: 28rpx;font-weight: 500;color: #EDDBC3;" @click="click">
 		</u-tabs>
-		<!-- </u-sticky> -->
-
 		<swiper :current='topBarIndex'>
-
 			<swiper-item v-for="(item,index) in topBarList" :key="index">
 				<view class="orderRecord u-flex u-flex-column u-flex-items-center">
 					<view class="orderinfo u-flex u-flex-center u-flex-items-center ">
@@ -177,6 +153,7 @@
 			color: #EDDBC3;
 			line-height: 40rpx;
 		}
+
 		/deep/ .uni-swiper-wrapper {
 			height: 1800rpx !important;
 		}
@@ -224,9 +201,9 @@
 				.orangeBgColor {
 					background: rgba(244, 138, 14, 0.15);
 					color: #F48A0E;
-					
+
 				}
-				
+
 
 				.successBgColor {
 					background: rgba(111, 208, 40, 0.15);
@@ -245,6 +222,7 @@
 					font-weight: 600;
 					color: #B5804F;
 					line-height: 50rpx;
+
 					.smallText {
 						font-size: 20rpx;
 						font-family: PingFangSC-Semibold, PingFang SC;

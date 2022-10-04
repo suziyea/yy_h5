@@ -1,25 +1,14 @@
 <template>
-	<view class="container  u-flex u-flex-column" >
-		<!-- <view class="cells">
-			<u-cell-group>
-				<view class="tel" v-for="(item,index) in telphones" :key="index">
-					<u-cell :title="item">
-						<u-icon slot="value" name="phone" :index='index' color="#2979ff" size="28" @click="toTel">
-						</u-icon>
-					</u-cell>
-				</view>
-			</u-cell-group>
-		</view> -->
-		
+	<view class="container  u-flex u-flex-column">
 		<view class="page_bg u-flex u-flex-column u-flex-items-center">
 			<view class="bg_style">
 				<image src="/static/img/contact_bg.png" mode="aspectFill"></image>
 			</view>
 			<view class="call_tel">
-				客服电话:010-81377368
+				客服电话:''
 			</view>
 		</view>
-		
+
 		<view class="btn_view u-flex u-flex-center">
 			<view class="callbtn u-flex u-flex-center u-flex-items-center" @click="toTel(1)">
 				拨打客服电话
@@ -80,18 +69,22 @@
 	.container {
 		width: 100%;
 		min-height: 100vh;
+
 		.page_bg {
 			width: 100%;
 			margin-top: 142rpx;
-			padding: 0rpx  44rpx;
+			padding: 0rpx 44rpx;
 			box-sizing: border-box;
+
 			.bg_style {
 				margin-bottom: 66rpx;
+
 				image {
 					width: 332rpx;
 					height: 364rpx;
 				}
 			}
+
 			.call_tel {
 				width: 396rpx;
 				height: 50rpx;
@@ -102,11 +95,12 @@
 				line-height: 50rpx;
 			}
 		}
-		
+
 		.btn_view {
 			width: 100%;
 			margin-top: auto;
 			margin-bottom: 104rpx;
+
 			.callbtn {
 				width: 662rpx;
 				height: 88rpx;

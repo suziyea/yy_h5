@@ -37,9 +37,10 @@
 	.container {
 		width: 100%;
 		min-height: 100vh;
+
 		.status_bar {
 			height: var(--status-bar-height);
 			width: 100%;
-   		}
+		}
 	}
 </style>
