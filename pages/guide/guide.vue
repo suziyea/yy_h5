@@ -216,7 +216,7 @@ export default {
       console.log(isAndroid, "isAndroid", isIOS, "iso");
       if (isAndroid) {
         this.downloadAppAndroid();
-		return;
+        return;
       }
       uni.navigateTo({
         url: `/pages/iosDownload/iosDownload?random=${new Date().getTime()}`,
@@ -232,20 +232,15 @@ export default {
       }
     },
     downloadAppAndroid() {
-      let href = "";
-      if (val === "android") {
-        href = `https://apk.yeyuesm.com/yeyuesm.apk?v=${new Date().getTime()}`;
-      }
-      if (val) {
-        const link = document.createElement("a");
-        link.style.display = "none";
-        link.href = href;
-        // 触发点击方法
-        link.setAttribute("download", "夜约上门");
-        document.body.appendChild(link);
-        link.click();
-        return;
-      }
+      let href = `https://apk.yeyuesm.com/yeyuesm.apk?v=${new Date().getTime()}`;
+      const link = document.createElement("a");
+      link.style.display = "none";
+      link.href = href;
+      // 触发点击方法
+      link.setAttribute("download", "夜约上门");
+      document.body.appendChild(link);
+      link.click();
+      return;
     },
   },
 };
