@@ -1,9 +1,9 @@
 {
-    "name" : "夜约",
+    "name" : "夜约上门",
     "appid" : "__UNI__0D3DB06",
     "description" : "项目运行测试",
-    "versionName" : "1.1.4",
-    "versionCode" : "100",
+    "versionName" : "1.1.7",
+    "versionCode" : 10002,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {

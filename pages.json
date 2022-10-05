@@ -175,7 +175,7 @@
 		}, {
 			"path": "pages/dataDetail/dataDetail",
 			"style": {
-				"navigationBarTitleText": "小妹信息",
+				"navigationBarTitleText": "详细资料",
 				"enablePullDownRefresh": false
 			}
 

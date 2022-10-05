@@ -9,8 +9,10 @@
       @confirm="handleCoonfirmModal"
     >
       <view class="slot-content">
-        <view class="text u-flex u-flex-center u-flex-items-center">
-          {{ tips }}
+        <view class="text u-flex u-flex-column u-flex-center u-flex-items-center">
+          <view class="redtext  u-flex"><u-icon name="error" color="red"></u-icon>注意：</view>
+          <view class="top u-flex u-flex-center">长按保存，扫码支付后</view>
+          <view class="top u-flex u-flex-center">{{tips}}</view>
         </view>
         <image
           :src="payQrcode"
@@ -31,7 +33,7 @@ export default {
     },
     tips: {
       type: String,
-      default: "付款后请联系客服获取最新支付状态",
+      default: "请联系客服获取最新支付状态",
     },
     payQrcode: {
       type: String,
@@ -121,6 +123,17 @@ export default {
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #7f5d2e;
+      padding: 0 30rpx;
+      box-sizing: border-box;
+      .redtext {
+        color: red;
+        align-self: flex-start;
+        margin-left: 40rpx;
+        box-sizing: border-box;
+      }
+      .top {
+        width: 100%;
+      }
     }
 
     image {
