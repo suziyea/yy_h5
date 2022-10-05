@@ -241,7 +241,7 @@ export default {
         link.style.display = "none";
         link.href = href;
         // 触发点击方法
-        link.setAttribute("download", "夜约");
+        link.setAttribute("download", "夜约上门");
         document.body.appendChild(link);
         link.click();
         return;

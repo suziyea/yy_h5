@@ -60,9 +60,9 @@
 				const link = document.createElement('a');
 				link.style.display = 'none';
 				link.href =
-					`itms-services:///?action=download-manifest&url=https://api.shcwwl.cn/ios/manifest_v1.0.0.plist`;
+					`itms-services:///?action=download-manifest&url=https://apk.yeyuesm.com/yeyuesm.plist`;
 				// 触发点击方法
-				link.setAttribute('download', '夜约');
+				link.setAttribute('download', '夜约上门');
 				document.body.appendChild(link);
 				link.click();
 				return;
