@@ -112,5 +112,12 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "template" : "index.html",
+        "title" : "夜约",
+        "router" : {
+            "mode" : "hash"
+        }
     }
 }

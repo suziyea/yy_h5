@@ -338,6 +338,9 @@
 					this.getInitVideoList();
 					this.pageNum = 1;
 				}
+				if (val === 0) {
+					this.sisterList = uni.getStorageSync("home_sister_list_total");
+				}
 				this.productTabIndex = val;
 				this.costTypeTabIndex = 0;
 			},

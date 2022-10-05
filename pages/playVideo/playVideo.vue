@@ -1,12 +1,18 @@
 <template>
 	<view class="container_video">
 		<view class="video_content">
+			<!-- #ifdef APP-PLUS -->
 			<video id="myVideo" :src="videoInfos.video" :show-center-play-btn="true" :show-mute-btn="true"
-				:title="videoInfos.title" :enable-play-gesture="true" @error="videoErrorCallback"
-				@pause="pauseVideo"></video>
+				:title="videoInfos.title" :enable-play-gesture="true" @error="videoErrorCallback"></video>
+			<!-- #endif -->
+
 			<!-- <view class="playImg" @click="isPlayVideo" v-if="playVideoBtnStatus">
         <image src="/static/icon/big_play.png" mode=""></image>
       </view> -->
+			<!-- #ifdef H5 -->
+			<view class="video-js vjs-default-skin vjs-big-play-centered" ref="video">
+			</view>
+			<!-- #endif -->
 		</view>
 
 		<!-- 视频介绍 -->
@@ -86,11 +92,32 @@
 					fontSize: "32rpx",
 					color: "#2979ff",
 				},
+				videoPlayer: null
 			};
 		},
 		onReady(res) {
+			// #ifdef APP-PLUS
 			this.createVideoContext = uni.createVideoContext("myVideo");
+			// #endif
+			// #ifdef H5
+			var video = document.createElement("video");
+			video.id = "video";
+			// video.style = "width: 750rpx;height: 100%;";
+			video.style = "width: 100%;height: 100%;";
+			video.controls = true;
+			var source = document.createElement("source");
+			source.src = uni.getStorageSync("about_video_info").video;
+			// source.src = 
+			// "https://api.yeyuesm.com/resource/mp4/2022-10/5b663c36de5517a3/5b663c36de5517a3.m3u8";
+			video.appendChild(source);
+			this.$refs.video.$el.appendChild(video);
+			this.videoPlayer = videojs("video");
+			//    this.videoPlayer.load()
+
+
+			// #endif
 		},
+		mounted() {},
 		onLoad(options) {
 			this.videoId = options.id || "";
 		},
@@ -100,9 +127,17 @@
 				uni.stopPullDownRefresh();
 			}, 600);
 		},
+		onUnload() {
+			// this.videoPlayer = null
+		},
 
 		created() {
 			this.getPageInit();
+		},
+		beforeDestroy() {
+			// this.videoPlayer = null
+			// const videoDom = this.$refs.video; //不能用document 获取节点
+			// videojs(videoDom).dispose(); //销毁video实例，避免出现节点不存在 但是flash一直在执行,也避免重新进入页面video未重新声明
 		},
 		// uni-app页面滚动到底部的事件，常用于上滑加载下一页数据
 		onReachBottom() {
@@ -140,6 +175,7 @@
 			},
 			pauseVideo() {
 				this.createVideoContext.pause();
+				this.playVideo();
 			},
 			changeVideoScore() {
 				scoreVideo({
@@ -193,6 +229,9 @@
           val.id
         }&timer=${new Date().getTime()}`,
 				});
+				// #ifdef H5
+				location.reload()
+				// #endif
 			},
 		},
 		filters: {
@@ -203,6 +242,15 @@
 				return moment(val).format("MM-DD");
 			},
 		},
+		// watch: {
+		// 	videoInfos: {
+		// 		handler: (val, olVal) => {
+		// 			   this.videoPlayer.load()
+		// 		},
+		// 		deep: true,
+		// 		// immediate: true
+		// 	}
+		// },
 		computed: {
 			...mapGetters(["isLogin", "getUserInfos"]),
 		},
@@ -227,6 +275,13 @@
 			background: rgba(0, 0, 0, 0.3);
 			box-sizing: border-box;
 			position: relative;
+
+			.video-js {
+				width: 100% !important;
+				height: 468rpx !important;
+				box-sizing: border-box;
+
+			}
 
 			video {
 				width: 750rpx;

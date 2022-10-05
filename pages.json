@@ -175,13 +175,8 @@
 		}, {
 			"path": "pages/dataDetail/dataDetail",
 			"style": {
-				"navigationBarTitleText": "详细信息",
-				"enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#3D3C3A",
-				"navigationBarTextStyle": "white",
-				"h5": {
-					"titleNView": false
-				}
+				"navigationBarTitleText": "小妹信息",
+				"enablePullDownRefresh": false
 			}
 
 		}, {
